@@ -1,3 +1,16 @@
+﻿/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');*/
+@font-face {
+    font-family: "iCiel Cadena";
+    src: url('../assets/fonts/iCiel Crocante VH/iCiel_Crocante.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "iCiel Mijas";
+    src: url('../assets/fonts/iCiel Mijas Ultra VH/Mijas_Ultra.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 html {
   font-size: 14px;
 }
@@ -19,4 +32,85 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: black;
+  
+}
+
+.iCielCadena-900 {
+    font-family: 'iCiel Cadena', sans-serif;
+    font-weight: 900;
+}
+.logo-size{
+    font-size: 2rem;
+}
+.logo-F {
+    color: #941B0C;
+}
+.logo-O-1 {
+    color: #BC3908;
+}
+.logo-O-2 {
+    color: #F6AA1C;
+}
+.logo-DIY {
+    color: #CE2C18
+}
+.navbar-color {
+    background-color: #1C1C1C;
+}
+.nav-link-flex{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.navbar-text-color {
+    color: #707070 !important;
+}
+.navbar-text-size{
+    font-size: 1rem;
+}
+.navbar-font{
+    font-family: "iCiel Mijas", sans-serif;
+}
+.input-group {
+    width: 300px; /* Chiều rộng ô tìm kiếm */
+    border-radius: 25px; /* Bo tròn góc */
+    overflow: hidden; /* Ẩn viền bên ngoài */
+}
+
+.form-control {
+    border: none; /* Bỏ viền của ô input */
+    border-radius: 25px 0 0 25px; /* Bo tròn góc trái */
+    padding: 10px 20px; /* Padding cho ô input */
+    background-color: #3A3939; /* Màu nền cho ô input */
+    color: #ffffff; /* Màu chữ trắng */
+}
+
+    .form-control::placeholder {
+        color: white; /* Màu chữ placeholder */
+        font-size: .8rem;
+    }
+
+.btn {
+    border: none; /* Bỏ viền nút */
+    border-radius: 25px; /* Bo tròn góc phải */
+    background-color: #007bff; /* Màu nền nút */
+    color: #ffffff; /* Màu chữ nút */
+    margin: 0 5px 0 5px;
+}
+
+    .btn:hover {
+        background-color: #0056b3; /* Màu nền nút khi hover */
+    }
+i{
+    color: white;
+}
+.btn-custom {
+    outline: none; /* Bỏ viền outline */
+    background-color: transparent; /* Bỏ màu nền mặc định */
+    border: none; /* Bỏ viền của button */
+    color: inherit; /* Kế thừa màu chữ từ cha */
+}
+a:hover{
+    color: white !important;
 }
