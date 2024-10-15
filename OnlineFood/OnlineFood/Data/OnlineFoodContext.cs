@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using OnlineFood.Models;
 
-namespace OnlineFood.Models;
+namespace OnlineFood.Data;
 
 public partial class OnlineFoodContext : DbContext
 {
