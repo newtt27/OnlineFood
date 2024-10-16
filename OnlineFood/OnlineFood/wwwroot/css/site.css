@@ -95,7 +95,8 @@ body {
     align-items: center;
 }
 .navbar-text-color {
-    color: #707070 !important;
+/*    color: #707070 !important;*/
+        color: white !important;
 }
 .navbar-text-size{
     font-size: 1rem;
@@ -142,6 +143,7 @@ i{
     border: none; /* Bỏ viền của button */
     color: inherit; /* Kế thừa màu chữ từ cha */
 }
-a:hover{
+/*a:hover{
     color: white !important;
 }
+*/
