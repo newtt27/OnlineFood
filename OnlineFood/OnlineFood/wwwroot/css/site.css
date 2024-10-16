@@ -41,10 +41,11 @@
         font-weight: normal;
         font-style: normal;
     }
-    html {
+/*    */
+html {
       font-size: 14px;
     }
-/*    */
+
 
 @media (min-width: 768px) {
   html {
@@ -66,7 +67,11 @@ body {
   background-color: black;
   
 }
-
+.SVN-Studio-Brush-900-size3rem{
+    font-family: 'SVN-Studio Brush', sans-serif;
+    font-weight: 500;
+    font-size: 4rem;
+}
 .iCielCadena-900 {
     font-family: 'iCiel Cadena', sans-serif;
     font-weight: 900;
@@ -120,7 +125,7 @@ body {
 
     .form-control::placeholder {
         color: white; /* Màu chữ placeholder */
-        font-size: .8rem;
+        font-size: .9rem;
     }
 
 .btn {
@@ -143,7 +148,109 @@ i{
     border: none; /* Bỏ viền của button */
     color: inherit; /* Kế thừa màu chữ từ cha */
 }
-/*a:hover{
-    color: white !important;
+
+.h-1080{
+    height: 1080px;
 }
-*/
+.ml-80px{
+    margin-left: 80px;
+}
+.ml-150px{
+    margin-left: 150px;
+}
+.col-1-linear-gradient {
+    background: linear-gradient(to right, #F19D07, #CB1414);
+}
+.combo-linear-gradient {
+    background: linear-gradient(to right, #1456CF, #399D9F);
+}
+.tacos-background-color {
+    background-color: #F19407;
+}
+.hotdog-background-color {
+    background-color: #1D9C00;
+}
+.h-500px{
+    height: 500px;
+}
+.rounded-5{
+    border-radius: 5%;
+}
+.top-10{
+    top: 10%;
+}
+.top-40{
+    top: 40%;
+}
+.top-5{
+    top: 5.5%;
+}
+.top-30{
+    top: 30%;
+}
+.start-15{
+    left: 15%;
+}
+.end-33{
+    right: 33%;
+}
+.w-70{
+    width: 70%;
+}
+.w-60{
+    width: 60%;
+}
+.h-60 {
+    height: 60% !important;
+}
+.h-37{
+    height: 37% !important;
+}
+.btn-trynow {
+    width: 200px;
+    height: 50px;
+    background-color: #DABC12;
+    color: #E31A1A;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Titan One', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+.btn-explore {
+    width: 200px;
+    height: 50px;
+    background-color: #6a8eb5;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Titan One', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+.rounded-10{
+    border-radius: 10px;
+}
+.bottom-30{
+    bottom: 30%;
+}
+.end-30{
+    right: 30%;
+}
+.end-38{
+    right: 38%;
+}
+.end-5{
+    right: 5%;
+}
+.end-10{
+    right: 10%;
+}
+.top-25{
+    top: 25%;
+}
+.start-55{
+    left: 55%;
+}
