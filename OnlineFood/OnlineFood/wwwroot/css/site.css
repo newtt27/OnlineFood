@@ -1,19 +1,50 @@
-﻿/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');*/
-@font-face {
-    font-family: "iCiel Cadena";
-    src: url('../assets/fonts/iCiel Crocante VH/iCiel_Crocante.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: "iCiel Mijas";
-    src: url('../assets/fonts/iCiel Mijas Ultra VH/Mijas_Ultra.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-}
-html {
-  font-size: 14px;
-}
+﻿/*Import Font*/
+    @font-face {
+        font-family: "iCiel Cadena";
+        src: url('../assets/fonts/iCiel Crocante VH/iCiel_Crocante.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "iCiel Mijas";
+        src: url('../assets/fonts/iCiel Mijas Ultra VH/Mijas_Ultra.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "iCiel Nabila";
+        src: url('../assets/fonts/iCiel Nabila VH/Nabila.ttf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "SVN-Studio Brush";
+        src: url('../assets/fonts/SVN Studio Brush VH/SVN-Studio-Brush.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "SVN-Bear";
+        src: url('../assets/fonts/SVN-Bear.ttf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "Font Baemin";
+        src: url('../assets/fonts/Font Baemin/BAEMIN FONT/BMDANIEL-Bold.ttf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: "Titan One";
+        src: url('../assets/fonts/TitanOne-Regular.ttf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    html {
+      font-size: 14px;
+    }
+/*    */
 
 @media (min-width: 768px) {
   html {
@@ -26,8 +57,8 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
