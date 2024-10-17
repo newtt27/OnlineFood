@@ -3,41 +3,148 @@
 }
 
 <body class="w-100 h-100">
+    
     <div class="text-white SVN-Studio-Brush-900-size3rem m-5 h-500px">
         <p class="ml-80px mb-0">ĂN FOOD NGON</p>
         <p class="ml-150px mt-0">ĐẶT FOODIY</p>
     </div>
+    @* Banner *@
     <div class="w-100 h-1080">
-        <div class="container w-100 h-100 d-flex justify-content-center align-items-center position-relative">
-            <div class="col-7 col-1-linear-gradient h-50 rounded-10 w-70 mx-4">
-                <img class="position-absolute h-500px top-10 zindex-0" src="~/assets/image/Professional_food_photographer_Dubai_-_Riyadh___Orkun_Örcan-removebg-preview.png" />
-                <img class="position-absolute zindex-1 start-15 top-40" src="~/assets/image/Indulge_in_KFC_Wow_Bucket_with_Jalapeño_Cheese_Poppers_-_Order_Now_-removebg-preview 1.png"/>
-                <img class="position-absolute end-33 top-5 mb-0" src="~/assets/image/loa.png" />
-                <div class="position-absolute end-38 top-30">
-                    <p class="text-white text-center" style="font-family:'Titan One', sans-serif; font-size: 2rem">TO DAY</p>
-                    <p class="text-white text-center" style="font-family:'Titan One', sans-serif; font-size: 5rem">NEW</p>
-                </div>
-                <button class="btn-trynow position-absolute bottom-30 end-30 translate-middle">TRY NOW</button>
+        <div class="container w-100 h-100 d-flex justify-content-center align-items-center">
+            <div class="col-7 col-1-linear-gradient h-50 rounded-10 w-70 mx-4 position-relative mw-100 mh-100">
+                <img class="position-absolute h-500px top-minus-30 zindex-0" src="~/assets/image/Professional_food_photographer_Dubai_-_Riyadh___Orkun_Örcan-removebg-preview.png" />
+                <img class="position-absolute zindex-1 start-15 top-30" src="~/assets/image/Indulge_in_KFC_Wow_Bucket_with_Jalapeño_Cheese_Poppers_-_Order_Now_-removebg-preview 1.png"/>
+                <img class="position-absolute end-minus-3 top-minus-38 " src="~/assets/image/loa.png" /> 
+                <span class="text-white text-center position-absolute end-14 top-10" style="font-family:'Titan One', sans-serif; font-size: 3rem">TO DAY</span>
+                <span class="text-white text-center position-absolute end-8 top-10 mt-3 " style="font-family:'Titan One', sans-serif; font-size: 8rem">NEW</span>
+                <button class="btn-trynow position-absolute bottom-10 end-minus-8 translate-middle">TRY NOW</button>
             </div>
             <div class="col-5 h-50">
                 <div class="row h-60 h-50 combo-linear-gradient rounded-10 mb-3 position-relative">
-                    <img class="top-0 start-0 w-50 h-100" src="~/assets/image/Social_media_Selected_Vol_no_1-removebg-preview 1.png"/>
+                    <img class="top-0 start-0 w-50 h-100 zindex-1 " src="~/assets/image/Social_media_Selected_Vol_no_1-removebg-preview 1.png"/>
                     <button class="btn-explore position-absolute top-10 end-5">EXPLORE</button>
                     <img class="position-absolute end-5 top-0 h-100 w-50" src="~/assets/image/Fried_Chicken_-_Broastec-removebg-preview 1.png"/>
                     <img class="position-absolute start-55 top-25 h-100 w-50" src="~/assets/image/Aquele_Combo_De_Hot_Dog_Social_Media_PSD_Editável-removebg-preview 1.png" />
                 </div>
                 <div class="row h-37 gap-2">
-                    <div class="col tacos-background-color rounded-10">
-                        asda
+                    <div class="col tacos-background-color rounded-10 position-relative h-100 w-100">
+                        <div class="w-40 h-100 mw-50 mh-100" style="background-color: #F9BC4A">
+                            <p class="h-100 w-100 py-4 text-center" style="font-family:'SVN-Studio Brush', sans-serif; color: white; font-size: 1.8rem; line-height: 3rem"> <span style="color: #B92727">5</span> TACOS FOR <span style="color: #B92727">22K</span> ALL DAY</p>
+                        </div>
+                        <img class="w-70 h-50vh position-absolute end-minus-5 top-0 mw-70 mh-100" src="~/assets/image/Maxican_Tacos_Tuesday_Social_Media_Post_Or_Banner___PSD_Free_Download_-_Pikbest-removebg-preview 1.png" />
                     </div>
-                    <div class="col hotdog-background-color rounded-10">
-                        asdas
+                    <div class="col hotdog-background-color rounded-10 h-100 w-100 m-0 position-relative">
+                        <img class="start-0 top-0 w-50 h-30vh position-absolute mw-50 mh-100" src="~/assets/image/Hot_Dog_Social_Media_Post_Template_Design___PSD_Free_Download_-_Pikbest-removebg-preview 1.png"/>
+                        <div class="w-40 h-100 position-absolute end-5 top-0 mw-50 mh-100" style="background-color: #1A540D">
+                            <p class="h-100 w-100 py-4 px-2 text-center" style="font-family:'SVN-Studio Brush', sans-serif; color: white; font-size: 1.8rem; line-height: 3rem"> BUY <span style="color: #3BE116">1</span> GET <span style="color: #3BE116">1</span> <span style="color: #3BE116">FREE</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+    </div>
+
+    @* Food Menu *@
+    <div class="w-100 h-1080">
+        @*Nav*@
+        <nav class="nav-fill w-100 h-100px">
+            <ul class="food-menu w-100 h-100 d-flex justify-content-center align-items-center gap-5 list-unstyled">
+                <li class="active"><span>BREAKFAST</span></li>
+                <li><span>LUNCH</span></li>
+                <li><span>DINNER</span></li>
+                <li><span>DRINKS</span></li>
+                <li><span>BREAKTIME</span></li>
+            </ul>
+        </nav>
+        @*Nav*@
+        <div class="title w-100 h-100px text-center" style="color: white">BREAKFAST</div>
+        @* Container *@
+        <div class="container h-100 w-100">
+            @*Row*@
+            <div class="row h-400px w-100 d-flex justify-content-center align-items-center gap-5 my-5">
+                @*Card*@
+                <div class="col-1 mx-4 w-350px"> 
+                    <div class="card w-350px h-350px" style="background-color: transparent">
+                        <img class="card-img-top w-100 h-100" src="~/assets/image/Frame 4.png" alt="Phở" />
+                    </div>
+                </div>
+                @*Card*@
+            </div>
+            @*Row*@
+        </div>
+        @* Container *@
+    </div>
+
+    @*About Us*@
+    <div class="w-100 h-auto">
+        <div class="container  position-relative  h-75 py-5" style="background-color: #181818">
+            @*About*@
+            <div class="col-8">
+                <div class="row h-25 py-5">
+                    <h1 class="about-us text-center mt-3">About Us</h1>
+                </div>
+                @*About-modal*@
+                <div class="row ml-30px h-75 gap-3">
+                    <div class="about-us-modal h-auto col-4 mh-400">
+                        <div class="about-us-title mb-4">
+                            <p class="text-center my-3" style="font-size: 1.8rem">Organic food</p>
+                        </div>
+                        <div class="about-us-body m-3 mb-5" style="height: 300px">
+                            <span style="line-height: 1.3rem; letter-spacing: .1rem">Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.</span>
+                        </div>
+                    </div>
+                    <div class="about-us-modal h-auto col-4 mt-8rem py-2rem">
+                        <div class="about-us-title">
+                            <p class="text-center my-3" style="font-size: 1.8rem">DIY 100%</p>
+                        </div>
+                        <div class="about-us-body m-3">
+                            <span style="line-height: 1.3rem; letter-spacing: .1rem">Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.</span>
+                        </div>
+                    </div>
+                    <div class="about-us-modal h-auto col-4 mh-400">
+                        <div class="about-us-title mb-4">
+                            <p class="text-center my-3" style="font-size: 1.8rem">Fast & Clean</p>
+                        </div>
+                        <div class="about-us-body m-3 mb-5" style="height: 300px">
+                            <span style="line-height: 1.3rem; letter-spacing: .1rem">Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*Iamge*@
+            <div class="col-4">
+                <div class="row w-100 h-100">
+                    <img class="position-absolute end-0 top-minus-5" style="width: 300px; " src="~/assets/image/e8c927c1-7a4d-4b73-b3b5-b43b303ef3a0 1.png"/>
+                    <img class="position-absolute bottom-minus-5 end-5" style="width: 300px; " src="~/assets/image/Donut Wand_ DIY Donut Wall mit Erdnuss Donuts - Nicest Things 1.png" />
+                    <img class="position-absolute top-25 end-14" style="width: 300px; " src="~/assets/image/Die 3 häufigsten Fehler beim Würzen _ freundin_de.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Contact*@
+    <div class="container w-100 h-auto my-5 ">
+        <div class="row h-25 rounded-top-left-right-20 d-flex" style="background-color: #414040">
+            <div class="navbar-header mx-4 col-4">
+                <div class="m-3 ">
+                    <span class="iCielCadena-900 logo-size logo-F">F</span>
+                    <span class="iCielCadena-900 logo-size logo-O-1">O</span>
+                    <span class="iCielCadena-900 logo-size logo-O-2">O</span>
+                    <span class="iCielCadena-900 logo-size logo-DIY">D</span>
+                    <span class="iCielCadena-900 logo-size logo-DIY">I</span>
+                    <span class="iCielCadena-900 logo-size logo-DIY">Y</span>
+                </div>
+            </div>
+
+            <div class="col-1">
+                <img src="~/assets/image/email"/>
+            </div>
+        </div>
+        <div class="row h-75">
+
+        </div>
     </div>
 </body>
 
+<script src="~/js/Index.js"></script>
 

@@ -41,6 +41,12 @@
         font-weight: normal;
         font-style: normal;
     }
+@font-face {
+    font-family: "Tapestry";
+    src: url('../assets/fonts/Tapestry-Regular.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 /*    */
 html {
       font-size: 14px;
@@ -77,7 +83,7 @@ body {
     font-weight: 900;
 }
 .logo-size{
-    font-size: 2rem;
+    font-size: 3rem;
 }
 .logo-F {
     color: #941B0C;
@@ -104,13 +110,13 @@ body {
         color: white !important;
 }
 .navbar-text-size{
-    font-size: 1rem;
+    font-size: 1.3rem;
 }
 .navbar-font{
     font-family: "iCiel Mijas", sans-serif;
 }
 .input-group {
-    width: 300px; /* Chiều rộng ô tìm kiếm */
+    width: 350px; /* Chiều rộng ô tìm kiếm */
     border-radius: 25px; /* Bo tròn góc */
     overflow: hidden; /* Ẩn viền bên ngoài */
 }
@@ -141,6 +147,7 @@ body {
     }
 i{
     color: white;
+    font-size: 2rem
 }
 .btn-custom {
     outline: none; /* Bỏ viền outline */
@@ -207,8 +214,8 @@ i{
     height: 37% !important;
 }
 .btn-trynow {
-    width: 200px;
-    height: 50px;
+    width: 300px;
+    height: 70px;
     background-color: #DABC12;
     color: #E31A1A;
     border-radius: 30px;
@@ -248,9 +255,128 @@ i{
 .end-10{
     right: 10%;
 }
-.top-25{
+.end-20{
+    right: 20%;
+}
+.end-14{
+    right: 14%;
+}
+.end-8{
+    right: 8%;
+}
+.bottom-10 {
+    bottom: 10%;
+}
+.top-25 {
     top: 25%;
 }
-.start-55{
+.top-minus-30{
+    top: -30%;
+}
+.top-minus-38{
+    top: -38%;
+}
+.top-minus-5{
+    top: -5%;
+}
+.end-minus-3 {
+    right: -3%;
+}
+.end-minus-8{
+    right: -8%;
+}
+.end-minus-5 {
+    right: -5%;
+}
+.bottom-minus-10{
+    bottom: -10%;
+}
+.bottom-minus-5 {
+    bottom: -5%;
+}
+.start-55 {
     left: 55%;
+}
+.w-40{
+    width: 40%;
+}
+.h-50vh{
+    height: 50vh;
+}
+.h-30vh{
+    height: 30vh;
+}
+.top-minus-50 {
+    top: -50%;
+}
+.top-minus-10{
+    top: -10%;
+}
+.mw-50 {
+    max-width: 50%;
+}
+.mw-70{
+    max-width: 70%;
+}
+.h-100px{
+    height: 100px;
+}
+.food-menu{
+    font-family: 'iCiel Mijas', sans-serif;
+    font-size: 2rem;
+    color: white;
+}
+.food-menu li {
+    cursor: pointer;
+    }
+    .food-menu li:hover{
+        color: #AC0909;
+    }
+    .food-menu li.active span{
+        color: #AC0909;
+    }
+    .title {
+        color: white;
+        font-family: 'iCiel Nabila', sans-serif;
+        font-size: 2.5rem;
+    }
+.h-400px{
+    height: 40vh;
+}
+.w-350px{
+    width: 35vh;
+}
+.about-us {
+    font-family: 'SVN-Bear' , sans-serif;
+    font-size: 4rem;
+    color: white;
+}
+.about-us-modal {
+    width: 33vh;
+    height: auto;
+    font-family: 'Tapestry', sans-serif;
+    background-color: #252525;
+    border-radius: 30px;
+    color: white;
+}
+.ml-30px{
+    margin-left: 30px;
+}
+.mt-8rem{
+    margin-top: 8rem;
+}
+.mh-400 {
+    max-height: 40vh;
+}
+.mh-500{
+    max-height: 50vh;
+}
+.py-2rem {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.rounded-top-left-right-20{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
