@@ -82,6 +82,10 @@ body {
     font-family: 'iCiel Cadena', sans-serif;
     font-weight: 900;
 }
+.iCielCadena-200 {
+    font-family: 'iCiel Cadena', sans-serif;
+    font-weight: 200;
+}
 .logo-size{
     font-size: 3rem;
 }
@@ -379,4 +383,10 @@ i{
 .rounded-top-left-right-20{
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+}
+.img-custom{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
 }
