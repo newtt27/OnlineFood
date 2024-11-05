@@ -1,0 +1,558 @@
+﻿/* You can add global styles to this file, and also import other style files */
+/*Import Font*/
+@font-face {
+    font-family: "iCiel Cadena";
+    src: url('../assets/fonts/iCielCadena.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "iCiel Mijas";
+    src: url('../assets/fonts/iCiel Mijas Ultra VH/Mijas_Ultra.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "iCiel Nabila";
+    src: url('../assets/fonts/iCiel Nabila VH/Nabila.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SVN-Studio Brush";
+    src: url('../assets/fonts/SVN Studio Brush VH/SVN-Studio-Brush.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SVN-Bear";
+    src: url('../assets/fonts/SVN-Bear.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Font Baemin";
+    src: url('../assets/fonts/Font Baemin/BAEMIN FONT/BMDANIEL-Bold.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Titan One";
+    src: url('../assets/fonts/TitanOne-Regular.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Tapestry";
+    src: url('../assets/fonts/Tapestry-Regular.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Marko One";
+    src: url('../assets/fonts/MarkoOne-Regular.ttf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+/*    */
+html {
+    font-size: 14px;
+}
+/* styles.css hoặc styles.scss */
+
+
+/* Đặt margin 0 cho app-root hoặc component chính nếu cần */
+app-root, app-home {
+    margin: 0;
+    padding: 0 !important;
+}
+
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: black;
+}
+
+.SVN-Studio-Brush-900-size3rem {
+    font-family: 'SVN-Studio Brush', sans-serif;
+    font-weight: 500;
+    font-size: 4rem;
+}
+
+.iCielCadena-900 {
+    font-family: 'iCiel Cadena', sans-serif;
+    font-weight: 900;
+}
+
+.iCielCadena-200 {
+    font-family: 'iCiel Cadena', sans-serif;
+    font-weight: 200;
+}
+
+.logo-size {
+    font-size: 3rem;
+}
+
+.logo-F {
+    color: #941B0C;
+}
+
+.logo-O-1 {
+    color: #BC3908;
+}
+
+.logo-O-2 {
+    color: #F6AA1C;
+}
+
+.logo-DIY {
+    color: #CE2C18
+}
+
+.navbar-color {
+    background-color: #1C1C1C;
+}
+
+.nav-link-flex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navbar-text-color {
+    /*    color: #707070 !important;*/
+    color: white !important;
+}
+
+.navbar-text-size {
+    font-size: 1.3rem;
+}
+
+.navbar-font {
+    font-family: "iCiel Mijas", sans-serif;
+}
+
+.input-group {
+    width: 350px; /* Chiều rộng ô tìm kiếm */
+    border-radius: 25px; /* Bo tròn góc */
+    overflow: hidden; /* Ẩn viền bên ngoài */
+}
+
+.form-control {
+    border: none; /* Bỏ viền của ô input */
+    border-radius: 25px 0 0 25px; /* Bo tròn góc trái */
+    padding: 10px 20px; /* Padding cho ô input */
+    background-color: #3A3939; /* Màu nền cho ô input */
+    color: #ffffff; /* Màu chữ trắng */
+}
+
+    .form-control::placeholder {
+        color: white; /* Màu chữ placeholder */
+        font-size: .9rem;
+    }
+
+.btn {
+    border: none; /* Bỏ viền nút */
+    border-radius: 25px; /* Bo tròn góc phải */
+    background-color: #007bff; /* Màu nền nút */
+    color: #ffffff; /* Màu chữ nút */
+    margin: 0 5px 0 5px;
+}
+
+    .btn:hover {
+        background-color: #0056b3; /* Màu nền nút khi hover */
+    }
+
+i {
+    color: white;
+    font-size: 2rem
+}
+
+.btn-custom {
+    outline: none; /* Bỏ viền outline */
+    background-color: transparent; /* Bỏ màu nền mặc định */
+    border: none; /* Bỏ viền của button */
+    /*color: inherit;*/ /* Kế thừa màu chữ từ cha */
+    color: white;
+}
+
+/* Loại bỏ màu nền mặc định của Bootstrap và thay bằng #E2B51A */
+.btn-custom_fastfood {
+    background-color: #E2B51A;
+    border: none;
+    color: black;
+}
+
+    .btn-custom_fastfood:hover,
+    .btn-custom_fastfood:focus {
+        background-color: #caa216; /* Tối hơn một chút khi hover */
+    }
+
+    .btn-custom_fastfood i {
+        color: black; /* Đặt màu icon trong nút thành đen */
+    }
+
+.h-1080 {
+    height: 1080px;
+}
+
+.ml-80px {
+    margin-left: 80px;
+}
+
+.ml-150px {
+    margin-left: 150px;
+}
+
+.col-1-linear-gradient {
+    background: linear-gradient(to right, #F19D07, #CB1414);
+}
+
+.combo-linear-gradient {
+    background: linear-gradient(to right, #1456CF, #399D9F);
+}
+
+.tacos-background-color {
+    background-color: #F19407;
+}
+
+.hotdog-background-color {
+    background-color: #1D9C00;
+}
+
+.h-500px {
+    height: 500px;
+}
+
+h-600px {
+    height: 600px;
+}
+
+.rounded-5 {
+    border-radius: 5%;
+}
+
+.top-10 {
+    top: 10%;
+}
+
+.top-40 {
+    top: 40%;
+}
+
+.top-5 {
+    top: 5.5%;
+}
+
+.top-30 {
+    top: 30%;
+}
+
+.start-15 {
+    left: 15%;
+}
+
+.start-35 {
+    left: 35%;
+}
+
+.end-33 {
+    right: 33%;
+}
+
+.w-70 {
+    width: 70%;
+}
+
+.w-60 {
+    width: 60%;
+}
+
+.h-60 {
+    height: 60% !important;
+}
+
+.h-37 {
+    height: 37% !important;
+}
+
+.btn-trynow {
+    width: 15vw;
+    height: 10vh;
+    background-color: #DABC12;
+    color: #E31A1A;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Titan One', sans-serif;
+    font-weight: 600;
+    font-size: 1.5vw;
+    letter-spacing: 2px;
+}
+
+.btn-explore {
+    width: 20px;
+    height: 50px;
+    background-color: #6a8eb5;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    font-family: 'Titan One', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.rounded-10 {
+    border-radius: 10px;
+}
+
+.bottom-30 {
+    bottom: 30%;
+}
+
+.end-30 {
+    right: 30%;
+}
+
+.end-3 {
+    right: 3%;
+}
+
+.end-38 {
+    right: 38%;
+}
+
+.end-5 {
+    right: 5%;
+}
+
+.end-10 {
+    right: 10%;
+}
+
+.end-20 {
+    right: 20%;
+}
+
+.end-14 {
+    right: 14%;
+}
+
+.end-8 {
+    right: 8%;
+}
+
+.bottom-10 {
+    bottom: 10%;
+}
+
+.top-25 {
+    top: 25%;
+}
+
+.top-minus-30 {
+    top: -30%;
+}
+
+
+.top-minus-38 {
+    top: -38%;
+}
+
+.top-minus-25 {
+    top: -25%;
+}
+
+.top-minus-5 {
+    top: -5%;
+}
+
+.end-minus-3 {
+    right: -3%;
+}
+
+.end-minus-10 {
+    right: -10%;
+}
+
+.end-minus-8 {
+    right: -8%;
+}
+
+.end-minus-5 {
+    right: -5%;
+}
+
+.bottom-minus-10 {
+    bottom: -10%;
+}
+
+.bottom-minus-5 {
+    bottom: -5%;
+}
+
+.bottom-minus-30 {
+    bottom: -30%;
+}
+
+.start-55 {
+    left: 55%;
+}
+
+.start-20 {
+    left: 20%;
+}
+
+.w-40 {
+    width: 40%;
+}
+
+.h-50vh {
+    height: 50vh;
+}
+
+.h-46_5 {
+    height: 46.5%;
+}
+
+.h-30vh {
+    height: 30vh;
+}
+
+.top-minus-50 {
+    top: -50%;
+}
+
+.top-minus-10 {
+    top: -10%;
+}
+
+.mw-50 {
+    max-width: 50%;
+}
+
+.mw-70 {
+    max-width: 70%;
+}
+
+.mw-30 {
+    max-width: 30%;
+}
+
+.h-100px {
+    height: 100px;
+}
+
+.food-menu {
+    font-family: 'iCiel Mijas', sans-serif;
+    font-size: 2rem;
+    color: white;
+}
+
+    .food-menu li {
+        cursor: pointer;
+    }
+
+        .food-menu li:hover {
+            color: #AC0909;
+        }
+
+        .food-menu li.active span {
+            color: #AC0909;
+        }
+
+.title {
+    color: white;
+    font-family: 'iCiel Nabila', sans-serif;
+    font-size: 2.5rem;
+}
+
+.h-400px {
+    height: 40vh;
+}
+
+.w-350px {
+    width: 35vh;
+}
+
+.about-us {
+    font-family: 'SVN-Bear', sans-serif;
+    font-size: 4rem;
+    color: white;
+}
+
+.about-us-modal {
+    width: 40%;
+    height: auto;
+    padding: 0 20px 0 20px;
+    font-family: 'Tapestry', sans-serif;
+    background-color: #252525;
+    border-radius: 30px;
+    color: white;
+}
+
+.ml-30px {
+    margin-left: 30px;
+}
+
+.mt-8rem {
+    margin-top: 8rem;
+}
+
+.mh-400 {
+    max-height: 40vh;
+}
+
+.mh-500 {
+    max-height: 50vh;
+}
+
+.py-2rem {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.rounded-top-left-right-20 {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.img-custom {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.modal-content {
+    color: #fff;
+    background-color: #333;
+}
+
+
+.list-group-item {
+    border: none;
+}

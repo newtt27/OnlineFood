@@ -1,0 +1,59 @@
+﻿@model OnlineFood.Models.Latest
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Latest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdBill" class="control-label"></label>
+                <select asp-for="IdBill" class ="form-control" asp-items="ViewBag.IdBill"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdBillSupplies" class="control-label"></label>
+                <select asp-for="IdBillSupplies" class ="form-control" asp-items="ViewBag.IdBillSupplies"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoiDung" class="control-label"></label>
+                <input asp-for="NoiDung" class="form-control" />
+                <span asp-validation-for="NoiDung" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCustomer" class="control-label"></label>
+                <select asp-for="IdCustomer" class ="form-control" asp-items="ViewBag.IdCustomer"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdOrderSupplies" class="control-label"></label>
+                <select asp-for="IdOrderSupplies" class ="form-control" asp-items="ViewBag.IdOrderSupplies"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

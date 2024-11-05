@@ -1,0 +1,89 @@
+﻿@model IEnumerable<OnlineFood.Models.Bill>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayCheckIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayCheckOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrangThai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTienTruoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTienSau)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdKhachHangNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdKmNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdNhanVienNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdOrderInfoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPhuongThucNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayCheckIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayCheckOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrangThai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTienTruoc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTienSau)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdKhachHangNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdKmNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdNhanVienNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdOrderInfoNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPhuongThucNavigation.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
