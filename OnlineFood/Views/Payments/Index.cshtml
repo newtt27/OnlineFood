@@ -1,47 +1,78 @@
-﻿@model IEnumerable<OnlineFood.Models.Payment>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
+    <title>Payment Page</title>
+</head>
+<body>
+    <div class="payment-page-background">
+        <div class="payment-container w-100">
+            <!-- Left Section: Contact, Payment, Delivery -->
+            <div class="form-content">
+                <h1>Payment Page</h1>
+                <p>Check your information</p>
 
-@{
-    ViewData["Title"] = "Index";
-}
+                <div class="contact-section">
+                    <h2>Contact information</h2>
+                    <form id="contactForm">
+                        <input type="text" placeholder="Name" name="name" required minlength="3" maxlength="50">
+                        <input type="tel" placeholder="0123456789" name="phone" required pattern="^\d{10,11}$" title="Số điện thoại cần có 10-11 chữ số.">
+                        <input type="email" placeholder="Email" name="email" required>
+                    </form>
+                </div>
 
-<h1>Index</h1>
+                <div class="payment-section">
+                    <h3>Payment method</h3>
+                    <button type="button" class="payment-btn selected" onclick="selectPaymentMethod('card')">Card</button>
+                    <button type="button" class="payment-btn" onclick="selectPaymentMethod('momo')">Momo</button>
+                    <button type="button" class="payment-btn" onclick="selectPaymentMethod('zalopay')">Zalo Pay</button>
+                    <form id="paymentMethodForm">
+                        <div id="card-info">
+                            <input type="text" placeholder="Name on Card" name="cardName" required minlength="3" maxlength="50">
+                            <input type="text" placeholder="Card Number" name="cardNumber" required pattern="^\d{16}$" title="Số thẻ phải có 16 chữ số.">
+                        </div>
+                    </form>
+                </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PhuongThucThanhToan)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mota)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhuongThucThanhToan)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mota)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+                <div class="delivery-section">
+                    <h3>Delivery method</h3>
+                    <button type="button" class="delivery-btn selected" onclick="selectDeliveryMethod('ultra-fast')">Ultra-fast</button>
+                    <button type="button" class="delivery-btn" onclick="selectDeliveryMethod('normal')">Normal</button>
+                    <form id="deliveryForm">
+                        <input type="text" placeholder="Enter delivery address" name="address" required minlength="5">
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Section: Summary -->
+            <div class="summary">
+                <h3>Total Products (1)</h3>
+                <div class="product-item">
+                    <img src="hamburger.png" alt="Product Image" class="product-image">
+                    <div class="product-info">
+                        <p>Hamburger Bò</p>
+                        <p>Size: S</p>
+                        <p>280.000 VNĐ</p>
+                    </div>
+                </div>
+                <div class="promotions">
+                    <h4>Promotions List</h4>
+                    <p>Code: DMVCL</p>
+                </div>
+                <div class="totals">
+                    <p>Subtotal: <span>320.000 VNĐ</span></p>
+                    <p>Discount: <span>-30.000 VNĐ</span></p>
+                    <p>Delivery Price: <span>0 VNĐ</span></p>
+                    <h4>Total: <span>290.000 VNĐ</span></h4>
+                </div>
+                <button type="button" class="checkout-btn" onclick="validateForms()">Thanh Toán</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/payment.js" defer></script>
+</body>
+</html>
