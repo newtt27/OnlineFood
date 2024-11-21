@@ -1,26 +1,12 @@
 ﻿@model IEnumerable<OnlineFood.Models.Promotion>
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Index";
 }
 
 <section class="promotion-container">
-  <div class="user-info">
-    <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/45881b31095ea0d6211c0f58a4f1d6517c033b88cf60a2c244319e416b16228a?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="User avatar" class="user-avatar" />
-    <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/f3d8e18fb10499f44d7d9d748f32cbb3413f712b21b7cb1bd47394a32740fdd6?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="User avatar" class="user-avatar" />
-    <div class="user-details">
-      <div class="user-details-inner">
-        <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/d4199f1b36553541c290fb2bf8f4acbdb72ba1f9a253778870f0c03df1890dc0?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="User avatar" class="user-avatar-small" />
-        <div class="user-text">
-          <div class="user-name-wrapper">
-            <div>abc</div>
-            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/d3fa7866172b7d04eb7cb03a8661a373ef14397ae779752e06235e77e53b6843?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Dropdown icon" class="dropdown-icon" />
-          </div>
-          <div class="user-email">abc@gmail.com</div>
-        </div>
-      </div>
-    </div>
-  </div>
+ 
   
   <header class="promotion-header">
       <link rel="stylesheet" href="/css/Promotions.css" />
@@ -74,7 +60,7 @@
                 <div class="promotion-details-header">
                   <div>@Html.DisplayNameFor(model => model.Code)</div>
                   <div>@Html.DisplayNameFor(model => model.PhanTram)</div>
-                  <div class="order-limit-header">@Html.DisplayNameFor(model => model.OrderLimit)</div>
+                  <div class="order-limit-header"></div>
                   <div class="available-date-header">
                          <!--<span class="NgayBD">@Html.DisplayNameFor(model => model.NgayBd)</span>
                              <span class="NgayBD">@Html.DisplayNameFor(model => model.NgayKt)</span>-->
@@ -113,7 +99,7 @@
             </div>
             <div>@Html.DisplayFor(modelItem => item.Code)</div>
             <div>@Html.DisplayFor(modelItem => item.PhanTram)</div>
-            <div class="order-limit-header">@Html.DisplayFor(modelItem => item.OrderLimit)</div>
+            <div class="order-limit-header"></div>
             <div class="available-date-header">
                 <span class="NgayBD">@Html.DisplayFor(modelItem => item.NgayBd)</span>
                 <span class="NgayBD">@Html.DisplayFor(modelItem => item.NgayKt)</span>
