@@ -1,0 +1,815 @@
+﻿@model Dashboard.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-dark text-white shadow-lg" style="background:#181a1b">
+                <div class="card-header bg-transparent border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Income Overview</h5>
+                        <div class="d-flex gap-3 align-items-center justify-content-center">
+                            <div class="btn-group w-100">
+                                <button type="button" class="btn btn-outline-light active py-2 px-4 me-2" id="singleDateBtn" data-mode="single">
+                                    <i class="fas fa-calendar-day me-1"></i>Single Date
+                                </button>
+                                <button type="button" class="btn btn-outline-light py-2 px-4" id="dateRangeBtn" data-mode="range">
+                                    <i class="fas fa-calendar-week me-1"></i>Date Range
+                                </button>
+                            </div>
+
+                            <div id="singleDatePicker" class="input-group w-100 align-items-center" >
+                                <input type="text" class="form-control bg-dark text-white border-light py-2 px-3" id="singleDate" style="border-radius: 5px; background:#181a1b">
+                                <button class="btn btn-outline-light py-2 px-3 ms-2" type="button" id="clearSingleDate" >
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button class="btn btn-primary py-2 px-3 ms-2" type="button" id="applySingleDate">Apply</button>
+                            </div>
+
+                            <div id="dateRangePicker" class="input-group w-100 align-items-center" style="display: none;">
+                                <input type="text" class="form-control bg-dark text-white border-light py-2 px-3" id="startDate" placeholder="From" style="background:#181a1b">
+                                <input type="text" class="form-control bg-dark text-white border-light py-2 px-3" style="border-top-right-radius:5px; border-bottom-right-radius:5px;background:#181a1b" id="endDate" placeholder="To">
+                                <button class="btn btn-outline-light py-2 px-3 ms-2" type="button" id="clearDateRange">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button class="btn btn-primary py-2 px-3 ms-2" type="button" id="applyDateRange">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <canvas id="incomeChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-8 mb-2">
+            <div class="card bg-dark text-white shadow-lg" style="height:560px; background:#181a1b">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Top Products</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="productsChart" height="420"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4 mb-2">
+            <div class="card bg-dark text-white shadow-lg" style="height:560px; background:#181a1b">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Food Categories</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart" height="420"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-4 mb-2">
+            <div class="card bg-dark text-white shadow-lg" style="background:#181a1b">
+                <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-users me-2"></i>Top Customers</h5>
+                </div>
+                <div class="card-body">
+                    <div id="customersList" class="mb-3"></div>
+                    <nav aria-label="Customers pagination">
+                        <ul class="pagination justify-content-center" id="customersPagination"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="card bg-dark text-white shadow-lg" style="background:#181a1b">
+                <div class="card-header bg-transparent border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-money-bill-wave me-2"></i>Payment List</h5>
+                        <div class="d-flex gap-2 px-2">
+                            <input type="text" class="form-control bg-dark text-white" id="searchOrderId" placeholder="Order ID" style="background:#181a1b">
+                            <input type="text" class="form-control bg-dark text-white" id="searchCustomerName" placeholder="Customer Name" style="background:#181a1b">
+
+                            <select class="form-select bg-dark text-white" id="filterStatus" style="background:#181a1b">
+                                <option value="">All Statuses</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Paid">Paid</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <button class="btn btn-primary" id="searchPayments">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Order Date</th>
+                                    <th>Total Items</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentListBody">
+                                <!-- Payment list items will be dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <nav aria-label="Payment list pagination">
+                        <ul class="pagination justify-content-center" id="paymentListPagination"></ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Details Modal -->
+<div class="modal fade" id="paymentDetailsModal" tabindex="-1" aria-labelledby="paymentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content  text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentDetailsModalLabel">Payment Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Order Info</h6>
+                        <p><strong>Order ID:</strong> <span id="modalOrderId"></span></p>
+                        <p><strong>Order Date:</strong> <span id="modalOrderDate"></span></p>
+                        <p><strong>Total Items:</strong> <span id="modalTotalItems"></span></p>
+                        <button class="btn btn-sm btn-outline-info" id="modalShowItems">Show Items</button>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Customer Info</h6>
+                        <p><strong>Customer ID:</strong> <span id="modalCustomerId"></span></p>
+                        <p><strong>Name:</strong> <span id="modalCustomerName"></span></p>
+                        <p><strong>Contact:</strong> <span id="modalCustomerContact"></span></p>
+                        <p><strong>Email:</strong> <span id="modalCustomerEmail"></span></p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6>Promotion Used</h6>
+                        <p><strong>Promotions:</strong> <span id="modalPromotions"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Payment</h6>
+                        <p><strong>Subtotal:</strong> $<span id="modalSubtotal"></span></p>
+                        <p><strong>Discount:</strong> <span id="modalDiscount"></span>%</p>
+                        <p><strong>Total Price:</strong> $<span id="modalTotalPrice"></span></p>
+                        <p><strong>Payment Method:</strong> <span id="modalPaymentMethod"></span></p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6>Status</h6>
+                        <p><strong>Current Status:</strong> <span id="modalStatus"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Items Modal -->
+<div class="modal fade" id="paymentDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Payment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Order Information</h6>
+                        <p>Order ID: <span id="modalOrderId"></span></p>
+                        <p>Order Date: <span id="modalOrderDate"></span></p>
+                        <p>Status: <span id="modalStatus"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Customer Information</h6>
+                        <p>Name: <span id="modalCustomerName"></span></p>
+                        <p>Email: <span id="modalCustomerEmail"></span></p>
+                        <p>Contact: <span id="modalCustomerContact"></span></p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6>Order Items</h6>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalOrderItems"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6>Payment Information</h6>
+                        <p>Payment Method: <span id="modalPaymentMethod"></span></p>
+                        <p>Subtotal: $<span id="modalSubtotal"></span></p>
+                        <p>Discount: <span id="modalDiscount"></span>%</p>
+                        <p>Total Price: $<span id="modalTotalPrice"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Promotions Applied</h6>
+                        <div id="modalPromotions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        
+        body {
+            background-color: #f8f9fa;
+        }
+       
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .bg-dark {
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(145deg, #3498db, #2980b9);
+        }
+
+        .bg-gradient-info {
+            background: linear-gradient(145deg, #1abc9c, #16a085);
+        }
+
+        .customer-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+            .customer-item:last-child {
+                border-bottom: none;
+            }
+
+            .customer-item:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .pagination .page-link {
+            background-color: transparent;
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+            .pagination .page-link:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+        .pagination .active .page-link {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-outline-light {
+            border-width: 2px;
+        }
+
+            .btn-outline-light:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+        .btn-group .btn {
+            margin-right: 6px;
+        }
+
+        #clearSingleDate, #applySingleDate, #clearDateRange, #applyDateRange {
+            margin-left: 10px;
+        }
+
+        #singleDate, #startDate, #endDate {
+            margin-right: 1px;
+        }
+
+        .modal-content {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        .status-paid {
+            color: #28a745;
+        }
+
+        .status-pending {
+            color: #ffc107;
+        }
+
+        .status-cancelled {
+            color: #dc3545;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            try {
+                const response = await fetch('/Categories/GetChartData');
+                const data = await response.json();
+
+                const ctx = document.getElementById('categoryChart').getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.map(item => item.label),
+                        datasets: [{
+                            data: data.map(item => item.value),
+                            backgroundColor: data.map(item => item.color),
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            spacing: 10,
+                            hoverOffset: 30
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: 20
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 14
+                                    },
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                titleColor: '#000',
+                                bodyColor: '#000',
+                                padding: 15,
+                                cornerRadius: 5,
+                                displayColors: true,
+                                callbacks: {
+                                    label: function (context) {
+                                        return ` ${context.label}: ${context.raw} items`;
+                                    }
+                                }
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
+
+                // Create custom legend
+                const legendContainer = document.getElementById('chartLegend');
+                const legendHtml = `
+                            <div class="custom-legend">
+                                ${data.map(item => `
+                                    <div class="legend-item">
+                                        <div class="legend-color" style="background-color: ${item.color}"></div>
+                                        <span class="text-white">${item.label} (${item.value})</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                legendContainer.innerHTML = legendHtml;
+
+            } catch (error) {
+                console.error('Error loading chart data:', error);
+            }
+        });
+        let incomeChart, productsChart;
+        let currentPage = @Model.CurrentPage;
+        let dateMode = '@Model.DateMode';
+
+        const singleDatePicker = flatpickr("#singleDate", {
+            defaultDate: "@Model.SingleDate?.ToString("yyyy-MM-dd")",
+            maxDate: "today",
+            theme: "dark"
+        });
+
+        const startDatePicker = flatpickr("#startDate", {
+            maxDate: "today",
+            theme: "dark"
+        });
+
+        const endDatePicker = flatpickr("#endDate", {
+            maxDate: "today",
+            theme: "dark"
+        });
+
+        document.querySelectorAll('[data-mode]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                setDateMode(this.dataset.mode);
+            });
+        });
+
+        document.getElementById('applySingleDate').addEventListener('click', () => loadDashboardData());
+        document.getElementById('applyDateRange').addEventListener('click', () => loadDashboardData());
+        document.getElementById('clearSingleDate').addEventListener('click', () => singleDatePicker.clear());
+        document.getElementById('clearDateRange').addEventListener('click', () => {
+            startDatePicker.clear();
+            endDatePicker.clear();
+        });
+
+        document.getElementById('searchPayments').addEventListener('click', () => loadPaymentList());
+
+        function setDateMode(mode) {
+            dateMode = mode;
+            document.querySelectorAll('[data-mode]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            document.getElementById('singleDatePicker').style.display = mode === 'single' ? 'flex' : 'none';
+            document.getElementById('dateRangePicker').style.display = mode === 'range' ? 'flex' : 'none';
+        }
+
+        function loadDashboardData(page = 1) {
+            const data = new FormData();
+            data.append('dateMode', dateMode);
+            data.append('page', page);
+
+            if (dateMode === 'single') {
+                data.append('singleDate', singleDatePicker.selectedDates[0]?.toISOString());
+            } else {
+                data.append('startDate', startDatePicker.selectedDates[0]?.toISOString());
+                data.append('endDate', endDatePicker.selectedDates[0]?.toISOString());
+            }
+
+            fetch('/Dashboard/LoadData', {
+                method: 'POST',
+                body: data
+            })
+                .then(response => response.json())
+                .then(data => {
+                    updateIncomeChart(data.incomeData);
+                    updateProductsChart(data.topProducts);
+                    updateCustomersList(data.topCustomers, data.currentPage, data.totalPages);
+                    updatePaymentList(data.paymentList.orders, data.paymentList.currentPage, data.paymentList.totalPages);
+                });
+        }
+
+        function updateIncomeChart(data) {
+            if (incomeChart) {
+                incomeChart.destroy();
+            }
+
+            const ctx = document.getElementById('incomeChart').getContext('2d');
+            incomeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => new Date(d.date).toLocaleDateString()),
+                    datasets: [
+                        {
+                            label: 'Revenue',
+                            data: data.map(d => d.revenue),
+                            borderColor: '#4CAF50',
+                            backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Expenses',
+                            data: data.map(d => d.expenses),
+                            borderColor: '#f44336',
+                            backgroundColor: 'rgba(244, 67, 54, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateProductsChart(products) {
+            if (productsChart) {
+                productsChart.destroy();
+            }
+
+            const ctx = document.getElementById('productsChart').getContext('2d');
+            productsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: products.map(p => p.name),
+                    datasets: [{
+                        label: 'Order Count',
+                        data: products.map(p => p.orderCount),
+                        backgroundColor: 'rgba(255, 255, 255, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCustomersList(customers, currentPage, totalPages) {
+            const customersHtml = customers.map(customer => `
+                                <div class="customer-item d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="${customer.avatarUrl}" alt="${customer.name}" class="avatar me-3">
+                                        <div>
+                                            <div class="fw-bold">${customer.name}</div>
+                                            <div class="text-muted">${customer.email}</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-bold">$${customer.totalSpent.toFixed(2)}</div>
+                                        <div class="text-muted">${customer.orderCount} orders</div>
+                                    </div>
+                                </div>
+                            `).join('');
+
+            document.getElementById('customersList').innerHTML = customersHtml;
+            updatePagination('customersPagination', currentPage, totalPages, loadDashboardData);
+        }
+
+        function loadPaymentList(page = 1) {
+            const orderId = document.getElementById('searchOrderId').value;
+            const customerName = document.getElementById('searchCustomerName').value;
+            const status = parseInt(document.getElementById('filterStatus').value) || '';
+
+            fetch(`/Dashboard/GetPaymentList?page=${page}&orderId=${orderId}&customerName=${customerName}&status=${status}`)
+                .then(response => response.json())
+                .then(data => {
+                    updatePaymentList(data.orders, data.currentPage, data.totalPages);
+                });
+        }
+
+        function updatePaymentList(payments, currentPage, totalPages) {
+            const listBody = document.getElementById('paymentListBody');
+            listBody.innerHTML = payments.map(payment => `
+                <tr>
+                    <td>${payment.orderId}</td>
+                    <td>${payment.customer.name}</td>
+                    <td>${new Date(payment.orderDate).toLocaleDateString()}</td>
+                    <td>${payment.items.length}</td>
+                    <td>$${payment.totalPrice.toFixed(2)}</td>
+                    <td><span class="badge bg-${getStatusColor(payment.status)}">${getStatusText(payment.status)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="showPaymentDetails('${payment.orderId}')">
+                            <i class="fas fa-info-circle"></i> Details
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            updatePagination('paymentListPagination', currentPage, totalPages, loadPaymentList);
+        }
+
+        function updatePagination(elementId, currentPage, totalPages, callback) {
+            const pagination = document.getElementById(elementId);
+            pagination.innerHTML = generatePagination(currentPage, totalPages, callback);
+        }
+
+        function generatePagination(currentPage, totalPages, callback) {
+            let html = '';
+            const maxVisiblePages = 5;
+            const halfMaxPages = Math.floor(maxVisiblePages / 2);
+
+            let startPage = Math.max(currentPage - halfMaxPages, 1);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            html += `
+                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="event.preventDefault(); ${callback.name}(${currentPage - 1})" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            `;
+
+            for (let i = startPage; i <= endPage; i++) {
+                html += `
+                    <li class="page-item ${currentPage === i ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="event.preventDefault(); ${callback.name}(${i})">${i}</a>
+                    </li>
+                `;
+            }
+
+            html += `
+                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" onclick="event.preventDefault(); ${callback.name}(${currentPage + 1})" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            `;
+
+            return html;
+        }
+
+        function getStatusColor(status) {
+            switch (status) {
+                case 1: return 'success'; // Paid
+                case 2: return 'warning'; // Pending
+                case 3: return 'danger';  // Cancelled
+                default: return 'secondary';
+            }
+        }
+
+        function getStatusText(status) {
+            switch (status) {
+                case 1: return 'Paid';
+                case 2: return 'Pending';
+                case 3: return 'Cancelled';
+                default: return 'Unknown';
+            }
+        }
+
+               function showPaymentDetails(id) {
+        fetch(`/PaymentDetails/GetDetails/${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                if (!data) {
+                    alert('No data found for this order.');
+                    return;
+                }
+
+                document.getElementById('modalOrderId').textContent = data.orderId || 'N/A';
+                document.getElementById('modalOrderDate').textContent = new Date(data.orderDate).toLocaleDateString() || 'N/A';
+                document.getElementById('modalStatus').textContent = data.status || 'N/A';
+                document.getElementById('modalCustomerName').textContent = data.customerName || 'N/A';
+                document.getElementById('modalCustomerEmail').textContent = data.customerEmail || 'N/A';
+                document.getElementById('modalCustomerContact').textContent = data.customerContact || 'N/A';
+
+    
+                if (data.items && Array.isArray(data.items)) {
+                    const itemsHtml = data.items.map(item => `
+                        <tr>
+                            <td>${item.productName || 'Unknown Product'}</td>
+                            <td>${item.quantity || 0}</td>
+                            <td>$${(item.unitPrice || 0).toFixed(2)}</td>
+                            <td>$${(item.total || 0).toFixed(2)}</td>
+                        </tr>
+                    `).join('');
+                    document.getElementById('modalOrderItems').innerHTML = itemsHtml;
+                }
+
+                document.getElementById('modalPaymentMethod').textContent = data.paymentMethod || 'N/A';
+                document.getElementById('modalSubtotal').textContent = (data.subTotal || 0).toFixed(2);
+                document.getElementById('modalDiscount').textContent = data.discountPercent || 0;
+                document.getElementById('modalTotalPrice').textContent = (data.totalPrice || 0).toFixed(2);
+
+                if (data.promotions && Array.isArray(data.promotions)) {
+                    const promotionsHtml = data.promotions.map(promo => 
+                        `<p>Code: ${promo.code} (-$${(promo.discountAmount || 0).toFixed(2)})</p>`
+                    ).join('');
+                    document.getElementById('modalPromotions').innerHTML = promotionsHtml;
+                }
+
+                const modal = new bootstrap.Modal(document.getElementById('paymentDetailsModal'));
+                modal.show();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error loading payment details');
+            });
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('[data-action="view-payment-detail"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.getAttribute('data-payment-id');
+                showPaymentDetails(id);
+            });
+        });
+    });
+        function showOrderItems(items) {
+            const itemsList = document.getElementById('orderItemsList');
+            itemsList.innerHTML = items.map(item => `
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="${item.product.imageUrl}" alt="${item.product.name}" class="me-2" width="50" height="50">
+                                    <div>
+                                        <strong>${item.product.name}</strong><br>
+                                        Quantity: ${item.quantity}, Price: $${item.unitPrice.toFixed(2)}
+                                    </div>
+                                </div>
+                            `).join('');
+
+            new bootstrap.Modal(document.getElementById('orderItemsModal')).show();
+        }
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            setDateMode('@Model.DateMode');
+            loadDashboardData();
+        });
+    </script>
+}

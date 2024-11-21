@@ -1,0 +1,219 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Render Styles Section -->
+    @RenderSection("Styles", false)
+
+    <style>
+        .wrapper {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+        }
+
+        .topbar {
+            grid-column: 1 / span 2;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .sidebar-header {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100px; 
+ 
+        }
+
+   
+        .sidebar {
+            background-color: #343a40;
+            border-right: 1px solid #dee2e6;
+            padding-top: 2rem;
+            position: fixed;
+            height: 100vh;
+            width: 250px;
+
+        }
+
+            .sidebar .nav-link {
+                color: #ffffff;
+                padding: 10px 15px;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                border-radius: 5px;
+            }
+
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    background-color: #495057;
+                    color: #ffffff;
+                    font-weight: bold;
+                }
+
+        .content-wrapper {
+            padding: 1rem;
+            overflow-y: auto;
+            grid-column: 2;
+        }
+
+        .wrapper > .sidebar {
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom shadow-sm py-2 topbar" style="background:#181a1b">
+            <div class="container-fluid">
+                <button class="btn btn-link text-dark me-3">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="d-flex flex-grow-1 position-relative align-items-center">
+                    <input type="text" class="form-control bg-light border-0 ps-4" placeholder="Search..." id="searchTerm" style="padding-left: 35px">
+                    <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" style="padding-left:10px"></i>
+                </div>
+                <div class="d-flex align-items-center ms-auto">
+                    <div class="position-relative me-3">
+                        <button class="btn btn-link text-dark">
+                            <i class="fas fa-envelope fs-5"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unreadEmailsCount">3</span>
+                        </button>
+                    </div>
+                    <div class="position-relative me-3" ngbDropdown>
+                        <button class="btn btn-link text-dark" id="notificationsDropdownToggle">
+                            <i class="fas fa-bell fs-5"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unreadNotificationsCount">5</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end shadow" style="width: 300px; max-height: 400px; overflow-y: auto;">
+                            <h6 class="dropdown-header">Notifications</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item d-flex align-items-center py-2" href="#">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Admin</small>
+                                        <small class="text-muted">10:00 AM</small>
+                                    </div>
+                                    <div class="fw-bold">New Notification</div>
+                                </div>
+                                <span class="ms-2 badge bg-primary rounded-pill">New</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="d-inline-block">
+                        <button class="btn d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false" id="userProfileDropdownToggle">
+                            <img src="@Url.Content("~/images/user-avatar.jpg")" alt="User avatar" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                            <div class="d-none d-sm-block text-start">
+                                <div class="fw-bold">John Doe</div>
+                                <small class="text-muted">johndoe@example.com</small>
+                            </div>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" id="userProfileDropdown">
+                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changePasswordModal" onclick="closeUserProfileDropdown()">Change Password</button></li>
+                            <li><button class="dropdown-item" onclick="logout()">Logout</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <div class="sidebar text-white shadow-lg" style="background:#181a1b">
+            <div class="sidebar-header" style="text-align: center;">
+                <h1 class="title fs-4 fw-bold">Foodiy Admin</h1>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="@Url.Action("Index", "Dashboard")">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Bill">
+                        <i class="fas fa-file-invoice"></i> Bill
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Order")">
+                        <i class="fas fa-shopping-cart"></i> Order
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Product")">
+                        <i class="fas fa-cogs"></i> Product
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Customer")">
+                        <i class="fas fa-users"></i> Customer
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Employee")">
+                        <i class="fas fa-user-tie"></i> Employee
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Promotion")">
+                        <i class="fas fa-percent"></i> Promotion
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Supplies")">
+                        <i class="fas fa-warehouse"></i> Supplies
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Supplier")">
+                        <i class="fas fa-truck"></i> Supplier
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Settings")">
+                        <i class="fas fa-cogs"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-wrapper" style="background:#25282a">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Render Scripts Section -->
+    @RenderSection("Scripts", false)
+
+    <script>
+        function closeUserProfileDropdown() {
+            var dropdown = document.getElementById("userProfileDropdown");
+            var toggleButton = document.getElementById("userProfileDropdownToggle");
+            toggleButton.setAttribute('aria-expanded', 'false');
+            dropdown.classList.remove('show');
+        }
+
+        function logout() {
+            console.log("User logged out");
+        }
+    </script>
+</body>
+</html>

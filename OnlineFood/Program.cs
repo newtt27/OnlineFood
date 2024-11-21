@@ -5,15 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Kết nối database
 builder.Services.AddDbContext<OnlineFoodContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineFoodDatabase")));
 
 var app = builder.Build();
-
-
-//Kết nối database
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -33,5 +30,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "admin",
+    defaults: new { controller = "Admin", action = "Index" });
 app.Run();

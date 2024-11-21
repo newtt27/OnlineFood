@@ -4,6 +4,192 @@
     ViewData["Title"] = "Index";
 }
 
+<section class="promotion-container">
+  <div class="user-info">
+    <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/45881b31095ea0d6211c0f58a4f1d6517c033b88cf60a2c244319e416b16228a?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="User avatar" class="user-avatar" />
+    <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/f3d8e18fb10499f44d7d9d748f32cbb3413f712b21b7cb1bd47394a32740fdd6?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="User avatar" class="user-avatar" />
+    <div class="user-details">
+      <div class="user-details-inner">
+        <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/d4199f1b36553541c290fb2bf8f4acbdb72ba1f9a253778870f0c03df1890dc0?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="User avatar" class="user-avatar-small" />
+        <div class="user-text">
+          <div class="user-name-wrapper">
+            <div>abc</div>
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/d3fa7866172b7d04eb7cb03a8661a373ef14397ae779752e06235e77e53b6843?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Dropdown icon" class="dropdown-icon" />
+          </div>
+          <div class="user-email">abc@gmail.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <header class="promotion-header">
+      <link rel="stylesheet" href="/css/Promotions.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <h1 class="promotion-title">PROMOTION MANAGEMENT</h1>
+        <!---<img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/af0e95019fbcd765549092b28f0fbf6a9193ed4dc45a1fa25a75cd00d41c5def?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Promotion graph" class="promotion-graph" />-->
+        <div class="button-container">
+            <button class="btn import"><i class="fas fa-download"></i> Import</button>
+            <button class="btn export"><i class="fas fa-upload"></i> Export</button>
+            <button class="btn add"><i class="fas fa-plus"></i> Add</button>
+            <button class="btn edit"><i class="fas fa-edit"></i> Edit</button>
+            <button class="btn delete"><i class="fas fa-trash-alt"></i> Delete</button>
+        </div>
+  </header>
+  
+  <main class="promotion-content">
+    <div class="promotion-inner">
+      <div class="promotion-main">
+        <div class="promotion-layout">
+          <div class="promotion-left">
+            <div class="promotion-left-content">
+              <div class="promotion-filters">
+                <div class="promotion-title-count">
+                  <h2 class="promotion-title-text">PROMOTIONS</h2>
+                  <span class="promotion-count">(100)</span>
+                </div>
+                <div class="promotion-filter-options">
+                  <div class="filter-all">
+                    <div class="filter-all-inner">
+                      <div>All</div>
+                      <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/1b543a329805a33313758c0f0b3d78bad5839bbddef5b88e4e51a2b648a6268b?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Dropdown icon" class="dropdown-icon-small" />
+                    </div>
+                  </div>
+                  <div class="filter-calendar">
+                    <div class="filter-calendar-inner">
+                      <div class="calendar-icon-text">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/ec8d0d8a78035897d72b97b5c3c0b2040dac2441c5388d0d454600c9b2daf362?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Calendar icon" class="calendar-icon" />
+                        <div class="calendar-text">Today</div>
+                      </div>
+                      <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/1b543a329805a33313758c0f0b3d78bad5839bbddef5b88e4e51a2b648a6268b?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Dropdown icon" class="dropdown-icon-calendar" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+                            <!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+              <div class="promotion-table-header">
+                <div class="promotion-checkbox-header">
+                  <div class="checkbox"></div>
+                  <div class="promotion-info-header">Promotion Info</div>                  
+                </div>
+                <div class="promotion-details-header">
+                  <div>@Html.DisplayNameFor(model => model.Code)</div>
+                  <div>@Html.DisplayNameFor(model => model.PhanTram)</div>
+                  <div class="order-limit-header">@Html.DisplayNameFor(model => model.OrderLimit)</div>
+                  <div class="available-date-header">
+                         <!--<span class="NgayBD">@Html.DisplayNameFor(model => model.NgayBd)</span>
+                             <span class="NgayBD">@Html.DisplayNameFor(model => model.NgayKt)</span>-->
+                    <span>Available Date</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="promotion-right">
+            <div class="promotion-right-content">
+              <div class="columns-dropdown">
+                <div>Columns</div>
+                <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/1b543a329805a33313758c0f0b3d78bad5839bbddef5b88e4e51a2b648a6268b?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Dropdown icon" class="dropdown-icon-columns" />
+              </div>
+              <div class="status-detail-header">
+                                <!--<div>@Html.DisplayNameFor(model => model.TrangThai)</div>-->
+                  <div>TrangThai</div>
+                  <div>Detail</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+                <!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <hr class="promotion-divider" />
+        <div class="promotion-item">
+
+            @foreach(var item in Model){
+          <div class="promotion-item-left">
+            <div class="item-checkbox"></div>
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/eb35bb0343e331930ebdce904f425b7b10ab91c327bb6e475a2c06bbdbf8eb24?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Item image" class="item-image" />
+            <div class="item-info">                    <!---->
+              <div class="item-code">@Html.DisplayFor(modelItem => item.Id)</div>
+              <div class="item-name">@Html.DisplayFor(modelItem => item.Ten)</div>
+            </div>
+            <div>@Html.DisplayFor(modelItem => item.Code)</div>
+            <div>@Html.DisplayFor(modelItem => item.PhanTram)</div>
+            <div class="order-limit-header">@Html.DisplayFor(modelItem => item.OrderLimit)</div>
+            <div class="available-date-header">
+                <span class="NgayBD">@Html.DisplayFor(modelItem => item.NgayBd)</span>
+                <span class="NgayBD">@Html.DisplayFor(modelItem => item.NgayKt)</span>
+            </div>
+          </div>
+           
+          <div class="item-status-detail">
+            <div class="item-status">
+              <div class="status-indicator"></div>
+              <div>Active</div>
+            </div>
+            <button class="item-detail">
+              <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/0f380020b2551aece22984d261fa3c181f421dca5da8af54a2283f3ed7fbaea2?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Detail icon" class="detail-icon" />
+              <div>View</div>
+            </button>
+          </div>
+            }
+        </div>
+            
+        @*<hr class="item-divider" />
+        <div class="promotion-item-2">
+          <div class="promotion-item-left-2">
+            <div class="item-checkbox-2"></div>
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/f269e837191950739301db46fc7707b299def276d9130719b009debf7ec55860?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Item image" class="item-image-2" />
+            <div class="item-info-2">
+              <div class="item-code-wrapper">
+                <div>P-2</div>
+                <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/82bf5a74eddd6d768bc52a804c07e7a928c12447e07aa7afd35f5e87f835f6ce?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Item code icon" class="item-code-icon" />
+              </div>
+              <div class="item-name-2">ABC</div>
+            </div>
+          </div>
+          <div class="item-status-detail-2">
+            <div class="item-status-2">
+              <div class="status-indicator-2"></div>
+              <div>Overdated</div>
+            </div>
+            <div class="item-detail-2">
+              <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/0f380020b2551aece22984d261fa3c181f421dca5da8af54a2283f3ed7fbaea2?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Detail icon" class="detail-icon-2" />
+              <div>View</div>
+            </div>
+          </div>
+        </div>
+                <hr class="item-divider-2" />
+      </div>
+      <div class="locked-status">
+        <div class="locked-indicator"></div>
+                <div>Locked</div>-->
+            </div>*@
+            
+      <footer class="promotion-footer">
+        <div class="selected-count">0 of 13 raw(s) selected</div>
+        <nav class="pagination" aria-label="Pagination">
+          <div class="pagination-arrows">
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/5ee9be6e5db5801a2482b3c98bb293c259aa6d0b33cc463f68f86993c801ed7a?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="First page" class="arrow-left-double" />
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/5ab012c4f88b07e8f612307998d88d7f5f231aef4b942953b6c74e2962f46df4?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Previous page" class="arrow-left" />
+          </div>
+          <div class="pagination-numbers">
+            <span class="pagination-current">1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>...</span>
+          </div>
+          <div class="pagination-arrows-right">
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/606e83e6ef644234eb3b41e6273e4711e13fecc706dfd58ea4ddcfa61d5a2c65?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Next page" class="arrow-right" />
+            <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/e69e46eea12f3687bc746aaec319b82ea34ce3f95fc02e7e1a5aaddb8a63cb50?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Last page" class="arrow-right-double" />
+          </div>
+        </nav>
+        <img src="https://cdn.builder.io/api/v1/image/assets/fd43dbd6411c4856a145ca3e16eab82b/b5c211cabe7051e9851853c0f1100048ce7d4c612d5c7d69989bf28e12bab392?apiKey=fd43dbd6411c4856a145ca3e16eab82b&" alt="Footer image" class="footer-image" />
+      </footer>
+    </div>
+  </main>
+</section>
+
+
+@*
 <h1>Index</h1>
 
 <p>
@@ -74,4 +260,6 @@
         </tr>
 }
     </tbody>
-</table>
+</table> *@
+
+

@@ -24,6 +24,9 @@ public partial class Promotion
     [Column("phanTram")]
     public int PhanTram { get; set; }
 
+    [Column("orderLimit")]
+    public int OrderLimit {  get; set; }
+
     [Column("ngayBD")]
     public DateOnly NgayBd { get; set; }
 

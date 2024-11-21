@@ -22,6 +22,7 @@ namespace OnlineFood.Controllers
         // GET: Promotions
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Promotions.ToListAsync());
         }
 
@@ -54,7 +55,7 @@ namespace OnlineFood.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Ten,IdKm,PhanTram,NgayBd,NgayKt,TrangThai,Code,Noidung")] Promotion promotion)
+        public async Task<IActionResult> Create([Bind("Id,Ten,IdKm,PhanTram,OrderLimit,NgayBd,NgayKt,TrangThai,Code,Noidung")] Promotion promotion)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +87,7 @@ namespace OnlineFood.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Ten,IdKm,PhanTram,NgayBd,NgayKt,TrangThai,Code,Noidung")] Promotion promotion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ten,IdKm,PhanTram,OrderLimit,NgayBd,NgayKt,TrangThai,Code,Noidung")] Promotion promotion)
         {
             if (id != promotion.Id)
             {
