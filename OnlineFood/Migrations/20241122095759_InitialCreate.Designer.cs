@@ -12,7 +12,7 @@ using OnlineFood.Data;
 namespace OnlineFood.Migrations
 {
     [DbContext(typeof(OnlineFoodContext))]
-    [Migration("20241104100646_InitialCreate")]
+    [Migration("20241122095759_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
