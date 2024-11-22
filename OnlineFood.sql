@@ -1,7 +1,4 @@
-﻿-- Create database
-CREATE DATABASE OnlineFood;
-GO
-
+﻿
 USE OnlineFood;
 GO
 
@@ -77,7 +74,7 @@ CREATE TABLE FoodCategory (
     id INT PRIMARY KEY NOT NULL,
     tenDanhMuc NVARCHAR(100) NOT NULL,
     mota NVARCHAR(100) NULL,
-	hinhanh IMAGE,
+	hinhanh NVARCHAR(255) NULL,
 );
 
 -- Create Food table
@@ -88,7 +85,7 @@ CREATE TABLE Food (
     giaTien INT NOT NULL,
     trangThai INT NOT NULL,
     soluong INT NOT NULL,
-	hinhanh IMAGE,
+	hinhanh NVARCHAR(255) NULL,
     size NVARCHAR(50) NOT NULL,
     mota NVARCHAR(100) NULL,
     FOREIGN KEY (idDanhMuc) REFERENCES FoodCategory(id)
@@ -278,6 +275,11 @@ CREATE TABLE RoleFunction(
 	FOREIGN KEY (RoleId) REFERENCES Role(id),
 	FOREIGN KEY (FunctionId) REFERENCES [Function](id)
 )
+
+ALTER TABLE Account
+ADD idCart INT NULL,
+FOREIGN KEY (idCart) REFERENCES Cart(id)
+
 -- Insert sample data
 INSERT INTO [Function] (id, ten, mota, trangThai)
 VALUES 
