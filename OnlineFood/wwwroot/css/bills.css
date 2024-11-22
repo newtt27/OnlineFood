@@ -1,0 +1,283 @@
+.top-bar {
+  background-color: #fff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 61px;
+  color: #787878;
+  font: 400 18px Golos UI, sans-serif;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.menu-icon {
+  width: 61px;
+  aspect-ratio: 1;
+}
+
+.search-input {
+  display: flex;
+  align-items: center;
+  background-color: #eaeaea;
+  border-radius: 50px;
+  padding: 8px 32px;
+}
+
+.search-icon {
+  width: 24px;
+  aspect-ratio: 1;
+  margin-right: 16px;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+}
+
+.notification-icon,
+.message-icon {
+  width: 61px;
+  aspect-ratio: 1;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 61px;
+  aspect-ratio: 1;
+  border-radius: 100px;
+}
+
+.user-details {
+  margin-left: 20px;
+}
+
+.user-name-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-name {
+  font-size: 24px;
+  font-family: iCiel Baliho Script, -apple-system, Roboto, Helvetica, sans-serif;
+}
+
+.dropdown-icon {
+  width: 13px;
+  aspect-ratio: 1;
+}
+
+.user-email {
+  font-size: 20px;
+}
+
+.main-content {
+  padding: 38px 0;
+}
+
+.bill-management-section {
+  max-width: 1570px;
+  margin: 0 auto;
+}
+
+.section-title {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+  color: #000;
+  font: 700 30px Golos UI, sans-serif;
+  padding: 44px 68px;
+  margin-bottom: 28px;
+}
+
+.bill-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+  padding: 26px 23px;
+}
+
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.bill-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
+}
+
+.bill-count {
+  font-weight: 400;
+}
+
+.bill-filters {
+  display: flex;
+  gap: 40px;
+}
+
+.filter-dropdown {
+  background-color: rgba(217, 217, 217, 0.11);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 35px;
+  font-size: 16px;
+  color: #000;
+}
+
+.calendar-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-icon {
+  width: 20px;
+  aspect-ratio: 1;
+}
+
+.bill-table-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  color: #787878;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.bill-table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 28px;
+}
+
+.bill-id,
+.customer-id,
+.table-id,
+.promotion-id {
+  color: #2853fd;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.customer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.view-details {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background-color: #eaeaea;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 15px;
+  font-size: 16px;
+  color: #000;
+  cursor: pointer;
+}
+
+.view-icon {
+  width: 16px;
+  aspect-ratio: 1;
+}
+
+.bill-table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.selected-rows {
+  color: #568dea;
+  font-size: 14px;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.pagination-controls {
+  display: flex;
+  gap: 13px;
+}
+
+.pagination-icon {
+  width: 18px;
+  aspect-ratio: 1;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+}
+
+.current-page {
+  color: #000;
+}
+
+.settings-icon {
+  width: 236px;
+  aspect-ratio: 1.12;
+}
+
+@media (max-width: 991px) {
+  .top-bar {
+    padding: 0 20px;
+  }
+
+  .search-container {
+    max-width: 100%;
+  }
+
+  .search-input {
+    padding: 0 20px;
+  }
+
+  .section-title {
+    padding: 0 20px;
+  }
+
+  .bill-container {
+    padding: 26px 20px;
+  }
+
+  .bill-filters {
+    flex-wrap: wrap;
+  }
+
+  .filter-dropdown {
+    padding: 0 20px;
+  }
+
+  .bill-table-header,
+  .bill-table-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .settings-icon {
+    max-width: 100%;
+  }

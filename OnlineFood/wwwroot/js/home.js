@@ -24,5 +24,5 @@ function closeCartModal() {
 // Hàm chuyển đến trang thanh toán (chỉ là ví dụ)
 function goToPayment() {
     // Bạn có thể thay đổi URL hoặc thực hiện hành động khác tại đây
-    alert("Chuyển đến trang thanh toán.");
+    window.location.href = "/Payments/Index";
 }

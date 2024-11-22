@@ -7,6 +7,110 @@
 
 <h1>Index</h1>
 
+<header class="top-bar">
+    <div class="search-container">
+        <link rel="stylesheet" href="~/css/bills.css">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/c4ec52abf6c684abd08790eec45d9b14b15cf6a709c94ef3820c0775239ba165?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Menu icon" class="menu-icon">
+        <div class="search-input">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/42c317f3b3206318b1458b7636ffef425693a664677d17fe01b6da8dab011503?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Search icon" class="search-icon">
+            <input type="text" placeholder="Search..." aria-label="Search">
+        </div>
+    </div>
+    <div class="user-actions">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45881b31095ea0d6211c0f58a4f1d6517c033b88cf60a2c244319e416b16228a?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Notification icon" class="notification-icon">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12852cf26f9eea74327d7594bbc90dc286b6a94fbdfa4e8364980f5a2b7ce502?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Message icon" class="message-icon">
+        <div class="user-info">
+            <div class="user-avatar-container">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/57a5aef4e13ed7c45508a30cc49ee4a67d08e2fcb747612fdba3bdd9326a4b9e?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="User avatar" class="user-avatar">
+                <div class="user-details">
+                    <div class="user-name-container">
+                        <span class="user-name">abc</span>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/30e406b9ff1c9c39f90c3350efbb441836cbe40551c40aec1d940f4b7686184c?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Dropdown icon" class="dropdown-icon">
+                    </div>
+                    <span class="user-email">abc@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <section class="bill-management-section">
+        <h1 class="section-title">BILL MANAGEMENT</h1>
+        <div class="bill-container">
+            <div class="bill-header">
+                <h2 class="bill-title">BILL <span class="bill-count">(100)</span></h2>
+                <div class="bill-filters">
+                    <div class="filter-dropdown">
+                        <span>All</span>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/c2d2d9e55334de4ce7e727dc18342269291a52d7bc04518f39c8d2525e29e5b6?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Dropdown icon" class="dropdown-icon">
+                    </div>
+                    <div class="filter-dropdown">
+                        <div class="calendar-icon-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8b0be2f0a79eb2e4bd83b7612daa3542d437237b8d0a4455b1b45f6a0d43adb0?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Calendar icon" class="calendar-icon">
+                            <span>Today</span>
+                        </div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/c2d2d9e55334de4ce7e727dc18342269291a52d7bc04518f39c8d2525e29e5b6?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Dropdown icon" class="dropdown-icon">
+                    </div>
+                    <div class="filter-dropdown">
+                        <span>Columns</span>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/c2d2d9e55334de4ce7e727dc18342269291a52d7bc04518f39c8d2525e29e5b6?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Dropdown icon" class="dropdown-icon">
+                    </div>
+                </div>
+            </div>
+            <div class="bill-table-header">
+                <span>Bill ID</span>
+                <span>Customer Info</span>
+                <span>@Html.DisplayNameFor(model => model.NgayCheckIn)</span>
+                <span>@Html.DisplayNameFor(model => model.NgayCheckOut)</span>
+                <span>@Html.DisplayNameFor(model => model.IdKm)</span>
+                <span>@Html.DisplayNameFor(model => model.TongTienSau)</span>
+                <span>@Html.DisplayNameFor(model => model.IdPhuongThucNavigation)</span>
+                <span>Detail</span>
+            </div>
+            <div class="bill-table-row">
+                @foreach (var item in Model) {
+                <span class="bill-id"> @Html.DisplayFor(modelItem => item.Id)</span>
+                <div class="customer-info">
+                        <span class="customer-id">@Html.DisplayFor(modelItem => item.IdKhachHang)</span>
+                        <span class="customer-name">@Html.DisplayFor(modelItem => item.IdKhachHangNavigation.TenKhachHang)</span>
+                </div>
+                    
+                    <span class="check-in-date">@Html.DisplayFor(modelItem => item.NgayCheckIn)</span>
+                    <span class="check-out-date">@Html.DisplayFor(modelItem => item.NgayCheckOut)</span>
+                    <span class="promotion-id">@Html.DisplayFor(modelItem => item.IdKm)</span>
+                    <span class="total-price">@Html.DisplayFor(modelItem => item.TongTienSau)</span>
+                    <span class="payment-method">@Html.DisplayFor(modelItem => item.IdPhuongThuc)</span>
+                <button class="view-details">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f2ad35408d1e0c9167a076565a1966b00d4ca3f4bfa368454d8ae0d618d7956?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="View icon" class="view-icon">
+                    View
+                </button>
+                }
+            </div>
+            <div class="bill-table-footer">
+                <span class="selected-rows">0 of 13 raw(s) selected</span>
+                <div class="pagination">
+                    <div class="pagination-controls">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/fc277f4906ce6db3d4b61a8cd782f5ec76108524b361e1350e62ac6c36b3632d?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="First page" class="pagination-icon">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/f04d3f9ef308589f9724520aff02190e226ad02c3591cded50685ca165904fe0?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Previous page" class="pagination-icon">
+                    </div>
+                    <div class="page-numbers">
+                        <span class="current-page">1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>...</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/a5dbaac28fbe9edf81d1cfd4db52ef3bc60dd9bf09e4f8fc37d467279abf39ea?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Next page" class="pagination-icon">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/eebbe4c68372a97be61f1a5af237335bfd9bf8ef537f50df9d24baebd8c68cbe?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Last page" class="pagination-icon">
+                    </div>
+                </div>
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/65e69290019e35e7fa5652b407c8ea147e41c36b9844cffdfd46c3937c28b687?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Settings" class="settings-icon">
+            </div>
+        </div>
+    </section>
+</main>
+@*
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -88,3 +192,4 @@
 }
     </tbody>
 </table>
+*@
