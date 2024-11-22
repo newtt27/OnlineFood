@@ -1,10 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineFood.Data;
+using OnlineFood.Models.Repositories;
+using OnlineFood.Models.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Đăng ký Repo
+builder.Services.AddScoped<IFoodCategoryRepo, FoodCategoryRepo>();
+builder.Services.AddScoped<IFoodRepo, FoodRepo>();
+
+//Đăng ký Service
+builder.Services.AddScoped<IFoodCategoryService, FoodCategoryService>();
+builder.Services.AddScoped<IFoodService, FoodService>();
 
 //Kết nối database
 builder.Services.AddDbContext<OnlineFoodContext>(options =>

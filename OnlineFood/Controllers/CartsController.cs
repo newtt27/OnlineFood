@@ -26,6 +26,20 @@ namespace OnlineFood.Controllers
             return View(await onlineFoodContext.ToListAsync());
         }
 
+        //public IActionResult LoadCart()
+        //{
+        //    // Lấy giỏ hàng từ Session (nếu chưa có thì tạo mới)
+        //    var cart = HttpContext.Session.GetObjectFromJson<List<Dictionary<string, object>>>("Cart")
+        //               ?? new List<Dictionary<string, object>>();
+
+        //    // Đếm số lượng sản phẩm trong giỏ hàng
+        //    int cartCount = cart.Sum(item => Convert.ToInt32(item["Quantity"]));
+
+        //    // Trả về Partial View `cart-modal` và số lượng sản phẩm
+        //    ViewBag.CartCount = cartCount;
+        //    return PartialView("_CartModal", cart);
+        //}
+
         // GET: Carts/Details/5
         public async Task<IActionResult> Details(int? id)
         {

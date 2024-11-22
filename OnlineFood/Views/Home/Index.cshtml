@@ -1,6 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var foods = ViewData["Foods"] as IEnumerable<Food>;
+    var foodCategories = ViewData["FoodCategories"] as IEnumerable<FoodCategory>;
+    var currentPage = ViewData["CurrentPage"] as int? ?? 1;   // Lấy trang hiện tại
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;     // Tổng số trang
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conncac</title>
+</head>
 
 <body class="w-100 h-100">
 
@@ -43,102 +52,74 @@
             </div>
         </div>
     </div>
-
-    @* Food Menu *@
-    <div class="w-100 h-1080">
-        @*Nav*@
-        <nav class="nav-fill w-100 h-100px">
-            <ul class="food-menu w-100 h-100 d-flex justify-content-center align-items-center gap-5 list-unstyled">
-                <li class="active"><span>BREAKFAST</span></li>
-                <li><span>LUNCH</span></li>
-                <li><span>DINNER</span></li>
-                <li><span>DRINKS</span></li>
-                <li><span>BREAKTIME</span></li>
-            </ul>
-        </nav>
-        @*Nav*@
-        <div class="title w-100 h-100px text-center" style="color: white">BREAKFAST</div>
-        @* Container *@
-        <div class="container h-100 w-100">
-            @*Row*@
-            <div class="row h-400px w-100 d-flex justify-content-center align-items-center gap-5 my-5">
-                @*Card*@
-                <div class="col-1 mx-4 w-350px">
-                    <div class="card w-350px h-350px" style="background-color: transparent">
-                        <img class="card-img-top w-100 h-100" src="~/assets/image/Frame 4.png" alt="Phở" />
-                    </div>
-                </div>
-                @*Card*@
-            </div>
-            @*Row*@
-        </div>
-        @* Container *@
-    </div>
-
     @*Fast-food-Menu*@
-    <div class="container w-100 h-1080">
+    <div class="container w-100 h-1080" style="margin-bottom:100px">
         <div class="row justify-content-center align-items-center">
-            <!-- Nút điều hướng trái -->
-            <div class="col-auto">
-                <button class="btn btn-link btn-custom_fastfood">
-                    <i class="bi bi-chevron-left" style="font-size: 2rem;"></i>
-                </button>
-            </div>
 
             <!-- Danh sách món ăn -->
             <div class="col d-flex justify-content-around align-items-center" style="font-family: 'Titan One', sans-serif">
                 <!-- Mỗi item được lặp lại ở đây -->
-                <div class="food-item text-center">
-                    <img src="image1.jpg" class="img-fluid object-fit-fill" alt="Item 1" style="width: 8vw; height: 20vh; cursor:pointer">
-                    <p class="mt-2 text-white">Item 1</p>
+                @foreach (var category in foodCategories)
+                {
+                    <div style="cursor: pointer" class="food-item text-center" onClick="ShowDetails('@category.Hinhanh', '@category.TenDanhMuc')">
+                        <img src="@category.Hinhanh" class="img-fluid object-fit-fill" alt="@category.TenDanhMuc" style="width: 8vw; height: 20vh; cursor:pointer">
+                        <p class="mt-2 text-white">@category.TenDanhMuc</p>
+                    </div>
+                }
+            </div>
+
+
+
+            <!-- Div hiển thị thông tin chi tiết -->
+            <div class="row justify-content-center align-items-center" style="font-family: 'Titan One', sans-serif; min-height: 40vh;">
+                <div class="col-auto text-center">
+                    <img id="detailImg" class="img-fluid" style="width: 10vw; height: 30vh;">
+                    <p class="text-white" id="detailName" style="font-size: 2rem; color:white"></p>
                 </div>
-                <div class="food-item text-center">
-                    <img src="image2.jpg" class="img-fluid object-fit-fill" alt="Item 2" style="width: 8vw; height: 20vh; cursor:pointer">
-                    <p class="mt-2 text-white">Item 2</p>
-                </div>
-                <!-- Thêm các item khác tương tự -->
             </div>
 
-            <!-- Nút điều hướng phải -->
-            <div class="col-auto">
-                <button class="btn btn-link btn-custom_fastfood">
-                    <i class="bi bi-chevron-right" style="font-size: 2rem;"></i>
-                </button>
+
+            <div class="row mt-4" id="foods-container">
+                <!-- Card món ăn -->
+                @await Html.PartialAsync("_FoodListPartial", foods);
+
             </div>
-        </div>
-
-        <!-- Div hiển thị thông tin chi tiết -->
-        <div class="row justify-content-center align-items-center" style="font-family: 'Titan One', sans-serif; min-height: 40vh;">
-            <div class="col-auto text-center">
-                <img src="selectedImage.jpg" class="img-fluid" style="width: 10vw; height: 30vh;">
-                <p class="text-white" style="font-size: 2rem">Selected Item</p>
-            </div>
-        </div>
-
-
-        <div class="row mt-4">
-            <!-- Card món ăn -->
-            <div class="col-md-3 mb-4" style="font-family: 'Titan One', sans-serif">
-                <div class="card bg-dark text-white position-relative" style="height: 40vh">
-                    <img src="image1.jpg" class="card-img-top h-50" alt="Item 1" style="height: 10vh; object-fit: contain; width: 20vw;">
-                    <div class="card-body">
-                        <h5 class="card-title">Item 1</h5>
-                        <p class="card-text">50000 VND</p>
-                        <p class="card-text position-absolute start-1 bottom-0">
-                            SL:
-                            <input type="number" min="1" value="1" class="form-control d-inline-block" style="width: 60px; text-align: center;">
-                        </p>
-                        <button class="btn btn-warning btn-custom_fastfood position-absolute end-0 bottom-0 mx-3 my-2" style="font-size: 0.5rem">
-                            <i class="bi bi-cart-plus"></i>
-                        </button>
+            <!-- Optional: Bootstrap modal để hiển thị chi tiết -->
+            <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body" id="product-details-container">
+                            <!-- Chi tiết sản phẩm sẽ được tải ở đây -->
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Thêm các item khác tương tự -->
+            <!-- Phân trang -->
+            <nav>
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- Nút Previous -->
+                    <li id="previous" class="page-item disabled">
+                        <a class="page-link" href="javascript:void(0);" onclick="loadFoods(currentPage - 1)">Previous</a>
+                    </li>
+
+                    <!-- Hiển thị các trang -->
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")" id="page-@i">
+                            <a class="page-link" href="javascript:void(0);" onclick="loadFoods(@i)">@i</a>
+                        </li>
+                    }
+
+                    <!-- Nút Next -->
+                    <li id="next" class="page-item">
+                        <a class="page-link" href="javascript:void(0);" onclick="loadFoods(currentPage + 1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </div>
-
 
     @*About Us*@
     <div class="w-100 h-auto" style="margin-bottom: 300px;">
@@ -186,8 +167,16 @@
             </div>
         </div>
     </div>
+    <script>
+        const getPagedFoodsUrl = '@Url.Action("GetPagedFoods", "Home")';
+        const getFoodDetailsUrl = '@Url.Action("GetFoodDetails", "Home")';
+        let currentPage = @currentPage; // Trang hiện tại từ server
+        const totalPages = @totalPages; // Tổng số trang từ server
+    </script>
+    <script src="~/js/Index.js"></script>
+    <script src="~/js/home.js"></script>
 
-    
 </body>
+</html>
 
-<script src="~/js/Index.js"></script>
+

@@ -1,0 +1,83 @@
+﻿.notification-modal {
+    position: fixed;
+    top: 20%; /* Adjusts vertical position */
+    right: 3%; /* Keeps it 3% from the right edge */
+    transform: translateY(-50%); /* Centers vertically */
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content-notify {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: black;
+}
+
+    .modal-content-notify.success {
+        color: #32BA7C;
+        border: 1px solid #32BA7C;
+        border-left: 7px solid #32BA7C;
+    }
+
+    .modal-content-notify.error {
+        color: #FF3636;
+        border: 1px solid #FF3636;
+        border-left: 7px solid #FF3636;
+    }
+
+    .modal-content-notify.warning {
+        color: #F0C419;
+        border: 1px solid #F0C419;
+        border-left: 7px solid #F0C419;
+    }
+
+.icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.message {
+    margin-left: 10px;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s forwards;
+}
+
+.slide-out {
+    animation: slideOut 0.5s forwards;
+}
