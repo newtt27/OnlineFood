@@ -50,7 +50,29 @@
                         <!-- Thêm partial view của modal -->
                         @await Html.PartialAsync("_CartModal")
 
-                        <li class="mx-3"><button class="btn-custom"><i class="bi bi-person fs-5"></i></button></li>
+                        <!-- Kiểm tra xem người dùng đã đăng nhập chưa -->
+                        @if (Context.Session.GetInt32("UserId") != null)
+                        {
+                            <!-- Hiển thị nút Đăng xuất nếu đã đăng nhập -->
+                            <li class="mx-3">
+                                <a class="text-decoration-none" href="/Accounts/Logout">
+                                    <button class="btn-custom">
+                                        <i class="bi bi-box-arrow-right fs-5"></i> Đăng xuất
+                                    </button>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Hiển thị biểu tượng người dùng nếu chưa đăng nhập -->
+                                    <li class="mx-3">
+                                        <a href="/Accounts/Login" class="text-decoration-none">
+                                            <button class="btn-custom">
+                                                <i class="bi bi-person fs-5"></i> Đăng nhập
+                                            </button>
+                                        </a>
+                                    </li>
+                        }
                         <li class="mx-3"><button class="btn-custom"><i class="bi bi-heart fs-5"></i></button></li>
                         <li class="mx-3"><button class="btn-custom"><i class="bi bi-list fs-5"></i></button></li>
                     </ul>

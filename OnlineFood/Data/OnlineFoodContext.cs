@@ -61,7 +61,7 @@ public partial class OnlineFoodContext : DbContext
     public virtual DbSet<Supply> Supplies { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-OU80EH8V\\SQLEXPRESS;Database=OnlineFood;User Id=sa;Password=123;TrustServerCertificate=True;Trusted_Connection=True;");
+        => optionsBuilder.UseSqlServer("Server=MSI\\SQLEXPRESS;Database=OnlineFood;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

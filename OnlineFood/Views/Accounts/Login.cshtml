@@ -1,0 +1,84 @@
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OnlineFood</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .form-control {
+            border-radius: 30px; /* Bo tròn tất cả các góc của input */
+        }
+        .btn-primary {
+            border-radius: 30px; /* Bo tròn nút đăng nhập */
+        }
+        .btn-back {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 16px;
+            background-color: transparent;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .btn-back:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-lg p-4">
+                    <div class="card-body">
+                        <button class="btn-back">
+                            <a href="/" class="text-decoration-none text-muted">
+                                <i class="bi bi-arrow-left-circle"></i>
+                            </a>
+                        </button>
+                        <h3 class="text-center mb-4">Đăng nhập</h3>
+
+                        <!-- Thông báo lỗi nếu có -->
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">
+                                @ViewBag.Error
+                            </div>
+                        }
+
+                        <form method="post">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="username" name="username" required placeholder="Nhập tên đăng nhập" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="password" name="password" required placeholder="Nhập mật khẩu" />
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                                <a href="#" class="text-decoration-none text-muted">Quên mật khẩu?</a>
+                            </div>
+                        </form>
+                        <hr />
+                        <div class="text-center">
+                            <p>Bạn chưa có tài khoản? <a href="/Accounts/Create" class="text-decoration-none">Đăng ký ngay</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
