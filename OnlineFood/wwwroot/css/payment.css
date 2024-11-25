@@ -20,7 +20,9 @@
 /* Container chính cho phần Payment */
 .payment-container {
     display: flex;
-    justify-content: space-between;
+    flex-direction: row; /* Đặt các phần tử theo hàng ngang */
+    justify-content: space-between; /* Đẩy các phần tử ra hai phía */
+    align-items: flex-start; /* Canh trên của các phần */
     width: 90%; /* Đảm bảo không chiếm quá toàn bộ chiều ngang */
     max-width: 1200px;
     background-color: #fff;
@@ -52,7 +54,7 @@
 /* Định dạng nội dung form */
 .form-content{
     background-color: white;
-    width: 70%;
+    width: 65%;
 }
 
     input[type="text"],
@@ -85,19 +87,15 @@
     .delivery-btn:hover {
         background-color: #ffb400;
     }
-#card-info {
-    display: block;
-    margin-top: 15px;
-}
 
-.payment-btn.selected {
-    background-color: #ffcc33;
-    color: white;
-}
+    .payment-btn.selected {
+        background-color: #ffcc33;
+        color: white;
+    }
 
-.payment-btn:hover {
-    background-color: #ffb400;
-}
+    .payment-btn:hover {
+        background-color: #ffb400;
+    }
 
 /* Định dạng phần tổng kết */
 .summary {
@@ -160,3 +158,10 @@
     .checkout-btn:hover {
         background-color: #ffb400;
     }
+/*Thông báo lỗi*/
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    display: block;
+}
