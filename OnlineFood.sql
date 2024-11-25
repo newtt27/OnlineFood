@@ -1,5 +1,4 @@
-﻿
-USE OnlineFood;
+﻿USE OnlineFood;
 GO
 
 -- Create Function table first (since Role references it)
@@ -156,11 +155,17 @@ CREATE TABLE Promotion (
 CREATE TABLE Cart (
     id INT PRIMARY KEY NOT NULL,
     idKM INT NOT NULL,
-    idFood INT NOT NULL,
-    FOREIGN KEY (idKM) REFERENCES Promotion(id),
-    FOREIGN KEY (idFood) REFERENCES Food(id)
+    FOREIGN KEY (idKM) REFERENCES Promotion(id)
 );
-
+-- Create CartItems table
+CREATE TABLE CartItems (
+    idCart INT NOT NULL,             -- ID của giỏ hàng
+    idFood INT NOT NULL,             -- ID của món ăn
+    soLuong INT NOT NULL,            -- Số lượng món ăn trong giỏ hàng
+    PRIMARY KEY (idCart, idFood),    -- Đảm bảo mỗi cặp (idCart, idFood) là duy nhất
+    FOREIGN KEY (idCart) REFERENCES Cart(id),  -- Liên kết với bảng Cart
+    FOREIGN KEY (idFood) REFERENCES Food(id)   -- Liên kết với bảng Food
+);
 -- Create Payment table
 CREATE TABLE Payment (
     id INT PRIMARY KEY NOT NULL,
@@ -448,8 +453,8 @@ VALUES (1, N'Trần Thị B', N'Hồ Chí Minh', 'ttb@example.com', '0123456789'
 INSERT INTO Promotion (id, ten, idKM, phanTram, ngayBD, ngayKT, trangThai, code, noidung)
 VALUES (1, N'Khuyến mãi hè', 'KM001', 10, '2023-06-01', '2023-08-31', 1, 'SUMMER10', N'Giảm 10% cho đơn hàng từ 200k');
 
-INSERT INTO Cart (id, idKM, idFood)
-VALUES (1, 1, 1);
+INSERT INTO Cart (id, idKM)
+VALUES (1, 1);
 
 INSERT INTO Payment (id, phuongThucThanhToan, mota, trangThai)
 VALUES (1, N'Tiền mặt', N'Thanh toán bằng tiền mặt', N'Hoạt động');
@@ -568,3 +573,9 @@ VALUES
 (1, 13),
 (1, 14),
 (1, 15);
+
+-- Thêm dữ liệu vào bảng CartItems
+INSERT INTO CartItems (idCart, idFood, soLuong) VALUES 
+(1, 1, 2),  -- Giỏ hàng 1 có món ăn 1 với số lượng 2
+(1, 2, 1),  -- Giỏ hàng 1 có món ăn 2 với số lượng 1
+(1, 3, 3);  -- Giỏ hàng 1 có món ăn 3 với số lượng 3

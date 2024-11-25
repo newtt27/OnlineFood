@@ -24,6 +24,8 @@ public partial class OnlineFoodContext : DbContext
 
     public virtual DbSet<Cart> Carts { get; set; }
 
+    public virtual DbSet<CartItem> CartItems { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<DeliveryMethod> DeliveryMethods { get; set; }
@@ -61,13 +63,13 @@ public partial class OnlineFoodContext : DbContext
     public virtual DbSet<Supply> Supplies { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=MSI\\SQLEXPRESS;Database=OnlineFood;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-OU80EH8V\\SQLEXPRESS;Database=OnlineFood;User Id=sa;Password=123;TrustServerCertificate=True;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Account__3213E83FC616AD44");
+            entity.HasKey(e => e.Id).HasName("PK__Account__3213E83F5B38DF03");
 
             entity.ToTable("Account");
 
@@ -88,7 +90,7 @@ public partial class OnlineFoodContext : DbContext
 
             entity.HasOne(d => d.IdCartNavigation).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.IdCart)
-                .HasConstraintName("FK__Account__idCart__73BA3083");
+                .HasConstraintName("FK__Account__idCart__76969D2E");
 
             entity.HasOne(d => d.IdroleNavigation).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.Idrole)
@@ -97,7 +99,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Bill>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Bill__3213E83FE537580F");
+            entity.HasKey(e => e.Id).HasName("PK__Bill__3213E83F2098AA11");
 
             entity.ToTable("Bill");
 
@@ -122,32 +124,32 @@ public partial class OnlineFoodContext : DbContext
             entity.HasOne(d => d.IdKhachHangNavigation).WithMany(p => p.Bills)
                 .HasForeignKey(d => d.IdKhachHang)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bill__idKhachHan__5812160E");
+                .HasConstraintName("FK__Bill__idKhachHan__5AEE82B9");
 
             entity.HasOne(d => d.IdKmNavigation).WithMany(p => p.Bills)
                 .HasForeignKey(d => d.IdKm)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bill__idKM__59FA5E80");
+                .HasConstraintName("FK__Bill__idKM__5CD6CB2B");
 
             entity.HasOne(d => d.IdNhanVienNavigation).WithMany(p => p.Bills)
                 .HasForeignKey(d => d.IdNhanVien)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bill__idNhanVien__59063A47");
+                .HasConstraintName("FK__Bill__idNhanVien__5BE2A6F2");
 
             entity.HasOne(d => d.IdOrderInfoNavigation).WithMany(p => p.Bills)
                 .HasForeignKey(d => d.IdOrderInfo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bill__idOrderInf__5BE2A6F2");
+                .HasConstraintName("FK__Bill__idOrderInf__5EBF139D");
 
             entity.HasOne(d => d.IdPhuongThucNavigation).WithMany(p => p.Bills)
                 .HasForeignKey(d => d.IdPhuongThuc)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Bill__idPhuongTh__5AEE82B9");
+                .HasConstraintName("FK__Bill__idPhuongTh__5DCAEF64");
         });
 
         modelBuilder.Entity<BillSupply>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__BillSupp__3213E83F743F79D3");
+            entity.HasKey(e => e.Id).HasName("PK__BillSupp__3213E83F1AFF6150");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
@@ -174,20 +176,14 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Cart>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cart__3213E83F0ED81388");
+            entity.HasKey(e => e.Id).HasName("PK__Cart__3213E83F4F76A3E3");
 
             entity.ToTable("Cart");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.IdFood).HasColumnName("idFood");
             entity.Property(e => e.IdKm).HasColumnName("idKM");
-
-            entity.HasOne(d => d.IdFoodNavigation).WithMany(p => p.Carts)
-                .HasForeignKey(d => d.IdFood)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Cart__idFood__49C3F6B7");
 
             entity.HasOne(d => d.IdKmNavigation).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.IdKm)
@@ -195,9 +191,28 @@ public partial class OnlineFoodContext : DbContext
                 .HasConstraintName("FK__Cart__idKM__48CFD27E");
         });
 
+        modelBuilder.Entity<CartItem>(entity =>
+        {
+            entity.HasKey(e => new { e.IdCart, e.IdFood }).HasName("PK__CartItem__3D3E7A3D793BCF86");
+
+            entity.Property(e => e.IdCart).HasColumnName("idCart");
+            entity.Property(e => e.IdFood).HasColumnName("idFood");
+            entity.Property(e => e.SoLuong).HasColumnName("soLuong");
+
+            entity.HasOne(d => d.IdCartNavigation).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.IdCart)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CartItems__idCar__4BAC3F29");
+
+            entity.HasOne(d => d.IdFoodNavigation).WithMany(p => p.CartItems)
+                .HasForeignKey(d => d.IdFood)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CartItems__idFoo__4CA06362");
+        });
+
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Customer__3213E83FBA521F15");
+            entity.HasKey(e => e.Id).HasName("PK__Customer__3213E83FBAF7930A");
 
             entity.ToTable("Customer");
 
@@ -229,7 +244,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<DeliveryMethod>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Delivery__3213E83F3E64886E");
+            entity.HasKey(e => e.Id).HasName("PK__Delivery__3213E83F2CC4443E");
 
             entity.ToTable("DeliveryMethod");
 
@@ -245,7 +260,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3213E83F60D90216");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3213E83F8452A7D5");
 
             entity.ToTable("Employee");
 
@@ -283,7 +298,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Food>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Food__3213E83FF98ABEDC");
+            entity.HasKey(e => e.Id).HasName("PK__Food__3213E83F82D81976");
 
             entity.ToTable("Food");
 
@@ -315,7 +330,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<FoodCategory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__FoodCate__3213E83F892110E5");
+            entity.HasKey(e => e.Id).HasName("PK__FoodCate__3213E83F2442522D");
 
             entity.ToTable("FoodCategory");
 
@@ -335,7 +350,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Function>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Function__3213E83F4561FB53");
+            entity.HasKey(e => e.Id).HasName("PK__Function__3213E83F1DC3B41C");
 
             entity.ToTable("Function");
 
@@ -353,7 +368,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<InfoFood>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__InfoFood__3213E83FE09F0682");
+            entity.HasKey(e => e.Id).HasName("PK__InfoFood__3213E83F97A071D9");
 
             entity.ToTable("InfoFood");
 
@@ -370,17 +385,17 @@ public partial class OnlineFoodContext : DbContext
             entity.HasOne(d => d.IdFoodNavigation).WithMany(p => p.InfoFoods)
                 .HasForeignKey(d => d.IdFood)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__InfoFood__idFood__5EBF139D");
+                .HasConstraintName("FK__InfoFood__idFood__619B8048");
 
             entity.HasOne(d => d.IdNguyenLieuNavigation).WithMany(p => p.InfoFoods)
                 .HasForeignKey(d => d.IdNguyenLieu)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__InfoFood__idNguy__5FB337D6");
+                .HasConstraintName("FK__InfoFood__idNguy__628FA481");
         });
 
         modelBuilder.Entity<Latest>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Latest__3213E83FFC327C3C");
+            entity.HasKey(e => e.Id).HasName("PK__Latest__3213E83F8095B9FA");
 
             entity.ToTable("Latest");
 
@@ -401,27 +416,27 @@ public partial class OnlineFoodContext : DbContext
             entity.HasOne(d => d.IdBillNavigation).WithMany(p => p.Latests)
                 .HasForeignKey(d => d.IdBill)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Latest__idBill__68487DD7");
+                .HasConstraintName("FK__Latest__idBill__6B24EA82");
 
             entity.HasOne(d => d.IdBillSuppliesNavigation).WithMany(p => p.Latests)
                 .HasForeignKey(d => d.IdBillSupplies)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Latest__idBillSu__693CA210");
+                .HasConstraintName("FK__Latest__idBillSu__6C190EBB");
 
             entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.Latests)
                 .HasForeignKey(d => d.IdCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Latest__idCustom__6A30C649");
+                .HasConstraintName("FK__Latest__idCustom__6D0D32F4");
 
             entity.HasOne(d => d.IdOrderSuppliesNavigation).WithMany(p => p.Latests)
                 .HasForeignKey(d => d.IdOrderSupplies)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Latest__idOrderS__6B24EA82");
+                .HasConstraintName("FK__Latest__idOrderS__6E01572D");
         });
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Notifica__3213E83F1A1DEB1D");
+            entity.HasKey(e => e.Id).HasName("PK__Notifica__3213E83F4577FF1A");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
@@ -443,27 +458,27 @@ public partial class OnlineFoodContext : DbContext
             entity.HasOne(d => d.IdBillNavigation).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.IdBill)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificat__idBil__6477ECF3");
+                .HasConstraintName("FK__Notificat__idBil__6754599E");
 
             entity.HasOne(d => d.IdBillsuppliesNavigation).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.IdBillsupplies)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificat__idBil__656C112C");
+                .HasConstraintName("FK__Notificat__idBil__68487DD7");
 
             entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.IdCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificat__idCus__628FA481");
+                .HasConstraintName("FK__Notificat__idCus__656C112C");
 
             entity.HasOne(d => d.IdOrderNavigation).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.IdOrder)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Notificat__idOrd__6383C8BA");
+                .HasConstraintName("FK__Notificat__idOrd__66603565");
         });
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F69C7415F");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3213E83F3E5F13F4");
 
             entity.ToTable("Order");
 
@@ -485,27 +500,27 @@ public partial class OnlineFoodContext : DbContext
             entity.HasOne(d => d.IdCartNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.IdCart)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__idCart__5070F446");
+                .HasConstraintName("FK__Order__idCart__534D60F1");
 
             entity.HasOne(d => d.IdDeliveryNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.IdDelivery)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__idDeliver__5165187F");
+                .HasConstraintName("FK__Order__idDeliver__5441852A");
 
             entity.HasOne(d => d.IdFoodNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.IdFood)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__idFood__4F7CD00D");
+                .HasConstraintName("FK__Order__idFood__52593CB8");
 
             entity.HasOne(d => d.IdKhachHangNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.IdKhachHang)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__idKhachHa__4E88ABD4");
+                .HasConstraintName("FK__Order__idKhachHa__5165187F");
         });
 
         modelBuilder.Entity<OrderInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderInf__3213E83F340AFC3F");
+            entity.HasKey(e => e.Id).HasName("PK__OrderInf__3213E83F0C80092F");
 
             entity.ToTable("OrderInfo");
 
@@ -522,17 +537,17 @@ public partial class OnlineFoodContext : DbContext
             entity.HasOne(d => d.IdMonAnNavigation).WithMany(p => p.OrderInfos)
                 .HasForeignKey(d => d.IdMonAn)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderInfo__idMon__5535A963");
+                .HasConstraintName("FK__OrderInfo__idMon__5812160E");
 
             entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.OrderInfos)
                 .HasForeignKey(d => d.IdUser)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderInfo__idUse__5441852A");
+                .HasConstraintName("FK__OrderInfo__idUse__571DF1D5");
         });
 
         modelBuilder.Entity<OrderSupply>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderSup__3213E83F3FA7FA35");
+            entity.HasKey(e => e.Id).HasName("PK__OrderSup__3213E83F09BFF8CF");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
@@ -574,14 +589,14 @@ public partial class OnlineFoodContext : DbContext
                     r => r.HasOne<Supply>().WithMany()
                         .HasForeignKey("Idsupplies")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__OrderSupp__idsup__6EF57B66"),
+                        .HasConstraintName("FK__OrderSupp__idsup__71D1E811"),
                     l => l.HasOne<OrderSupply>().WithMany()
                         .HasForeignKey("Idordersupplies")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__OrderSupp__idord__6E01572D"),
+                        .HasConstraintName("FK__OrderSupp__idord__70DDC3D8"),
                     j =>
                     {
-                        j.HasKey("Idordersupplies", "Idsupplies").HasName("PK__OrderSup__50A25EC20B1558F9");
+                        j.HasKey("Idordersupplies", "Idsupplies").HasName("PK__OrderSup__50A25EC20C215F52");
                         j.ToTable("OrderSuppliesInfo");
                         j.IndexerProperty<int>("Idordersupplies").HasColumnName("idordersupplies");
                         j.IndexerProperty<int>("Idsupplies").HasColumnName("idsupplies");
@@ -590,7 +605,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Payment__3213E83F72455909");
+            entity.HasKey(e => e.Id).HasName("PK__Payment__3213E83F054AB161");
 
             entity.ToTable("Payment");
 
@@ -610,7 +625,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F900C21FA");
+            entity.HasKey(e => e.Id).HasName("PK__Promotio__3213E83F5E1DBE23");
 
             entity.ToTable("Promotion");
 
@@ -637,7 +652,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3213E83F30EA7443");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3213E83F11E11968");
 
             entity.ToTable("Role");
 
@@ -658,21 +673,21 @@ public partial class OnlineFoodContext : DbContext
                     r => r.HasOne<Function>().WithMany()
                         .HasForeignKey("FunctionId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__RoleFunct__Funct__72C60C4A"),
+                        .HasConstraintName("FK__RoleFunct__Funct__75A278F5"),
                     l => l.HasOne<Role>().WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__RoleFunct__RoleI__71D1E811"),
+                        .HasConstraintName("FK__RoleFunct__RoleI__74AE54BC"),
                     j =>
                     {
-                        j.HasKey("RoleId", "FunctionId").HasName("PK__RoleFunc__19E071B5A693A58A");
+                        j.HasKey("RoleId", "FunctionId").HasName("PK__RoleFunc__19E071B507D06873");
                         j.ToTable("RoleFunction");
                     });
         });
 
         modelBuilder.Entity<Shift>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Shift__3213E83F7C4F52A5");
+            entity.HasKey(e => e.Id).HasName("PK__Shift__3213E83F32C890D8");
 
             entity.ToTable("Shift");
 
@@ -686,7 +701,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Supplier>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplier__3213E83FCC0C5089");
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3213E83FD1271E11");
 
             entity.ToTable("Supplier");
 
@@ -709,7 +724,7 @@ public partial class OnlineFoodContext : DbContext
 
         modelBuilder.Entity<Supply>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplies__3213E83FE8745864");
+            entity.HasKey(e => e.Id).HasName("PK__Supplies__3213E83F1C280462");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()

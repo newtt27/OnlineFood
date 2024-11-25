@@ -23,7 +23,7 @@ public partial class Food
 
     public string? Mota { get; set; }
 
-    public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
+    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
     public virtual FoodCategory IdDanhMucNavigation { get; set; } = null!;
 

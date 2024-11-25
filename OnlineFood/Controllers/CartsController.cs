@@ -22,8 +22,8 @@ namespace OnlineFood.Controllers
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-            var onlineFoodContext = _context.Carts.Include(c => c.IdFoodNavigation).Include(c => c.IdKmNavigation);
-            return View(await onlineFoodContext.ToListAsync());
+            //var onlineFoodContext = _context.Carts.Include(c => c.IdFoodNavigation).Include(c => c.IdKmNavigation);
+            return View();
         }
 
         //public IActionResult LoadCart()
@@ -49,7 +49,7 @@ namespace OnlineFood.Controllers
             }
 
             var cart = await _context.Carts
-                .Include(c => c.IdFoodNavigation)
+                //.Include(c => c.IdFoodNavigation)
                 .Include(c => c.IdKmNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cart == null)
@@ -81,7 +81,7 @@ namespace OnlineFood.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
+            //ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
             ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id", cart.IdKm);
             return View(cart);
         }
@@ -99,7 +99,7 @@ namespace OnlineFood.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
+            //ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
             ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id", cart.IdKm);
             return View(cart);
         }
@@ -136,7 +136,7 @@ namespace OnlineFood.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
+            //ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
             ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id", cart.IdKm);
             return View(cart);
         }
@@ -150,7 +150,7 @@ namespace OnlineFood.Controllers
             }
 
             var cart = await _context.Carts
-                .Include(c => c.IdFoodNavigation)
+                //.Include(c => c.IdFoodNavigation)
                 .Include(c => c.IdKmNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cart == null)
