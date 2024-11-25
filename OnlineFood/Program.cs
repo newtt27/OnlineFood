@@ -20,6 +20,15 @@ builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddDbContext<OnlineFoodContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineFoodDatabase")));
 
+// Thêm dịch vụ Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian tồn tại của Session
+    options.Cookie.HttpOnly = true; // Bảo mật hơn khi chỉ cho phép truy cập Session từ phía server
+    options.Cookie.IsEssential = true; // Đảm bảo cookie hoạt động ngay cả khi người dùng không đồng ý cookie
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +38,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
+
+// Sử dụng Session
+app.UseSession();
 
 app.UseHttpsRedirection();
 

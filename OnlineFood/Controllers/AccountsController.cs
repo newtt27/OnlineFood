@@ -22,6 +22,11 @@ namespace OnlineFood.Controllers
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
+            // Kiểm tra nếu chưa đăng nhập
+            if (HttpContext.Session.GetInt32("UserId") == null)
+            {
+                return RedirectToAction("Login");
+            }
             var onlineFoodContext = _context.Accounts.Include(a => a.IdroleNavigation);
             return View(await onlineFoodContext.ToListAsync());
         }
@@ -160,5 +165,40 @@ namespace OnlineFood.Controllers
         {
             return _context.Accounts.Any(e => e.Id == id);
         }
+        // GET: Accounts/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+        // POST: Accounts/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string username, string password)
+        {
+            // Tìm người dùng trong cơ sở dữ liệu
+            var user = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.UserName == username && a.MatKhau == password);
+
+            if (user != null)
+            {
+                // Lưu thông tin vào Session
+                HttpContext.Session.SetInt32("UserId", user.Id);
+                HttpContext.Session.SetString("UserName", user.UserName);
+                HttpContext.Session.SetString("DisplayName", user.TenHienThi);
+
+                return RedirectToAction("Index", "Home"); // Chuyển hướng đến trang chính
+            }
+
+            // Thông báo lỗi nếu đăng nhập thất bại
+            ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không đúng!";
+            return View();
+        }
+        // GET: Accounts/Logout
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // Xóa toàn bộ thông tin trong Session
+            return RedirectToAction("Index", "Home"); // Chuyển hướng về trang đăng nhập
+        }
+
     }
 }
