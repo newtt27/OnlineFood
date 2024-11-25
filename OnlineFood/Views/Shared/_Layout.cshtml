@@ -58,7 +58,79 @@
             </div>
         </nav>
     </header>
+
     @await Html.PartialAsync("_NotificationModal")
+
+    <!-- Modal giỏ hàng -->
+    <div class="modal" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="font-family: 'Marko One', sans-serif; max-width: 400px;">
+            <div class="modal-content text-white" style="background-color: #181818;">
+                <div class="modal-header d-flex align-items-center">
+                    <img src="../../../assets/image/avatar.png" alt="User Avatar" style="width: 50px; height: 50px; border-radius: 50%;">
+                    <div class="ms-3">
+                        <span style="font-size: 1.3rem;">abc</span><br>
+                        <span style="font-size: 1rem;">ab@64;gmail.com</span>
+                    </div>
+                    <button type="button" class="btn-close ms-auto" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="text-uppercase mb-3">Your Cart</h5>
+
+                    <!-- Products List -->
+                    <h6 class="text-uppercase mb-2 text-start">Products List</h6>
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item bg-dark text-white d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="image1.jpg" alt="Item 1" style="width: 50px; height: 50px;">
+                                <div class="ms-3">
+                                    <span>Item 1</span><br>
+                                    <small>Size: S</small>
+                                    <p class="mb-0">50,000 VND</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-outline-secondary btn-sm mx-1 btn-custom_fastfood">-</button>
+                                <span>1</span>
+                                <button class="btn btn-outline-secondary btn-sm mx-1 btn-custom_fastfood">+</button>
+                            </div>
+                        </li>
+                        <!-- Thêm các sản phẩm khác -->
+                    </ul>
+
+                    <!-- Promotions List -->
+                    <h6 class="text-uppercase mb-2 text-start">Promotions List</h6>
+                    <div class="mb-4 text-start">
+                        <p>Name: <span class="float-end">Sale</span></p>
+                        <p>Code: <span class="float-end">P2021</span></p>
+                        <p>Percent: <span class="float-end">-10%</span></p>
+                    </div>
+
+                    <!-- Subtotal, Discount, Total -->
+                    <hr class="text-secondary">
+                    <div class="d-flex justify-content-between">
+                        <span>Subtotal</span>
+                        <span>230,000 VND</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Discount</span>
+                        <span>-23,000 VND</span>
+                    </div>
+                    <hr class="text-secondary">
+                    <div class="d-flex justify-content-between">
+                        <h5>Total</h5>
+                        <h5>207,000 VND</h5>
+                  </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between position-relative my-1 py-3">
+                    <a class="" asp-controller="Payments" asp-action="Index">
+                        <button type="button" class="btn btn-warning text-white btn-custom_fastfood" style="width: 48%;" onclick="goToPayment()">THANH TOÁN</button>
+                    </a>
+                    <button type="button" class="btn btn-outline-warning text-white position-absolute end-0 btn-custom_fastfood" onclick="closeCartModal()" style="width: 48%;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <body>
         <div class="container">
             <main role="main" class="pb-3">
@@ -71,12 +143,14 @@
         <div class="row h-25 rounded-top-left-right-20 d-flex" style="background-color: #414040">
             <div class="navbar-header mx-4 col-3">
                 <div class="m-3 ">
-                    <span class="iCielCadena-900 logo-size logo-F">F</span>
-                    <span class="iCielCadena-900 logo-size logo-O-1">O</span>
-                    <span class="iCielCadena-900 logo-size logo-O-2">O</span>
-                    <span class="iCielCadena-900 logo-size logo-DIY">D</span>
-                    <span class="iCielCadena-900 logo-size logo-DIY">I</span>
-                    <span class="iCielCadena-900 logo-size logo-DIY">Y</span>
+                    <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
+                        <span class="iCielCadena-900 logo-size logo-F">F</span>
+                        <span class="iCielCadena-900 logo-size logo-O-1">O</span>
+                        <span class="iCielCadena-900 logo-size logo-O-2">O</span>
+                        <span class="iCielCadena-900 logo-size logo-DIY">D</span>
+                        <span class="iCielCadena-900 logo-size logo-DIY">I</span>
+                        <span class="iCielCadena-900 logo-size logo-DIY">Y</span>
+                    </a>
                 </div>
             </div>
 

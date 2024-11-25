@@ -1,4 +1,6 @@
-﻿function selectPaymentMethod(method) {
+﻿let currentPaymentMethod = 'card';
+function selectPaymentMethod(method) {
+    currentPaymentMethod = method;
     // Lấy tất cả các nút và bỏ chọn
     const paymentButtons = document.querySelectorAll('.payment-btn');
     paymentButtons.forEach(button => button.classList.remove('selected'));
@@ -6,14 +8,6 @@
     // Chọn nút hiện tại
     const selectedButton = document.querySelector(`.payment-btn[onclick="selectPaymentMethod('${method}')"]`);
     selectedButton.classList.add('selected');
-
-    // Ẩn hoặc hiện phần thông tin thẻ
-    const cardInfo = document.getElementById('card-info');
-    if (method === 'card') {
-        cardInfo.style.display = 'block';
-        } else {
-        cardInfo.style.display = 'none';
-        }
 }
 function selectDeliveryMethod(method) {
     // Lấy tất cả các nút và bỏ chọn
@@ -25,74 +19,95 @@ function selectDeliveryMethod(method) {
     selectedButton.classList.add('selected');
 
 }
-function validateForms() {
-    // Kiểm tra form contact
-    var contactForm = document.getElementById('contactForm');
-    var isContactValid = contactForm.checkValidity();  // Kiểm tra tính hợp lệ của form contact
-    if (!isContactValid) {
-        // Thông báo lỗi cho trường không hợp lệ trong form contact
-        alert(getFormValidationErrors(contactForm));
-        return;
+document.addEventListener('DOMContentLoaded', () => {
+    const button = document.querySelector('.checkout-btn');
+    if (button) {
+        button.addEventListener('click', validateAndSubmit);
     }
+});
+function validateContactForm() {
+    let isValid = true;
 
-    // Kiểm tra form paymentMethod
-    var paymentForm = document.getElementById('paymentMethodForm');
-    var isPaymentValid = paymentForm.checkValidity();  // Kiểm tra tính hợp lệ của form paymentMethod
-    if (!isPaymentValid) {
-        // Thông báo lỗi cho trường không hợp lệ trong form paymentMethod
-        alert(getFormValidationErrors(paymentForm));
-        return;
-    }
-
-    // Kiểm tra form delivery
-    var deliveryForm = document.getElementById('deliveryForm');
-    var isDeliveryValid = deliveryForm.checkValidity();  // Kiểm tra tính hợp lệ của form delivery
-    if (!isDeliveryValid) {
-        // Thông báo lỗi cho trường không hợp lệ trong form delivery
-        alert(getFormValidationErrors(deliveryForm));
-        return;
-    }
-
-    // Nếu tất cả các form hợp lệ, submit chúng
-    if (isContactValid && isPaymentValid && isDeliveryValid) {
-        alert("Thông tin hợp lệ! Tiến hành thanh toán.");
-        // Nếu muốn submit các form sau khi kiểm tra
-        contactForm.submit();
-        paymentForm.submit();
-        deliveryForm.submit();
+    // Name validation
+    const name = document.getElementById('name').value.trim();
+    const nameError = document.getElementById('nameError');
+    if (name.length < 3 || name.length > 50) {
+        nameError.textContent = 'Name must be between 3 and 50 characters.';
+        isValid = false;
     } else {
-        alert("Vui lòng kiểm tra lại thông tin trước khi thanh toán.");
+        nameError.textContent = '';
+    }
+
+    // Phone validation
+    const phone = document.getElementById('phone').value.trim();
+    const phoneError = document.getElementById('phoneError');
+    const phoneRegex = /^\d{10,11}$/;
+    if (!phoneRegex.test(phone)) {
+        phoneError.textContent = 'Phone number must be 10-11 digits.';
+        isValid = false;
+    } else {
+        phoneError.textContent = '';
+    }
+
+    // Email validation
+    const email = document.getElementById('email').value.trim();
+    const emailError = document.getElementById('emailError');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        emailError.textContent = 'Invalid email format.';
+        isValid = false;
+    } else {
+        emailError.textContent = '';
+    }
+
+    return isValid;
+}
+
+function validateDeliveryForm() {
+    let isValid = true;
+
+    // Address validation
+    const address = document.getElementById('address').value.trim();
+    const addressError = document.getElementById('addressError');
+    if (address.length < 5 || address.length > 50) {
+        addressError.textContent = 'Address must be between 5 and 50 characters.';
+        isValid = false;
+    } else {
+        addressError.textContent = '';
+    }
+
+    return isValid;
+}
+function validateAndSubmit() {
+    console.log("Running validateAndSubmit");
+    // Lấy tham chiếu tới các form
+    const contactForm = document.getElementById("contactForm");
+    const deliveryForm = document.getElementById("deliveryForm");
+
+    // Kiểm tra form hợp lệ
+    const isContactValid = contactForm.checkValidity();
+    const isDeliveryValid = deliveryForm.checkValidity();
+
+    if (isContactValid && isDeliveryValid) {
+        // Nếu tất cả đều hợp lệ, gửi dữ liệu
+        const formData = {
+            name: contactForm.name.value,
+            phone: contactForm.phone.value,
+            email: contactForm.email.value,
+            address: deliveryForm.address.value,
+            currentPaymentMethod: currentPaymentMethod
+        };
+        // Lưu formData vào localStorage
+        localStorage.setItem("formData", JSON.stringify(formData));
+
+        // Chuyển đến trang khác
+        window.location.href = "/Payments/" + currentPaymentMethod;
+        
+    } else {
+        // Nếu không hợp lệ, hiển thị lỗi
+        alert("Vui lòng điền đầy đủ thông tin và kiểm tra lại các trường.");
+        contactForm.reportValidity(); // Hiển thị lỗi cho form liên hệ
+        deliveryForm.reportValidity(); // Hiển thị lỗi cho form giao hàng
     }
 }
 
-// Hàm kiểm tra các lỗi trong form và trả về thông báo lỗi
-function getFormValidationErrors(form) {
-    var errorMessages = [];
-    var inputs = form.querySelectorAll('input');
-
-    inputs.forEach(function (input) {
-        if (!input.validity.valid) {
-            var errorMessage = getErrorMessageForInput(input);
-            errorMessages.push(errorMessage);
-        }
-    });
-
-    return errorMessages.join('\n');
-}
-
-// Hàm trả về thông báo lỗi cụ thể cho mỗi trường nhập liệu
-function getErrorMessageForInput(input) {
-    if (input.validity.valueMissing) {
-        return input.placeholder + " là bắt buộc.";
-    }
-    if (input.validity.patternMismatch) {
-        return input.placeholder + " không đúng định dạng.";
-    }
-    if (input.validity.tooShort) {
-        return input.placeholder + " quá ngắn.";
-    }
-    if (input.validity.tooLong) {
-        return input.placeholder + " quá dài.";
-    }
-    return "Thông tin không hợp lệ.";
-}

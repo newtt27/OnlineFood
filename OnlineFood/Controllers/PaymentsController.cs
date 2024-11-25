@@ -18,7 +18,19 @@ namespace OnlineFood.Controllers
         {
             _context = context;
         }
-
+        public IActionResult Card()
+        {
+            // Lấy dữ liệu model (nếu cần)
+            return View(); // Render view card.cshtml
+        }public IActionResult Momo()
+        {
+            // Lấy dữ liệu model (nếu cần)
+            return View(); // Render view card.cshtml
+        }public IActionResult Zalopay()
+        {
+            // Lấy dữ liệu model (nếu cần)
+            return View(); // Render view card.cshtml
+        }
         // GET: Payments
         public async Task<IActionResult> Index()
         {
