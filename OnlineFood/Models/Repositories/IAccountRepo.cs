@@ -8,5 +8,6 @@
         Task AddAccountAsync(Account account);
         Task UpdateAccountAsync(Account account);
         Task DeleteAccountAsync(int accountId);
+        Task<Cart> GetCartByAccountIdAsync(int accountId);
     }
 }

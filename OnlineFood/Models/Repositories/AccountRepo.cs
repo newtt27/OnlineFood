@@ -6,6 +6,7 @@ namespace OnlineFood.Models.Repositories
     public class AccountRepo : IAccountRepo
     {
         private readonly OnlineFoodContext _context;
+       
 
         public AccountRepo(OnlineFoodContext context)
         {
@@ -48,6 +49,14 @@ namespace OnlineFood.Models.Repositories
                 _context.Accounts.Remove(account);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<Cart?> GetCartByAccountIdAsync(int accountId)
+        {
+            return await _context.Carts
+                .Include(c => c.CartItems) // Bao gồm các mục trong giỏ hàng
+                .ThenInclude(ci => ci.IdFoodNavigation) // Bao gồm thông tin món ăn
+                .FirstOrDefaultAsync(c => c.Accounts.Any(a => a.Id == accountId));
         }
     }
 }

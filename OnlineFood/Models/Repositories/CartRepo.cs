@@ -47,5 +47,33 @@ namespace OnlineFood.Models.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        public async Task AddCartAsync(Cart cart)
+        {
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<int> GetMaxCartIdAsync()
+        {
+            // Lấy giá trị lớn nhất của Id trong bảng Cart
+            return await _context.Carts.AnyAsync()
+                ? await _context.Carts.MaxAsync(c => c.Id)
+                : 0; // Trả về 0 nếu chưa có Cart nào
+        }
+
+        public async Task<IEnumerable<CartItem>> GetCartItemsByCartIdAsync(int cartId)
+        {
+            return await _context.CartItems
+                .Include(ci => ci.IdFoodNavigation) // Bao gồm thông tin món ăn
+                .Where(ci => ci.IdCart == cartId)
+                .ToListAsync();
+        }
+        public async Task RemoveCartItemAsync(int idCart, int idFood)
+        {
+            var cartItem = await _context.CartItems
+                .FirstOrDefaultAsync(ci => ci.IdCart == idCart && ci.IdFood == idFood);
+
+            _context.CartItems.Remove(cartItem);
+            await _context.SaveChangesAsync();
+        }
     }
 }

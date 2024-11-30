@@ -75,46 +75,8 @@ namespace OnlineFood.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddToCart(int foodId, int quantity)
-        {
-            // Kiểm tra nếu người dùng đã đăng nhập
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (userId == null)
-            {
-                // Người dùng chưa đăng nhập
-                var food = await _foodService.GetFoodById(foodId);
-                if (food == null)
-                {
-                    return Json(new { success = false, message = "Không tìm thấy món ăn" });
-                }
+        
 
-                // Tạo dữ liệu để trả về lưu vào localStorage
-                var cartItem = new
-                {
-                    id = food.Id,
-                    name = food.TenMonAn,
-                    price = food.GiaTien * 1000, // Giá nhân với 1000 nếu cần chuyển đổi đơn vị
-                    quantity = quantity,         // Đảm bảo tên thuộc tính là "quantity"
-                    image = food.Hinhanh ?? "/assets/default-image.jpg"
-                };
-                Console.WriteLine("Trả về cartItem cho localStorage:", cartItem);
-
-                return Json(new { success = true, localStorageItem = cartItem, message = "Đã lưu sản phẩm vào localStorage" });
-            }
-            try
-            {
-                // Người dùng đã đăng nhập
-                await _cartService.AddToCartAsync(userId.Value, foodId, quantity);
-                Console.WriteLine("Thêm sản phẩm vào giỏ hàng cho UserId: " + userId);
-
-                return Json(new { success = true, message = "Sản phẩm đã được thêm vào giỏ hàng" });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message });
-            }
-        }
         public IActionResult Privacy()
         {
             return View();

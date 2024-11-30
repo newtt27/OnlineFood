@@ -40,5 +40,10 @@ namespace OnlineFood.Models.Services
         {
             await _accountRepository.DeleteAccountAsync(accountId);
         }
+
+        public async Task<Cart> GetCartByAccountIdAsync(int accountId)
+        {
+            return await _accountRepository.GetCartByAccountIdAsync(accountId);
+        }
     }
 }

@@ -5,6 +5,10 @@ using OnlineFood.Models.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Thêm Logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug(); // Hiển thị log chi tiết trong cửa sổ Debug
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -13,12 +17,14 @@ builder.Services.AddScoped<IFoodCategoryRepo, FoodCategoryRepo>();
 builder.Services.AddScoped<IFoodRepo, FoodRepo>();
 builder.Services.AddScoped<ICartRepo, CartRepo>();
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
+builder.Services.AddScoped<IPromotionRepo, PromotionRepo>();
 
 //Đăng ký Service
 builder.Services.AddScoped<IFoodCategoryService, FoodCategoryService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IPromotionService, PromotionService>();
 
 //Kết nối database
 builder.Services.AddDbContext<OnlineFoodContext>(options =>

@@ -7,178 +7,138 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineFood.Data;
 using OnlineFood.Models;
+using OnlineFood.Models.Services;
 
 namespace OnlineFood.Controllers
 {
     public class CartsController : Controller
     {
         private readonly OnlineFoodContext _context;
-
-        public CartsController(OnlineFoodContext context)
+        private readonly IFoodService _foodService;
+        private readonly IFoodCategoryService _foodCategoryService;
+        private readonly ICartService _cartService;
+        private readonly IAccountService _accountService;
+        public CartsController(OnlineFoodContext context, IFoodCategoryService foodCategoryService, IFoodService foodService, ICartService cartService, IAccountService accountService)
         {
             _context = context;
+            _cartService = cartService;
+            _foodService = foodService;
+            _foodCategoryService = foodCategoryService;
+            _accountService = accountService;
         }
 
-        // GET: Carts
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult CheckSession()
         {
-            //var onlineFoodContext = _context.Carts.Include(c => c.IdFoodNavigation).Include(c => c.IdKmNavigation);
-            return View();
-        }
-
-        //public IActionResult LoadCart()
-        //{
-        //    // Lấy giỏ hàng từ Session (nếu chưa có thì tạo mới)
-        //    var cart = HttpContext.Session.GetObjectFromJson<List<Dictionary<string, object>>>("Cart")
-        //               ?? new List<Dictionary<string, object>>();
-
-        //    // Đếm số lượng sản phẩm trong giỏ hàng
-        //    int cartCount = cart.Sum(item => Convert.ToInt32(item["Quantity"]));
-
-        //    // Trả về Partial View `cart-modal` và số lượng sản phẩm
-        //    ViewBag.CartCount = cartCount;
-        //    return PartialView("_CartModal", cart);
-        //}
-
-        // GET: Carts/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId != null)
             {
-                return NotFound();
+                return Json(new { loggedIn = true, userId = userId.Value });
             }
-
-            var cart = await _context.Carts
-                //.Include(c => c.IdFoodNavigation)
-                .Include(c => c.IdKmNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return View(cart);
+            return Json(new { loggedIn = false });
         }
-
-        // GET: Carts/Create
-        public IActionResult Create()
-        {
-            ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id");
-            ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id");
-            return View();
-        }
-
-        // POST: Carts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdKm,IdFood")] Cart cart)
+        public async Task<IActionResult> AddToCart(int foodId, int quantity)
         {
-            if (ModelState.IsValid)
+            // Lấy thông tin người dùng từ Session
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
             {
-                _context.Add(cart);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Người dùng chưa đăng nhập
+                var food = await _foodService.GetFoodById(foodId);
+                if (food == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy món ăn" });
+                }
+
+                // Trả dữ liệu để lưu vào localStorage
+                var cartItem = new
+                {
+                    id = food.Id,
+                    name = food.TenMonAn,
+                    price = food.GiaTien * 1000, // Giá nhân với 1000 nếu cần chuyển đổi đơn vị
+                    quantity = quantity,
+                    image = food.Hinhanh ?? "/assets/default-image.jpg"
+                };
+
+                return Json(new { success = true, localStorageItem = cartItem, message = "Đã lưu sản phẩm vào localStorage" });
             }
-            //ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
-            ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id", cart.IdKm);
-            return View(cart);
+
+            try
+            {
+                var account = await _accountService.GetAccountByIdAsync(userId.Value);
+
+                if (account.IdCart == null)
+                {
+                    var newCart = await _cartService.CreateCartForAccountAsync(account);
+                }
+                await _cartService.AddToCartAsync(userId.Value, foodId, quantity);
+                return Json(new { success = true, message = "Sản phẩm đã được thêm vào giỏ hàng" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetCartItems()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("UserId");
+                if (userId == null)
+                {
+                    return Json(new { success = false, message = "Người dùng chưa đăng nhập" });
+                }
+
+                // Lấy danh sách CartItems
+                var cartItems = await _cartService.GetCartItemsByAccountIdAsync(userId.Value);
+
+                // Trả về JSON dữ liệu
+                var result = cartItems.Select(item => new
+                {
+                    id = item.IdFood,
+                    name = item.IdFoodNavigation.TenMonAn,
+                    price = item.IdFoodNavigation.GiaTien * 1000,
+                    quantity = item.SoLuong,
+                    image = item.IdFoodNavigation.Hinhanh ?? "/assets/default-image.jpg"
+                });
+
+                return Json(new { success = true, items = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
-        // GET: Carts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-            //ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
-            ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id", cart.IdKm);
-            return View(cart);
-        }
-
-        // POST: Carts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdKm,IdFood")] Cart cart)
+        public async Task<IActionResult> RemoveFromCart(int foodId)
         {
-            if (id != cart.Id)
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Bạn cần đăng nhập để thực hiện chức năng này." });
             }
 
-            if (ModelState.IsValid)
+            if (foodId <= 0)
             {
-                try
-                {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CartExists(cart.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = false, message = "Id sản phẩm không hợp lệ." });
             }
-            //ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", cart.IdFood);
-            ViewData["IdKm"] = new SelectList(_context.Promotions, "Id", "Id", cart.IdKm);
-            return View(cart);
+
+            try
+            {
+                await _cartService.RemoveFromCartAsync(userId.Value, foodId);
+                return Json(new { success = true, message = "Sản phẩm đã được xóa khỏi giỏ hàng." });
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine($"Lỗi null: {ex.Message}");
+                return Json(new { success = false, message = $"Lỗi null: {ex.ParamName}" });
+            }
+            
         }
 
-        // GET: Carts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var cart = await _context.Carts
-                //.Include(c => c.IdFoodNavigation)
-                .Include(c => c.IdKmNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return View(cart);
-        }
-
-        // POST: Carts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart != null)
-            {
-                _context.Carts.Remove(cart);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CartExists(int id)
-        {
-            return _context.Carts.Any(e => e.Id == id);
-        }
     }
 }

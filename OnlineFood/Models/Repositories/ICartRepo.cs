@@ -7,5 +7,10 @@
         Task AddCartItemAsync(CartItem cartItem);
         Task UpdateCartItemAsync(CartItem cartItem);
         Task SaveChangesAsync();
+        Task AddCartAsync(Cart cart);
+        Task<int> GetMaxCartIdAsync();
+        Task<IEnumerable<CartItem>> GetCartItemsByCartIdAsync(int cartId);
+
+        Task RemoveCartItemAsync(int idCart, int idFood);
     }
 }
