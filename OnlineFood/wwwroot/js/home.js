@@ -1,67 +1,86 @@
 ﻿
 
+let selectedCategoryId = null; // Biến toàn cục lưu ID danh mục đã chọn
 
-function ShowDetails(imageUrl, name) {
-    document.getElementById("detailImg").src = imageUrl;
-    document.getElementById("detailName").Text = name;
-}
+function loadFoods(page = 1, categoryId = null) {
+    selectedCategoryId = categoryId; // Cập nhật danh mục hiện tại
+    const isCategorySelected = categoryId !== null;
 
+    const url = isCategorySelected
+        ? `/Home/GetFoodsByCategory/${categoryId}`
+        : getPagedFoodsUrl;
 
-function loadFoods(page) {
-    // Cập nhật `currentPage` với trang được yêu cầu
-    currentPage = page;
+    const data = isCategorySelected
+        ? { categoryId: categoryId }
+        : { page: page };
 
     $.ajax({
-        url: getPagedFoodsUrl, // URL phân trang
+        url: url,
         type: 'GET',
-        data: { page: page },
+        data: data,
         success: function (response) {
+            
             // Cập nhật danh sách món ăn
             $('#foods-container').html(response);
 
-            // Xóa lớp active trên tất cả các nút phân trang
-            $('#pagination .page-item').removeClass('active');
-
-            // Thêm lớp active vào nút phân trang của trang hiện tại
-            $('#page-' + page).addClass('active');
-
-            // Cập nhật trạng thái của nút "Previous" và "Next"
-            updatePaginationButtons();
+            // Kiểm tra xem có chọn danh mục hay không
+            if (isCategorySelected) {
+                // Ẩn phân trang và cho phép scroll
+                $('#pagination').css('display', 'none'); // Ẩn bằng cách thay đổi display
+                $('#foods-container').css({
+                    height: 'auto',  // Điều chỉnh chiều cao
+                    overflowY: 'unset' // Bỏ scroll nếu có
+                });
+            } else {
+                // Hiển thị phân trang và cập nhật trạng thái nút
+                $('#pagination').css('display', 'block'); // Hiển thị dưới dạng flexbox
+                updatePaginationButtons(page);
+            }
         },
         error: function () {
-            alert("Lỗi khi tải dữ liệu.");
+            alert("Đã xảy ra lỗi khi tải dữ liệu.");
         }
     });
 }
-//Cập nhật phân trang
-function updatePaginationButtons() {
-    // Vô hiệu hóa nút "Previous" nếu ở trang đầu tiên
+
+function updatePaginationButtons(page) {
+    currentPage = page; // Cập nhật `currentPage` với trang hiện tại
+
+    // Xóa lớp `active` khỏi tất cả các nút phân trang
+    $('#pagination .page-item').removeClass('active');
+
+    // Thêm lớp `active` vào nút của trang hiện tại
+    $(`#page-${page}`).addClass('active');
+
+    // Cập nhật trạng thái nút "Previous"
     if (currentPage === 1) {
         $('#previous').addClass('disabled');
     } else {
         $('#previous').removeClass('disabled');
     }
 
-    // Vô hiệu hóa nút "Next" nếu ở trang cuối cùng
+    // Cập nhật trạng thái nút "Next"
     if (currentPage === totalPages) {
         $('#next').addClass('disabled');
     } else {
         $('#next').removeClass('disabled');
     }
 }
-function showFoodDetails(productId) {
-    $.ajax({
-        url: getFoodDetailsUrl, // URL gọi tới action để lấy chi tiết
-        type: 'GET',
-        data: { id: productId },
-        success: function (response) {
-            // Hiển thị chi tiết sản phẩm trong modal hoặc container được chỉ định
-            $('#product-details-container').html(response);
-            $('#productDetailsModal').modal('show'); // Hiển thị modal nếu có
-        },
-        error: function () {
-            alert("Không tải được chi tiết sản phẩm.");
-        }
-    });
+
+
+function filterFoodsByCategory(categoryId) {
+    // Lấy thông tin từ HTML của danh mục được click
+    const categoryElement = $(`div.food-item[onclick="filterFoodsByCategory(${categoryId})"]`);
+    const imgSrc = categoryElement.data('img');
+    const categoryName = categoryElement.data('name');
+
+    // Cập nhật hình ảnh và tên trong chi tiết món ăn
+    $('#detailImg').attr('src', imgSrc);
+    $('#detailName').text(categoryName);
+
+    // Tải dữ liệu món ăn thuộc danh mục
+    loadFoods(1, categoryId);
 }
+
+
 

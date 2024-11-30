@@ -52,121 +52,109 @@
             </div>
         </div>
     </div>
-    @*Fast-food-Menu*@
-    <div class="container w-100 h-1080" style="margin-bottom:100px">
-        <div class="row justify-content-center align-items-center">
+    <div class="content-container">
+        <!-- Fast-Food Menu -->
+        <div class="fast-food-menu" id="fast-food-menu">
+            <!-- Nội dung Fast-Food Menu -->
+            <div class="row justify-content-center align-items-center">
+                <!-- Danh sách món ăn -->
+                <div class="col d-flex justify-content-around align-items-center" style="font-family: 'Titan One', sans-serif">
+                    @foreach (var category in foodCategories)
+                    {
+                        <div style="cursor: pointer" class="food-item text-center" 
+                            onclick="filterFoodsByCategory(@category.Id)"
+                             data-img="@category.Hinhanh"
+                             data-name="@category.TenDanhMuc">
 
-            <!-- Danh sách món ăn -->
-            <div class="col d-flex justify-content-around align-items-center" style="font-family: 'Titan One', sans-serif">
-                <!-- Mỗi item được lặp lại ở đây -->
-                @foreach (var category in foodCategories)
-                {
-                    <div style="cursor: pointer" class="food-item text-center" onClick="ShowDetails('@category.Hinhanh', '@category.TenDanhMuc')">
-                        <img src="@category.Hinhanh" class="img-fluid object-fit-fill" alt="@category.TenDanhMuc" style="width: 8vw; height: 20vh; cursor:pointer">
-                        <p class="mt-2 text-white">@category.TenDanhMuc</p>
-                    </div>
-                }
-            </div>
-
-
-
-            <!-- Div hiển thị thông tin chi tiết -->
-            <div class="row justify-content-center align-items-center" style="font-family: 'Titan One', sans-serif; min-height: 40vh;">
-                <div class="col-auto text-center">
-                    <img id="detailImg" class="img-fluid" style="width: 10vw; height: 30vh;">
-                    <p class="text-white" id="detailName" style="font-size: 2rem; color:white"></p>
-                </div>
-            </div>
-
-
-            <div class="row mt-4" id="foods-container">
-                <!-- Card món ăn -->
-                @await Html.PartialAsync("_FoodListPartial", foods);
-
-            </div>
-            <!-- Optional: Bootstrap modal để hiển thị chi tiết -->
-            <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body" id="product-details-container">
-                            <!-- Chi tiết sản phẩm sẽ được tải ở đây -->
+                            <img src="@category.Hinhanh" class="img-fluid object-fit-fill" alt="@category.TenDanhMuc" style="width: 8vw; height: 20vh; cursor:pointer">
+                            <p class="mt-2 text-white">@category.TenDanhMuc</p>
                         </div>
+                    }
+                </div>
+                <!-- Chi tiết món ăn -->
+                <div class="row justify-content-center align-items-center" style="font-family: 'Titan One', sans-serif; min-height: 40vh;">
+                    <div class="col-auto text-center">
+                        <img id="detailImg" class="img-fluid" style="width: 10vw; height: 30vh;">
+                        <p class="text-white" id="detailName" style="font-size: 2rem; color:white"></p>
                     </div>
                 </div>
+                <!-- Foods Container -->
+                <div class="row mt-4" id="foods-container">
+                    @await Html.PartialAsync("_FoodListPartial", foods)
+                </div>
             </div>
-
             <!-- Phân trang -->
-            <nav>
-                <ul class="pagination justify-content-center" id="pagination">
+            <nav id="pagination">
+                <ul class="pagination justify-content-center">
                     <!-- Nút Previous -->
                     <li id="previous" class="page-item disabled">
                         <a class="page-link" href="javascript:void(0);" onclick="loadFoods(currentPage - 1)">Previous</a>
                     </li>
-
-                    <!-- Hiển thị các trang -->
                     @for (int i = 1; i <= totalPages; i++)
                     {
                         <li class="page-item @(i == currentPage ? "active" : "")" id="page-@i">
                             <a class="page-link" href="javascript:void(0);" onclick="loadFoods(@i)">@i</a>
                         </li>
                     }
-
-                    <!-- Nút Next -->
                     <li id="next" class="page-item">
                         <a class="page-link" href="javascript:void(0);" onclick="loadFoods(currentPage + 1)">Next</a>
                     </li>
                 </ul>
             </nav>
+        </div>
 
+        <!-- About Us -->
+        <div class="about-us" id="about-us">
+            <div class="container  position-relative  h-75 py-5" style="background-color: #181818">
+                <div class="about-us-section" style="background-color: #181818; color: white; padding: 50px 0;">
+                    <div class="container d-flex align-items-center justify-content-between">
+                        <!-- About Us Content -->
+                        <div class="row w-75">
+                            <div class="col-12 text-center mb-5">
+                                <h1 class="about-us-title">About us</h1>
+                            </div>
+                            <div class="col-md-4 about-us-modal text-center">
+                                <div class="about-us-box p-4 ">
+                                    <h3 class="about-us-title mb-3">Organic food</h3>
+                                    <p class="about-us-description">
+                                        Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 about-us-modal text-center mt-5">
+                                <div class="about-us-box p-4  p-5">
+                                    <h3 class="about-us-title mb-3">DIY 100%</h3>
+                                    <p class="about-us-description">
+                                        Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 about-us-modal text-center">
+                                <div class="about-us-box p-4 ">
+                                    <h3 class="about-us-title mb-3">Fast & Clean</h3>
+                                    <p class="about-us-description">
+                                        Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Us Image -->
+                        @*Iamge*@
+                        <div class="col-4">
+                            <div class="row w-100 h-100">
+                                <img class="position-absolute end-0 top-minus-5" style="width: 300px; " src="~/assets/image/e8c927c1-7a4d-4b73-b3b5-b43b303ef3a0 1.png" />
+                                <img class="position-absolute bottom-minus-10 end-0" style="width: 300px; " src="~/assets/image/Donut Wand_ DIY Donut Wall mit Erdnuss Donuts - Nicest Things 1.png" />
+                                <img class="position-absolute top-25 end-10" style="width: 300px; " src="~/assets/image/Die 3 häufigsten Fehler beim Würzen _ freundin_de.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
         </div>
     </div>
 
-    @*About Us*@
-    <div class="w-100 h-auto" style="margin-bottom: 300px;">
-        <div class="container  position-relative  h-75 py-5" style="background-color: #181818">
-            @*About*@
-            <div class="col-8">
-                <div class="row h-25 py-5">
-                    <h1 class="about-us text-center mt-3">About Us</h1>
-                </div>
-                @*About-modal*@
-                <div class="row ml-30px h-75 gap-3">
-                    <div class="about-us-modal h-auto col-4 mh-400">
-                        <div class="about-us-title mb-4">
-                            <p class="text-center my-3" style="font-size: 1.8rem">Organic food</p>
-                        </div>
-                        <div class="about-us-body m-3 mb-5" style="height: 300px">
-                            <span style="line-height: 1.3rem; letter-spacing: .1rem">Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.</span>
-                        </div>
-                    </div>
-                    <div class="about-us-modal h-auto col-4 mt-8rem py-2rem">
-                        <div class="about-us-title">
-                            <p class="text-center my-3" style="font-size: 1.8rem">DIY 100%</p>
-                        </div>
-                        <div class="about-us-body m-3">
-                            <span style="line-height: 1.3rem; letter-spacing: .1rem">Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.</span>
-                        </div>
-                    </div>
-                    <div class="about-us-modal h-auto col-4 mh-400">
-                        <div class="about-us-title mb-4">
-                            <p class="text-center my-3" style="font-size: 1.8rem">Fast & Clean</p>
-                        </div>
-                        <div class="about-us-body m-3 mb-5" style="height: 300px">
-                            <span style="line-height: 1.3rem; letter-spacing: .1rem">Organic farming not only promotes healthier eating but also supports the well-being of ecosystems and animal welfare.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @*Iamge*@
-            <div class="col-4">
-                <div class="row w-100 h-100">
-                    <img class="position-absolute end-0 top-minus-5" style="width: 300px; " src="~/assets/image/e8c927c1-7a4d-4b73-b3b5-b43b303ef3a0 1.png" />
-                    <img class="position-absolute bottom-minus-5 end-5" style="width: 300px; " src="~/assets/image/Donut Wand_ DIY Donut Wall mit Erdnuss Donuts - Nicest Things 1.png" />
-                    <img class="position-absolute top-25 end-14" style="width: 300px; " src="~/assets/image/Die 3 häufigsten Fehler beim Würzen _ freundin_de.png" />
-                </div>
-            </div>
-        </div>
-    </div>
+
     <script>
         const getPagedFoodsUrl = '@Url.Action("GetPagedFoods", "Home")';
         const getFoodDetailsUrl = '@Url.Action("GetFoodDetails", "Home")';

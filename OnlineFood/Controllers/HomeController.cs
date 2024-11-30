@@ -4,6 +4,7 @@ using OnlineFood.Models;
 using OnlineFood.Models.Services;
 using System.Diagnostics;
 using System.Drawing.Printing;
+using System.Net;
 
 namespace OnlineFood.Controllers
 {
@@ -75,7 +76,22 @@ namespace OnlineFood.Controllers
             }
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> GetFoodsByCategory(int categoryId)
+        {
+           
+            var foods = await _foodService.GetFoodsByCategory(categoryId);
+
+            if (foods == null || !foods.Any())
+            {
+                foods = new List<Food>(); // Trả về danh sách rỗng nếu không có dữ liệu
+            }
+
+            ViewData["Foods"] = foods;
+            // Trả dữ liệu vào partial view
+            return PartialView("_FoodCategoryPartial", foods);
+        }
+
 
         public IActionResult Privacy()
         {

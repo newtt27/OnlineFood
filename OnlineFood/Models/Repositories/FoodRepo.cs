@@ -21,5 +21,12 @@ namespace OnlineFood.Models.Repositories
         {
             return await _context.Foods.FindAsync(id);
         }
+        // Lấy danh sách món ăn theo danh mục
+        public async Task<IEnumerable<Food>> GetFoodsByCategoryId(int categoryId)
+        {
+            return await _context.Foods
+                           .Where(f => f.IdDanhMuc == categoryId) // CategoryId phải trùng với cột trong DB
+                           .ToListAsync();
+        }
     }
 }

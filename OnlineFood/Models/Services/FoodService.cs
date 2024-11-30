@@ -1,5 +1,7 @@
-﻿using OnlineFood.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using OnlineFood.Models;
 using OnlineFood.Models.Repositories;
+using System.Net;
 
 namespace OnlineFood.Models.Services
 {
@@ -20,5 +22,12 @@ namespace OnlineFood.Models.Services
         {
             return await _foodRepo.GetById(id);
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<Food>> GetFoodsByCategory(int categoryId)
+        {
+            return await _foodRepo.GetFoodsByCategoryId(categoryId);
+        }
+
     }
 }
