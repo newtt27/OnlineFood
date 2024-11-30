@@ -11,10 +11,14 @@ builder.Services.AddControllersWithViews();
 //Đăng ký Repo
 builder.Services.AddScoped<IFoodCategoryRepo, FoodCategoryRepo>();
 builder.Services.AddScoped<IFoodRepo, FoodRepo>();
+builder.Services.AddScoped<ICartRepo, CartRepo>();
+builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 
 //Đăng ký Service
 builder.Services.AddScoped<IFoodCategoryService, FoodCategoryService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 //Kết nối database
 builder.Services.AddDbContext<OnlineFoodContext>(options =>

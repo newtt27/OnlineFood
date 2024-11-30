@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineFood.Models;
 using OnlineFood.Models.Services;
 using System.Diagnostics;
@@ -11,11 +12,13 @@ namespace OnlineFood.Controllers
         private readonly ILogger<HomeController> _logger;
         private IFoodService _foodService;
         private IFoodCategoryService _foodCategoryService;
-        public HomeController(ILogger<HomeController> logger, IFoodCategoryService foodCategoryService, IFoodService foodService)
+        private readonly ICartService _cartService;
+        public HomeController(ILogger<HomeController> logger, IFoodCategoryService foodCategoryService, IFoodService foodService, ICartService cartService)
         {
             _logger = logger;
             _foodCategoryService = foodCategoryService; 
             _foodService = foodService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index(int page = 1, int pageSize = 8)
@@ -75,22 +78,42 @@ namespace OnlineFood.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int foodId, int quantity)
         {
-            var food = await _foodService.GetFoodById(foodId);
-            if (food == null)
+            // Kiểm tra nếu người dùng đã đăng nhập
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
             {
-                return Json(new { success = false, message = "Không tìm thấy món ăn" });
+                // Người dùng chưa đăng nhập
+                var food = await _foodService.GetFoodById(foodId);
+                if (food == null)
+                {
+                    return Json(new { success = false, message = "Không tìm thấy món ăn" });
+                }
+
+                // Tạo dữ liệu để trả về lưu vào localStorage
+                var cartItem = new
+                {
+                    id = food.Id,
+                    name = food.TenMonAn,
+                    price = food.GiaTien * 1000, // Giá nhân với 1000 nếu cần chuyển đổi đơn vị
+                    quantity = quantity,         // Đảm bảo tên thuộc tính là "quantity"
+                    image = food.Hinhanh ?? "/assets/default-image.jpg"
+                };
+                Console.WriteLine("Trả về cartItem cho localStorage:", cartItem);
+
+                return Json(new { success = true, localStorageItem = cartItem, message = "Đã lưu sản phẩm vào localStorage" });
             }
-
-            var cartItem = new
+            try
             {
-                id = food.Id,
-                name = food.TenMonAn,
-                price = food.GiaTien * 1000,
-                quantity = quantity,
-                image = food.Hinhanh
-            };
+                // Người dùng đã đăng nhập
+                await _cartService.AddToCartAsync(userId.Value, foodId, quantity);
+                Console.WriteLine("Thêm sản phẩm vào giỏ hàng cho UserId: " + userId);
 
-            return Json(new { success = true, item = cartItem });
+                return Json(new { success = true, message = "Sản phẩm đã được thêm vào giỏ hàng" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
         public IActionResult Privacy()
         {
