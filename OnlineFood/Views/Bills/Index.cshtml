@@ -6,10 +6,10 @@
 }
 
 <h1>Index</h1>
-
+<link rel="stylesheet" href="~/css/bills.css">
 <header class="top-bar">
+    @*
     <div class="search-container">
-        <link rel="stylesheet" href="~/css/bills.css">
         <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/c4ec52abf6c684abd08790eec45d9b14b15cf6a709c94ef3820c0775239ba165?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Menu icon" class="menu-icon">
         <div class="search-input">
             <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/42c317f3b3206318b1458b7636ffef425693a664677d17fe01b6da8dab011503?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="Search icon" class="search-icon">
@@ -32,8 +32,8 @@
             </div>
         </div>
     </div>
+    *@
 </header>
-
 <main class="main-content">
     <section class="bill-management-section">
         <h1 class="section-title">BILL MANAGEMENT</h1>
@@ -59,32 +59,32 @@
                 </div>
             </div>
             <div class="bill-table-header">
-                <span>Bill ID</span>
+                <span>@Html.DisplayNameFor(model => model.Id)</span>
                 <span>Customer Info</span>
                 <span>@Html.DisplayNameFor(model => model.NgayCheckIn)</span>
                 <span>@Html.DisplayNameFor(model => model.NgayCheckOut)</span>
                 <span>@Html.DisplayNameFor(model => model.IdKm)</span>
                 <span>@Html.DisplayNameFor(model => model.TongTienSau)</span>
-                <span>@Html.DisplayNameFor(model => model.IdPhuongThucNavigation)</span>
+                <span>@Html.DisplayNameFor(model => model.IdPhuongThucNavigation.PhuongThucThanhToan)</span>
                 <span>Detail</span>
             </div>
             <div class="bill-table-row">
-                @foreach (var item in Model) {
-                <span class="bill-id"> @Html.DisplayFor(modelItem => item.Id)</span>
-                <div class="customer-info">
+                @foreach (var item in Model)
+                {
+                    <span class="bill-id"> @Html.DisplayFor(modelItem => item.Id)</span>
+                    <div class="customer-info">
                         <span class="customer-id">@Html.DisplayFor(modelItem => item.IdKhachHang)</span>
                         <span class="customer-name">@Html.DisplayFor(modelItem => item.IdKhachHangNavigation.TenKhachHang)</span>
-                </div>
-                    
+                    </div>
                     <span class="check-in-date">@Html.DisplayFor(modelItem => item.NgayCheckIn)</span>
                     <span class="check-out-date">@Html.DisplayFor(modelItem => item.NgayCheckOut)</span>
                     <span class="promotion-id">@Html.DisplayFor(modelItem => item.IdKm)</span>
                     <span class="total-price">@Html.DisplayFor(modelItem => item.TongTienSau)</span>
-                    <span class="payment-method">@Html.DisplayFor(modelItem => item.IdPhuongThuc)</span>
-                <button class="view-details">
-                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f2ad35408d1e0c9167a076565a1966b00d4ca3f4bfa368454d8ae0d618d7956?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="View icon" class="view-icon">
-                    View
-                </button>
+                    <span class="payment-method">@Html.DisplayFor(modelItem => item.IdPhuongThucNavigation.PhuongThucThanhToan)</span>
+                    <button class="view-details" type="button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f2ad35408d1e0c9167a076565a1966b00d4ca3f4bfa368454d8ae0d618d7956?placeholderIfAbsent=true&apiKey=58f5b45f3a0f41e6ba206857f4cfcd97" alt="View icon" class="view-icon">
+                        View
+                    </button>
                 }
             </div>
             <div class="bill-table-footer">
@@ -109,6 +109,8 @@
             </div>
         </div>
     </section>
+    <script src="~/js/bill_detail.js">
+    </script>
 </main>
 @*
 <p>

@@ -1,14 +1,73 @@
 ﻿@model OnlineFood.Models.Bill
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Details";
 }
 
 <h1>Details</h1>
-
+<link rel="stylesheet" href="~/css/bill_detail.css">
 <div>
     <h4>Bill</h4>
     <hr />
+    <article class="bill-detail-container">
+        <header class="bill-detail-header">
+            <h1 class="bill-detail-title">BILL DETAIL</h1>
+            <div class="bill-info-container">
+                <div class="bill-info-indicator"></div>
+                <h2 class="bill-info-title">BILL INFO</h2>
+            </div>
+        </header>
+        <hr class="bill-detail-divider" />
+        <div class="bill-detail-content">
+            <section class="bill-info-section">
+                <div class="bill-info-column">
+                    <div class="bill-info-group">
+                        <div class="bill-info-labels">
+                            <p>@Html.DisplayNameFor(model => model.Id)</p>
+                            <p>@Html.DisplayNameFor(model => model.IdKhachHang)</p>
+                            <p>@Html.DisplayNameFor(model => model.IdKhachHangNavigation.TenKhachHang)</p>
+                            <p>@Html.DisplayNameFor(model => model.IdNhanVien)</p>
+                            <p>Time Using</p>
+                            <p>@Html.DisplayNameFor(model => model.IdOrderInfoNavigation.SoLuongHangMon)</p>
+                        </div>
+                    </div>
+                    <button class="detail-button">Detail</button>
+                </div>
+                <div class="bill-info-values">
+                    <p>@Html.DisplayFor(model => model.Id)</p>
+                    <p>@Html.DisplayFor(model => model.IdKhachHang)</p>
+                    <p>@Html.DisplayFor(model => model.IdKhachHangNavigation.TenKhachHang)</p>
+                    <p>@Html.DisplayFor(model => model.IdNhanVien)</p>
+                    <p>None</p>
+                    <p>@Html.DisplayFor(model => model.IdOrderInfoNavigation.SoLuongHangMon)</p>
+                </div>
+            </section>
+            <section class="bill-details-section">
+                <div class="bill-details-labels">
+                    <p>Time Booking</p>
+                    <p>@Html.DisplayNameFor(model => model.NgayCheckIn)</p>
+                    <p>@Html.DisplayNameFor(model => model.NgayCheckOut)</p>
+                    <p>@Html.DisplayNameFor(model => model.IdPhuongThucNavigation.PhuongThucThanhToan)</p>
+                    <p>@Html.DisplayNameFor(model => model.TongTienTruoc)</p>
+                    <p>@Html.DisplayNameFor(model => model.IdKm)</p>
+                    <p>@Html.DisplayNameFor(model => model.IdKmNavigation.PhanTram)</p>
+                    <p class="total-price-label">@Html.DisplayNameFor(model => model.TongTienSau)</p>
+                </div>
+                <div class="bill-details-values">
+                    <p>00:30:00</p>
+                    <p>@Html.DisplayFor(model => model.NgayCheckIn)</p>
+                    <p>@Html.DisplayFor(model => model.NgayCheckOut)</p>
+                    <p>@Html.DisplayFor(model => model.IdPhuongThucNavigation.PhuongThucThanhToan)</p>
+                    <p>@Html.DisplayFor(model => model.TongTienTruoc)</p>
+                    <p>@Html.DisplayFor(model => model.IdKm)</p>
+                    <p>@Html.DisplayFor(model => model.IdKmNavigation.PhanTram)</p>
+                    <p class="total-price-value">@Html.DisplayFor(model => model.TongTienSau)</p>
+                </div>
+            </section>
+        </div>
+    </article>
+    @*
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NgayCheckIn)
@@ -71,8 +130,11 @@
             @Html.DisplayFor(model => model.IdPhuongThucNavigation.Id)
         </dd>
     </dl>
+    *@
 </div>
+@*
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+*@

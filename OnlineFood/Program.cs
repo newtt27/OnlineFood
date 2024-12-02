@@ -22,7 +22,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 
 //Kết nối database
 builder.Services.AddDbContext<OnlineFoodContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineFoodDatabase")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineFoodDatabase")));
 
 // Thêm dịch vụ Session
 builder.Services.AddDistributedMemoryCache();
@@ -58,7 +58,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Foods}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "admin",
     pattern: "admin",
