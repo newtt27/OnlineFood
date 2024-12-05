@@ -29,5 +29,9 @@ namespace OnlineFood.Models.Services
             return await _foodRepo.GetFoodsByCategoryId(categoryId);
         }
 
+        public async Task<List<Food>> SearchFoods(string keyword)
+        {
+            return await _foodRepo.SearchFoodsAsync(keyword);
+        }
     }
 }

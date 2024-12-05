@@ -81,6 +81,22 @@ function filterFoodsByCategory(categoryId) {
     // Tải dữ liệu món ăn thuộc danh mục
     loadFoods(1, categoryId);
 }
+$(document).ready(function () {
+    // Lắng nghe sự kiện click trên các liên kết trong navbar
+    $('.nav-link-flex li a').on('click', function (e) {
+        e.preventDefault(); // Ngừng hành động mặc định của liên kết
+
+        // Lấy ID của phần cần cuộn đến
+        var target = $(this).attr('href').toLowerCase(); // Dùng href để lấy thông tin về phần cần cuộn đến
+
+            // Nếu nhấp vào các phần khác, cuộn trang đến phần tương ứng
+            $('html, body').animate({
+                scrollTop: $(target).offset().top
+            }, 1000); // Thời gian cuộn là 1000ms (1 giây)
+        
+    });
+});
+
 
 
 

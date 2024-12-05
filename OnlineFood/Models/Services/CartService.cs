@@ -121,7 +121,5 @@ namespace OnlineFood.Models.Services
 
                 await _cartRepo.RemoveCartItemAsync(account.IdCart.Value, foodId);
         }
-
-
     }
 }

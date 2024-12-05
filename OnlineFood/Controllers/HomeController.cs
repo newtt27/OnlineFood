@@ -92,6 +92,21 @@ namespace OnlineFood.Controllers
             return PartialView("_FoodCategoryPartial", foods);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SearchResult(string keyword)
+        {
+            List<Food> foods = [];
+
+            // Nếu từ khóa không rỗng, thực hiện tìm kiếm
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                foods = await _foodService.SearchFoods(keyword);
+            }
+            ViewData["Keyword"] = keyword;
+            // Trả về kết quả tìm kiếm hoặc thông báo không có sản phẩm nào
+            return PartialView("_SearchResult", foods);
+        }
+
 
         public IActionResult Privacy()
         {

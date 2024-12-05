@@ -1,0 +1,42 @@
+﻿@model List<Food>
+@{
+    string keyword = ViewData["Keyword"] as string;
+}
+@if (Model == null || !Model.Any())
+{
+    <div class="text-center mt-5">
+        <h5 class=" mb-4 text-white" style="font-size: 1.5rem; font-weight: bold;">Không tìm thấy sản phẩm nào</h5>
+        <p class="text-white" style="font-size: 1rem;">Hãy thử lại với từ khóa khác hoặc kiểm tra lại thông tin đã nhập.</p>
+    </div>
+}
+
+else
+{
+    <div class="text-center mt-5 mb-4">
+        <h3 class="text-white">Kết quả tìm kiếm: <span class="text-warning">@keyword</span></h3>
+    </div>
+    <div class="row">
+        @foreach (var food in Model)
+        {
+            <div class="col-md-3 mb-4 food-item" style="font-family: 'Titan One', sans-serif; cursor: pointer"
+                 onclick="showFoodDetails(@food.Id)">
+                <div class="card bg-dark text-white position-relative" style="height: 40vh">
+                    <img src="@food.Hinhanh" class="card-img-top h-50" alt="Item" style="height: 10vh; object-fit: contain; width: 20vw;">
+                    <div class="card-body">
+                        <h5 class="card-title">@food.TenMonAn</h5>
+                        <p class="card-text">@String.Format("{0:N0}", food.GiaTien * 1000) VND</p>
+                        <p class="card-text position-absolute start-1 bottom-0">
+                            SL:
+                            <input type="number" min="1" value="1" class="form-control d-inline-block quantity" style="width: 80px; border-radius: 50px" text-align: center;">
+                        </p>
+                        <button class="add-to-cart btn btn-warning btn-custom_fastfood position-absolute end-0 bottom-0 mx-3 my-2"
+                                style="font-size: 0.5rem"
+                                onclick="event.stopPropagation(); addToCart(@food.Id)">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

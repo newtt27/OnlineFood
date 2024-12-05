@@ -27,15 +27,15 @@
                     </div>
                 </div>
                 <ul class="nav nav-link-flex navbar-font">
-                    <li class="active mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#">Home</a></li>
-                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#">Menu</a></li>
-                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#">Services</a></li>
-                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#">About us</a></li>
-                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#">Contact</a></li>
+                    <li class="active mx-3"><a asp-controller="Home" asp-action="Index" class="text-decoration-none navbar-text-color navbar-text-size"> Home </a></li>
+                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#fast-food-menu">Menu</a></li>
+                    @* <li class="mx-3"><a  class="text-decoration-none navbar-text-color navbar-text-size" href="#">Services</a></li> *@
+                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#about-us">About us</a></li>
+                    <li class="mx-3"><a class="text-decoration-none navbar-text-color navbar-text-size" href="#contact">Contact</a></li>
                 </ul>
 
                 <div class="input-group mr-2">
-                    <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                    <input type="search" class="form-control" id="searchInput" placeholder="Search..." aria-label="Search">
                     <!-- <button class="btn" type="submit"><i class="fas fa-search"></i></button> -->
                 </div>
 
@@ -76,8 +76,8 @@
                                         </a>
                                     </li>
                         }
-                        <li class="mx-3"><button class="btn-custom"><i class="bi bi-heart fs-5"></i></button></li>
-                        <li class="mx-3"><button class="btn-custom"><i class="bi bi-list fs-5"></i></button></li>
+                        @* <li class="mx-3"><button class="btn-custom"><i class="bi bi-heart fs-5"></i></button></li> *@
+                        @* <li class="mx-3"><button class="btn-custom"><i class="bi bi-list fs-5"></i></button></li> *@
                     </ul>
                 </div>
             </div>
@@ -95,72 +95,8 @@
             </main>
         </div>
     </body>
-    @*Contact*@
-    <div class="container w-100 h-auto mt-8rem position-relative">
-        <div class="row h-25 rounded-top-left-right-20 d-flex" style="background-color: #414040">
-            <div class="navbar-header mx-4 col-3">
-                <div class="m-3 ">
-                    <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
-                        <span class="iCielCadena-900 logo-size logo-F">F</span>
-                        <span class="iCielCadena-900 logo-size logo-O-1">O</span>
-                        <span class="iCielCadena-900 logo-size logo-O-2">O</span>
-                        <span class="iCielCadena-900 logo-size logo-DIY">D</span>
-                        <span class="iCielCadena-900 logo-size logo-DIY">I</span>
-                        <span class="iCielCadena-900 logo-size logo-DIY">Y</span>
-                    </a>
-                </div>
-            </div>
+    
 
-            <div class="col-1 d-flex justify-content-center align-items-center">
-                <img src="~/assets/image/email.png" />
-                <span class="mx-2 iCielCadena-200" style="font-size: 1rem; color: white;">abc@gmail.com</span>
-            </div>
-            <div class="col-2 d-flex justify-content-center align-items-center ml-80px">
-                <img src="~/assets/image/phone-call.png" />
-                <span class="mx-2 iCielCadena-200" style="font-size: 1rem; color: white;">69 21 49 53</span>
-            </div>
-        </div>
-        <div class="row h-75" style="background-color: #3B3B3B">
-            <div class="col-2 ">
-                <ul class="d-flex flex-wrap justify-content-center align-items-center list-unstyled">
-                    <li><img src="~/assets/image/momo.png" style="cursor: pointer" /></li>
-                    <li><img class="img-custom" src="~/assets/image/vnpay 1.png" /></li>
-                    <li class="mx-4"><img class="img-custom" src="~/assets/image/money.png" /></li>
-                    <li><img class="img-custom" src="~/assets/image/atm-card.png" /></li>
-                </ul>
-            </div>
-            <div class="col-2 ml-80px my-3" style="color: white">
-                <div>
-                    <p style="font-size: 1.2rem; font-weight: 700">FOLLOW US</p>
-                </div>
-                <ul class="list-unstyled">
-                    <li>HELP</li>
-                    <li>MENU</li>
-                    <li>HOME</li>
-                </ul>
-            </div>
-            <div class="col-2 ml-80px my-3" style="color: white">
-                <div>
-                    <p style="font-size: 1.2rem; font-weight: 700">ABOUT US</p>
-                </div>
-                <ul class="list-unstyled">
-                    <li><a class="text-decoration-none text-light">ABC@gmail.com</a></li>
-                    <li><a class="text-decoration-none text-light">ABC@gmail.com</a></li>
-                    <li><a class="text-decoration-none text-light">ABC@gmail.com</a></li>
-                </ul>
-                <div class="d-flex gap-3">
-                    <img style="width: 40px; height: 40px; cursor:pointer" src="~/assets/image/communication.png" />
-                    <img style="width: 40px; height: 40px; cursor:pointer" src="~/assets/image/social.png" />
-                    <img style="width: 40px; height: 40px; cursor:pointer" src="~/assets/image/tik-tok.png" />
-                </div>
-            </div>
-            <div class="col-2 my-3">
-                <img src="~/assets/image/map 1.png" />
-                <span class="mx-2" style="font-size: 1rem; color: white;">Concac</span>
-            </div>
-            <img class="position-absolute end-0 bottom-0" style="width: 400px; height: 450px" src="~/assets/image/chef 3d.png" />
-        </div>
-    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -168,7 +104,7 @@
     <script src="~/js/home.js"></script>
     <script src="~/js/cart.js"></script>
     <script src="~/js/notification.js"></script>
-     @* <script src="~/js/sortbycategory.js"></script> *@
+    <script src="~/js/search.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

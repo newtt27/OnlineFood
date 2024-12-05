@@ -148,7 +148,7 @@ function updateCartUI() {
                             <small>${item.price.toLocaleString()} VND x ${item.quantity}</small>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-danger" onclick="removeFromCart(${item.id})">
+                    <button class="btn btn-sm btn-remove" onclick="removeFromCart(${item.id})">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>

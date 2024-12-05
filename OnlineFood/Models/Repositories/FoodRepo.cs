@@ -28,5 +28,18 @@ namespace OnlineFood.Models.Repositories
                            .Where(f => f.IdDanhMuc == categoryId) // CategoryId phải trùng với cột trong DB
                            .ToListAsync();
         }
+
+        public async Task<List<Food>> SearchFoodsAsync(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword))
+            {
+                return new List<Food>();
+            }
+
+            return await _context.Foods
+                                 .Where(f => f.TenMonAn.Contains(keyword))
+                                 .ToListAsync(); // sử dụng ToListAsync() thay vì ToList()
+        }
+
     }
 }
