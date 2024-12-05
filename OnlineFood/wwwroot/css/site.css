@@ -619,4 +619,36 @@ h-600px {
     max-width: 100%;
     height: auto;
 }
+.custom-pagination .page-item:hover{
+    cursor: pointer
+}
+.custom-pagination .page-item {
+    margin: 0 5px; /* Cách đều các nút */
+}
 
+.custom-pagination .page-link {
+    border-radius: 50px; /* Bo tròn viền */
+    background-color: black; /* Nền màu vàng */
+    color: white; /* Màu chữ */
+    border: 2px solid #E2B51A;
+    width: 40px; /* Kích thước cố định */
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .custom-pagination .page-link:hover {
+        background-color: #E2B51A; /* Màu vàng nhạt hơn khi hover */
+    }
+
+.custom-pagination .page-item.active .page-link {
+    background-color: #E2B51A; /* Nền màu cam cho nút đang được chọn */
+    color: white; /* Màu chữ trắng */
+}
+/* Đảm bảo nút Previous và Next cũng được bo tròn */
+.custom-pagination #previous .page-link,
+.custom-pagination #next .page-link {
+    border-radius: 30px; /* Bo tròn viền */
+    width: 80px;
+}
