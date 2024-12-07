@@ -9,5 +9,6 @@ namespace OnlineFood.Models.Repositories
         Task<IEnumerable<Food>> GetFoodsByCategoryId(int categoryId);
         Task<Food> GetById(int id);
         Task<List<Food>> SearchFoodsAsync(string keyword);
+        Task<IEnumerable<Food>> GetAllFoodActive();
     }
 }

@@ -17,6 +17,13 @@ namespace OnlineFood.Models.Repositories
             return await _context.Foods.ToListAsync();
         }
 
+        public async Task<IEnumerable<Food>> GetAllFoodActive()
+        {
+            return await _context.Foods
+                .Where(f => f.TrangThai == 1)
+                .ToListAsync();
+        }
+
         public async Task<Food> GetById(int id)
         {
             return await _context.Foods.FindAsync(id);
@@ -25,7 +32,7 @@ namespace OnlineFood.Models.Repositories
         public async Task<IEnumerable<Food>> GetFoodsByCategoryId(int categoryId)
         {
             return await _context.Foods
-                           .Where(f => f.IdDanhMuc == categoryId) // CategoryId phải trùng với cột trong DB
+                           .Where(f => f.IdDanhMuc == categoryId && f.TrangThai == 1) // CategoryId phải trùng với cột trong DB
                            .ToListAsync();
         }
 
@@ -37,7 +44,7 @@ namespace OnlineFood.Models.Repositories
             }
 
             return await _context.Foods
-                                 .Where(f => f.TenMonAn.Contains(keyword))
+                                 .Where(f => f.TenMonAn.Contains(keyword) && f.TrangThai == 1)
                                  .ToListAsync(); // sử dụng ToListAsync() thay vì ToList()
         }
 

@@ -25,7 +25,7 @@ namespace OnlineFood.Controllers
         public async Task<IActionResult> Index(int page = 1, int pageSize = 8)
         {
             var foodCategories = await _foodCategoryService.GetAll();
-            var foods = await _foodService.GetAllFoods();
+            var foods = await _foodService.GetAllFoodActive();
 
             var totalItems = foods.Count();
 
@@ -46,7 +46,7 @@ namespace OnlineFood.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPagedFoods(int page = 1, int pageSize = 8)
         {
-            var foods = await _foodService.GetAllFoods() ?? new List<Food>(); // Đảm bảo foods không null
+            var foods = await _foodService.GetAllFoodActive() ?? new List<Food>(); // Đảm bảo foods không null
             var totalItems = foods.Count();
             var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 

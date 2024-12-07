@@ -13,6 +13,11 @@ namespace OnlineFood.Models.Services
             _foodRepo = foodRepo;
         }
 
+        public async Task<IEnumerable<Food>> GetAllFoodActive()
+        {
+            return await _foodRepo.GetAllFoodActive();
+        }
+
         public async Task<IEnumerable<Food>> GetAllFoods()
         {
             return await _foodRepo.GetAll();

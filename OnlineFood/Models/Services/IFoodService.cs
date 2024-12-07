@@ -9,5 +9,6 @@ namespace OnlineFood.Models.Services
         Task<IEnumerable<Food>> GetFoodsByCategory(int categoryId);
         Task<Food> GetFoodById(int id);
         Task<List<Food>> SearchFoods(string keyword);
+        Task<IEnumerable<Food>> GetAllFoodActive();
     }
 }
