@@ -1,0 +1,432 @@
+﻿:host {
+    display: contents;
+}
+
+.header {
+    background-color: rgba(234, 234, 234, 1);
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 80px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-family: 'iCiel Baliho Script', -apple-system, Roboto, Helvetica, sans-serif;
+    color: rgba(120, 120, 120, 1);
+}
+
+.user-avatar,
+.notification-icon {
+    width: 61px;
+    height: 61px;
+    object-fit: contain;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.dropdown-arrow {
+    width: 13px;
+    height: 13px;
+}
+
+.user-email {
+    font-size: 20px;
+}
+
+.main-content {
+    padding: 38px 80px 35px;
+}
+
+.order-section {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 36px 33px 36px 66px;
+    margin-bottom: 17px;
+}
+
+.section-title {
+    color: #000;
+    font: 700 30px 'Golos UI', sans-serif;
+    margin: 0;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-bar {
+    width: 447px;
+    height: 51px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.edit-button,
+.delete-button {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 30px 13px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    font: 400 32px Staatliches, sans-serif;
+    cursor: pointer;
+}
+
+.edit-button {
+    color: rgba(250, 234, 4, 1);
+}
+
+.delete-button {
+    color: rgba(252, 0, 0, 1);
+}
+
+.button-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.orders-table {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+    padding: 37px 22px;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 13px;
+    font-family: 'Golos UI', sans-serif;
+}
+
+.header-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.column-title {
+    color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 28px;
+}
+
+.order-count {
+    font-weight: 400;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+.select-all-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(120, 120, 120, 1);
+    border-radius: 2px;
+}
+
+.column-label {
+    color: rgba(120, 120, 120, 1);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.customer-info {
+    margin-top: 64px;
+}
+
+.dropdown {
+    background-color: rgba(217, 217, 217, 0.11);
+    padding: 16px 35px;
+    margin-bottom: 27px;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+}
+
+.calendar-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.sub-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-body {
+    border-top: 1px solid #000;
+}
+
+.table-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(120, 120, 120, 1);
+}
+
+.row-item {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.order-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    border-radius: 2px;
+}
+
+.order-id {
+    color: rgba(40, 83, 253, 1);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.customer-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-id {
+    color: rgba(40, 83, 253, 1);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.customer-name {
+    color: #000;
+    font-size: 16px;
+}
+
+.table-id {
+    color: rgba(40, 83, 253, 1);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+}
+
+    .status::before {
+        content: '';
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+.confirmed {
+    color: rgba(6, 185, 54, 1);
+}
+
+    .confirmed::before {
+        background-color: rgba(6, 185, 54, 1);
+    }
+
+.pending {
+    color: rgba(229, 232, 45, 1);
+}
+
+    .pending::before {
+        background-color: rgba(229, 232, 45, 1);
+    }
+
+.cancelled {
+    color: rgba(233, 21, 21, 1);
+}
+
+    .cancelled::before {
+        background-color: rgba(233, 21, 21, 1);
+    }
+
+.view-button {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 6px 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: rgba(234, 234, 234, 1);
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 119px;
+}
+
+.selection-info {
+    color: rgba(86, 141, 234, 1);
+    font: 400 14px 'Golos UI', sans-serif;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 13px;
+}
+
+.pagination-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.pagination-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.page-link {
+    color: rgba(0, 0, 0, 0.5);
+    font: 400 16px 'Golos UI', sans-serif;
+    text-decoration: none;
+}
+
+    .page-link.current {
+        color: #000;
+    }
+
+.ellipsis {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.info-icon {
+    width: 258px;
+    height: 258px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (max-width: 991px) {
+    .header {
+        padding: 20px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .order-section {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+
+    .action-buttons {
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .orders-table {
+        padding: 20px;
+    }
+
+    .table-header {
+        flex-direction: column;
+    }
+
+    .header-column {
+        margin-bottom: 20px;
+    }
+
+    .customer-info {
+        margin-top: 20px;
+    }
+
+    .table-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .row-item {
+        justify-content: space-between;
+    }
+
+    .table-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .pagination {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .info-icon {
+        width: 100%;
+        height: auto;
+    }
+}

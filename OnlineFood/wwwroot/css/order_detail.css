@@ -1,0 +1,98 @@
+﻿:host {
+    display: contents;
+}
+.order-detail-container {
+    background-color: #fff;
+    max-width: 583px;
+    font-family: 'Golos UI', sans-serif;
+}
+
+.order-detail-header {
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+    padding: 57px 80px 96px;
+}
+
+.order-detail-title {
+    color: #000;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.order-detail-main {
+    margin-top: 48px;
+}
+
+.order-info-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 24px;
+    color: #000;
+    font-weight: 700;
+}
+
+.order-info-indicator {
+    background-color: #000;
+    width: 3px;
+    height: 17px;
+}
+
+.order-info-divider {
+    margin-top: 13px;
+    width: 100%;
+    max-width: 443px;
+    height: 1px;
+    border: 1px solid #000;
+}
+
+.order-info-content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 13px;
+    max-width: 386px;
+    font-size: 20px;
+}
+
+.order-info-labels,
+.order-info-values {
+    display: flex;
+    flex-direction: column;
+}
+
+    .order-info-labels p,
+    .order-info-values p {
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    .order-info-values p {
+        color: #2853fd;
+        font-weight: 700;
+    }
+
+        .order-info-values p:nth-child(4) {
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+.order-status-available {
+    color: #06b936 !important;
+}
+
+@media (max-width: 991px) {
+    .order-detail-header {
+        padding: 40px 20px;
+    }
+
+    .order-detail-main {
+        margin-top: 40px;
+    }
+
+    .order-info-content {
+        flex-direction: column;
+    }
+}

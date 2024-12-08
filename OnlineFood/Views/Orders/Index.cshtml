@@ -4,9 +4,164 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Index";
 }
-
+<link rel="stylesheet" href="~/css/order.css">
 <h1>Index</h1>
+<header class="header">
+    @*
+    <div class="user-info">
+        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/45881b31095ea0d6211c0f58a4f1d6517c033b88cf60a2c244319e416b16228a?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="User avatar" class="user-avatar">
+        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/4aae69c21bd86e95e6d173c91bfdd9fb93fa09d9a6e1994ed7ee61eef5dfa6b6?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Notification icon" class="notification-icon">
+        <div class="user-details">
+            <div class="user-name-wrapper">
+                <span class="user-name">abc</span>
+                <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/30e406b9ff1c9c39f90c3350efbb441836cbe40551c40aec1d940f4b7686184c?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Dropdown arrow" class="dropdown-arrow">
+            </div>
+            <span class="user-email">abc@gmail.com</span>
+        </div>
+    </div>
+    *@
+</header>
 
+<main class="main-content">
+    <section class="order-section">
+        <h1 class="section-title">ORDER MANAGEMENT</h1>
+        <div class="action-buttons">
+            <div class="search-bar"></div>
+            <button class="edit-button" id="editSelected" disabled onclick="editSelectedOrder()">
+                <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/7a5898ce89824de5a57ceb4a4e789d31e935dceaf73c573b14c7090e5b381eb1?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Edit icon" class="button-icon">
+                <span>edit</span>
+            </button>
+            <button class="delete-button">
+                <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/ed7536cca46455b5f7d9f7213ea3a9ee2fa89900574864a2ecabfcdfeab9f93e?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Delete icon" class="button-icon">
+                <span>Delete</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="orders-table">
+        <div class="table-header">
+            <div class="header-column">
+                <h2 class="column-title">ORDERS <span class="order-count">(100)</span></h2>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="selectAll" class="select-all-checkbox">
+                    <label for="selectAll" class="visually-hidden">Select all orders</label>
+                    <span class="column-label">@Html.DisplayNameFor(model => model.Id)</span>
+                </div>
+                <span class="column-label customer-info">Customer Info</span>
+            </div>
+            <div class="header-column">
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        <span>All</span>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/c2d2d9e55334de4ce7e727dc18342269291a52d7bc04518f39c8d2525e29e5b6?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Dropdown arrow" class="dropdown-arrow">
+                    </button>
+                </div>
+                <div class="sub-labels">
+                    <span class="column-label">@Html.DisplayNameFor(model => model.Date)</span>
+                </div>
+            </div>
+            <div class="header-column">
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/8b0be2f0a79eb2e4bd83b7612daa3542d437237b8d0a4455b1b45f6a0d43adb0?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Calendar icon" class="calendar-icon">
+                        <span>Today</span>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/c2d2d9e55334de4ce7e727dc18342269291a52d7bc04518f39c8d2525e29e5b6?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Dropdown arrow" class="dropdown-arrow">
+                    </button>
+                </div>
+                <span class="column-label">@Html.DisplayNameFor(model => model.TongSoLuong)</span>
+            </div>
+            <div class="header-column">
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        <span>Columns</span>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/c2d2d9e55334de4ce7e727dc18342269291a52d7bc04518f39c8d2525e29e5b6?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Dropdown arrow" class="dropdown-arrow">
+                    </button>
+                </div>
+                <div class="sub-labels">
+                    <span class="column-label">@Html.DisplayNameFor(model => model.TrangThai)</span>
+                    <span class="column-label">Detail</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-body">
+            @foreach (var item in Model) {
+            <div class="table-row">
+                <div class="row-item">
+                        <input type="checkbox" name="selectedOrder" id="order-@item.Id" class="order-checkbox" value="@item.Id" onclick="enableEditButton()">
+                        @*<label for="order-@item.Id" class="visually-hidden">@item.Id</label>
+                        <span class="order-id">@item.Id</span>*@
+                        <label for="order-@item.Id" class="order-id">@item.Id</label>
+                </div>
+                <div class="row-item">
+                    <div class="customer-details">
+                            <span class="customer-id">@item.IdKhachHang</span>
+                            <span class="customer-name">@item.IdKhachHangNavigation.TenKhachHang</span>
+                    </div> 
+                </div>
+                <div class="row-item">
+                        <span class="date">@item.Date</span>
+                        <span class="sum">@item.TongSoLuong</span>
+                        <span class="status confirmed">@item.TrangThai)</span>
+                    <button class="view-button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/8f2ad35408d1e0c9167a076565a1966b00d4ca3f4bfa368454d8ae0d618d7956?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="View icon" class="button-icon">
+                        <span>View</span>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+
+    <footer class="table-footer">
+        <span class="selection-info">0 of 13 raw(s) selected</span>
+        <nav class="pagination" aria-label="Table navigation">
+            <div class="pagination-controls">
+                <button class="pagination-button" aria-label="Go to first page">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/fc277f4906ce6db3d4b61a8cd782f5ec76108524b361e1350e62ac6c36b3632d?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="" class="pagination-icon">
+                </button>
+                <button class="pagination-button" aria-label="Go to previous page">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/f04d3f9ef308589f9724520aff02190e226ad02c3591cded50685ca165904fe0?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="" class="pagination-icon">
+                </button>
+            </div>
+            <ul class="page-numbers">
+                <li><a href="#" class="page-link current" aria-current="page">1</a></li>
+                <li><a href="#" class="page-link">2</a></li>
+                <li><a href="#" class="page-link">3</a></li>
+                <li><span class="ellipsis">...</span></li>
+            </ul>
+            <div class="pagination-controls">
+                <button class="pagination-button" aria-label="Go to next page">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/a5dbaac28fbe9edf81d1cfd4db52ef3bc60dd9bf09e4f8fc37d467279abf39ea?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="" class="pagination-icon">
+                </button>
+                <button class="pagination-button" aria-label="Go to last page">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/eebbe4c68372a97be61f1a5af237335bfd9bf8ef537f50df9d24baebd8c68cbe?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="" class="pagination-icon">
+                </button>
+            </div>
+        </nav>
+        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/fa227aa00b719769740100c5d1f5c4f3be598d59eb4bda40d2f7860edcbc3b94?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Additional information icon" class="info-icon">
+    </footer>
+</main>
+<script>
+        function editSelectedOrder() {
+            // Get the selected radio button
+            const selectedOrder = document.querySelector('input[name="selectedOrder"]:checked');
+
+        if (selectedOrder) {
+                const orderId = selectedOrder.value;
+        const editUrl = `/Orders/Edit/${orderId}`; // Adjust route as needed
+        window.location.href = editUrl;
+            } else {
+            alert("No order selected!");
+            }
+        }
+    function enableEditButton() {
+        // Enable the Edit button when a radio button is selected
+        const editButton = document.getElementById("editSelected");
+        editButton.disabled = false;
+    }
+</script>
+@*
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -70,3 +225,4 @@
 }
     </tbody>
 </table>
+*@

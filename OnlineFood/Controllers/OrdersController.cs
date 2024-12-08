@@ -85,8 +85,10 @@ namespace OnlineFood.Controllers
             {
                 return NotFound();
             }
-
-            var order = await _context.Orders.FindAsync(id);
+            var order = _context.Orders
+                        .Include(o => o.IdFoodNavigation) // Include related Food details
+                        .ThenInclude(f => f.Orders) // Include related orders if needed
+                        .FirstOrDefault(o => o.Id == id);
             if (order == null)
             {
                 return NotFound();

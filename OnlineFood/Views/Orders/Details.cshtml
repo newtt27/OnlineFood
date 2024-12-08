@@ -1,14 +1,46 @@
 ﻿@model OnlineFood.Models.Order
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Details";
 }
-
+<link rel="stylesheet" href="~/css/order_detail.css">
 <h1>Details</h1>
-
 <div>
     <h4>Order</h4>
     <hr />
+    <section class="order-detail-container">
+        <header class="order-detail-header">
+            <h1 class="order-detail-title">ORDER DETAIL</h1>
+        </header>
+        <main class="order-detail-main">
+            <div class="order-info-header">
+                <div class="order-info-indicator"></div>
+                <h2 class="order-info-title">ORDER INFO</h2>
+            </div>
+            <hr class="order-info-divider" />
+            <div class="order-info-content">
+                <div class="order-info-labels">
+                    <p>@Html.DisplayNameFor(model => model.Id)</p>
+                    <p>@Html.DisplayNameFor(model => model.IdKhachHang)</p>
+                    <p>@Html.DisplayNameFor(model => model.Date)</p>
+                    <p>@Html.DisplayNameFor(model => model.TongSoLuong)</p>
+                    <p>@Html.DisplayNameFor(model => model.TrangThai)</p>
+                </div>
+                <div class="order-info-values">
+                    <p>@Html.DisplayFor(model => model.Id)</p>
+                    <p>@Html.DisplayFor(model => model.IdKhachHang)</p>
+                    <p>
+                        @Html.DisplayFor(model => model.Date)
+                    </p>
+                    <p>@Html.DisplayFor(model => model.TongSoLuong)</p>
+                    <p class="order-status-available">@Html.DisplayFor(model => model.TrangThai)</p>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    @*
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Date)
@@ -53,8 +85,12 @@
             @Html.DisplayFor(model => model.IdKhachHangNavigation.Id)
         </dd>
     </dl>
+    *@
 </div>
+
+@*
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+*@

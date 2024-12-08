@@ -1,0 +1,134 @@
+﻿:host {
+    display: contents;
+}
+
+.product-list-container {
+    border-radius: 10px;
+    max-width: 996px;
+    font-family: Golos UI, sans-serif;
+    background-color: #fff;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+    padding: 116px 51px;
+}
+
+.product-list-header {
+    text-align: center;
+}
+
+.product-list-title {
+    color: #000;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.product-list-subtitle {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+    margin: 67px 0 0 39px;
+}
+
+.product-list-main {
+    background-color: #fff;
+    width: 100%;
+    padding-top: 25px;
+    font-size: 20px;
+    margin: 21px 0 -27px;
+    border: 1px solid rgba(120, 120, 120, 0.5);
+}
+
+.product-info-header {
+    display: flex;
+    margin-left: 39px;
+    width: 100%;
+    max-width: 737px;
+    gap: 40px 100px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+.product-info-label {
+    flex-grow: 1;
+    width: 113px;
+}
+
+.divider {
+    margin-top: 26px;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid rgba(120, 120, 120, 0.5);
+}
+
+.product-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-item {
+    display: flex;
+    width: 100%;
+    max-width: 778px;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 6px 0 0 24px;
+}
+
+.product-details {
+    display: flex;
+    gap: 19px;
+}
+
+.product-image {
+    aspect-ratio: 0.93;
+    object-fit: contain;
+    object-position: center;
+    width: 65px;
+}
+
+.product-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-code {
+    color: #2853fd;
+    font-weight: 700;
+}
+
+.product-name {
+    color: #000;
+    font-weight: 400;
+    margin-top: 11px;
+}
+
+.product-metrics {
+    display: flex;
+    gap: 40px 100px;
+    color: #000;
+    font-weight: 400;
+    margin: auto 0;
+}
+
+@media (max-width: 991px) {
+    .product-list-container {
+        max-width: 100%;
+        padding: 0 20px 100px;
+    }
+
+    .product-list-subtitle {
+        margin: 40px 0 0 10px;
+    }
+
+    .product-list-main {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .product-info-header,
+    .product-item,
+    .product-metrics {
+        max-width: 100%;
+    }
+}
