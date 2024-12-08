@@ -7,6 +7,7 @@
 
 <h1>Details</h1>
 <link rel="stylesheet" href="~/css/bill_detail.css">
+<link rel="stylesheet" href="~/css/food_list.css">
 <div>
     <h4>Bill</h4>
     <hr />
@@ -32,7 +33,6 @@
                             <p>@Html.DisplayNameFor(model => model.IdOrderInfoNavigation.SoLuongHangMon)</p>
                         </div>
                     </div>
-                    <button class="detail-button">Detail</button>
                 </div>
                 <div class="bill-info-values">
                     <p>@Html.DisplayFor(model => model.Id)</p>
@@ -67,6 +67,52 @@
             </section>
         </div>
     </article>
+
+    <div>
+    <h4>Bill Details</h4>
+    <hr />
+    <section class="product-list-container">
+        <header class="product-list-header">
+            <h1 class="product-list-title">PRODUCT LIST</h1>
+            <h2 class="product-list-subtitle">Products included in this bill</h2>
+        </header>
+        <main class="product-list-main">
+            <div class="product-info-header">
+                <span class="product-info-label">Product Info</span>
+                <span class="quantity-label">Quantity</span>
+                <span class="size-label">Size</span>
+                <span class="price-label">Price x Quantity</span>
+            </div>
+            <hr class="divider">
+
+            <ul class="product-items">
+                @foreach (var orderInfo in Model.IdOrderInfoNavigation.Bills)
+                {
+                        var monAn = orderInfo.IdOrderInfoNavigation.IdMonAnNavigation;
+                    
+                    <li class="product-item">
+                        <div class="product-details">
+                            <img src="@Url.Content(monAn.Hinhanh)" alt="Product image" class="product-image">
+                            <div class="product-text">
+                                <span class="product-code">@monAn.Id</span>
+                                <span class="product-name">@monAn.TenMonAn</span>
+                            </div>
+                        </div>
+                        <div class="product-metrics">
+                            <span class="product-quantity">@monAn.Soluong</span>
+                            <span class="product-size">@monAn.Size</span> 
+                            <span class="product-price">@monAn.GiaTien x @monAn.Soluong</span>
+                        </div>
+                    </li>
+                    <hr class="divider">
+                }
+                </ul>
+            </main>
+        </section>
+    </div>
+
+
+
     @*
     <dl class="row">
         <dt class = "col-sm-2">

@@ -1,13 +1,94 @@
 ﻿@model OnlineFood.Models.Order
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Edit";
 }
 
 <h1>Edit</h1>
-
+<link rel="stylesheet" href="~/css/order_edit.css">
 <h4>Order</h4>
 <hr />
+<section class="product-list" asp-action="Edit">
+    <header class="product-list__header">
+        <h1 class="product-list__title">PRODUCTS LIST</h1>
+    </header>
+    <div class="product-list__content">
+        <div class="product-list__summary">
+            <div class="product-list__summary-header">
+                <span class="product-list__summary-indicator"></span>
+                <h2 class="product-list__summary-title">PRODUCT LIST (3)</h2>
+            </div>
+            <div class="product-list__actions">
+                <h3 class="product-list__subtitle">Products list</h3>
+                <div class="product-list__buttons">
+                    <button class="action-button">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/429099efffd94649db83b6685a5d890787841245fac8d9680d7a6f42342a6dc0?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Import icon" class="action-button__icon" />
+                        <span class="action-button__text">Import</span>
+                    </button>
+                    <button class="action-button">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/9e9f4861fbf91d6c4f0ea91c24bfc0c4e119a242441acfea41787cf27a7116ac?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Export icon" class="action-button__icon" />
+                        <span class="action-button__text">Export</span>
+                    </button>
+                    <button class="action-button">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/a74fb9c094be25c0b858037018d50c42f2e61ac2baee541e8b05f54e4f1004de?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Add icon" class="action-button__icon" />
+                        <span class="action-button__text">Add</span>
+                    </button>
+                    <button class="action-button">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/98ac3e6c61dd17fece531cbfa589fc787c262521cc464e142550e7600b9265bc?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Edit icon" class="action-button__icon" />
+                        <span class="action-button__text">Edit</span>
+                    </button>
+                    <button class="action-button">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/451c9c2a252a7554c3f8b08b29c338f553ad59eff0166d4957310cc4c14887e1?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Delete icon" class="action-button__icon" />
+                        <span class="action-button__text">Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="product-info">
+            <thead>
+                <tr>
+                    <th>Products Info</th>
+                    <th>Quantity</th>
+                    <th>Size</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in Model.IdFoodNavigation.Orders)
+                {
+                    var monAn = food.IdFoodNavigation;
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="product-checkbox" id="product-@monAn.Id" aria-label="Select product @monAn.TenMonAn" tabindex="0" />
+                            <img loading="lazy" src="@Url.Content(monAn.Hinhanh)" class="product-image" alt="@monAn.TenMonAn dish" />
+                            <div class="product-text">
+                                <span class="product-id">@monAn.Id</span>
+                                <span class="product-name">@monAn.TenMonAn</span>
+                            </div>
+                        </td>
+                        <td class="quantity-value">@monAn.Soluong</td>
+                        <td class="size-value">@monAn.Size</td>
+                        <td class="price-value">@monAn.GiaTien x @monAn.Soluong</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="description-section">
+            <div class="description-section__header">
+                <span class="description-section__indicator"></span>
+                <h2 class="description-section__title">DESCRIPTION</h2>
+            </div>
+            <textarea class="description-section__input" placeholder="Enter a description..."></textarea>
+        </div>
+        <div class="action-buttons">
+            <button class="action-buttons__create">Update</button>
+            <button class="action-buttons__cancel">Cancel</button>
+        </div>
+    </div>
+</section>
+
+@*
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -58,6 +139,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

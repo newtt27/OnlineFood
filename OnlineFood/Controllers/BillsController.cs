@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +40,28 @@ namespace OnlineFood.Controllers
                 .Include(b => b.IdKmNavigation)
                 .Include(b => b.IdNhanVienNavigation)
                 .Include(b => b.IdOrderInfoNavigation)
+                    .ThenInclude(oi => oi.IdMonAnNavigation)
                 .Include(b => b.IdPhuongThucNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            if (bill == null)
+            {
+                return NotFound();
+            }
+            return View(bill);
+        }
+
+        public async Task<IActionResult> BillDetail(int id)
+        {
+            // Load the bill along with OrderInfos and related Food (MonAn)
+            var bill = await _context.Bills
+                .Include(b => b.IdOrderInfoNavigation)  // Include OrderInfo
+                .ThenInclude(oi => oi.IdMonAnNavigation)  // Include Food (MonAn) in OrderInfo
+                .Include(b => b.IdKhachHangNavigation)  // Include Customer
+                .Include(b => b.IdNhanVienNavigation)  // Include Employee
+                .Include(b => b.IdKmNavigation)  // Include Promotion
+                .Include(b => b.IdPhuongThucNavigation)  // Include Payment
+                .FirstOrDefaultAsync(b => b.Id == id);
+
             if (bill == null)
             {
                 return NotFound();
@@ -48,6 +69,27 @@ namespace OnlineFood.Controllers
 
             return View(bill);
         }
+
+
+        public async Task<IActionResult> FoodList(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var food = await _context.Foods
+                .Include(f => f.OrderInfos)  // Eager load the related OrderInfos for Food
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+            if (food == null)
+            {
+                return NotFound();
+            }
+
+            return View(food);  // Pass the Food object to the view
+        }
+
 
         // GET: Bills/Create
         public IActionResult Create()
