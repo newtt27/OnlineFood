@@ -156,6 +156,88 @@
     color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
+/* Modal background (overlay) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+    overflow: auto; /* Enable scroll if content overflows */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Center the modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Adjust width as needed */
+    max-height: 80vh; /* Maximum height to allow for scrolling */
+    overflow-y: auto; /* Scrollable content inside the modal */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Close button (X) */
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+/* Checkbox group inside modal */
+.checkbox-group {
+    max-height: 300px; /* Max height for scrollable area */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding-right: 10px; /* For scrollbar space */
+}
+
+/* Form inputs and button */
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="number"],
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submit-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .submit-button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+
 
 @media (max-width: 991px) {
     .product-list {
@@ -180,5 +262,16 @@
         flex-direction: column;
         align-items: center;
         margin-top: 40px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .submit-button {
+        font-size: 16px;
+    }
+
+    .checkbox-group {
+        max-height: 200px; /* Reduce max height for smaller screens */
     }
 }

@@ -150,21 +150,25 @@
 }
 
 .bill-table-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 20px;
-  color: #787878;
-  font-weight: 700;
-  margin-bottom: 15px;
+    display: grid;
+    /*justify-content: space-between;*/
+    font-size: 20px;
+    color: #787878;
+    font-weight: 700;
+    margin-bottom: 15px;
+    grid-template-columns: 50px 150px 150px 150px 100px 150px 200px 100px;
+    gap: 10px;
+    align-items: center;
 }
-
 .bill-table-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  color: #000;
-  margin-bottom: 28px;
+    display: grid;
+    /*justify-content: space-between;*/
+    align-items: center;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 28px;
+    grid-template-columns: 50px 150px 150px 150px 100px 150px 200px 100px;
+    gap: 10px;
 }
 
 .bill-id,
@@ -182,16 +186,16 @@
 }
 
 .view-details {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  background-color: #eaeaea;
-  border: none;
-  border-radius: 3px;
-  padding: 6px 15px;
-  font-size: 16px;
-  color: #000;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: #eaeaea;
+    border: none;
+    border-radius: 3px;
+    padding: 6px 15px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    gap: 5px;
 }
 
 .view-icon {
@@ -243,41 +247,50 @@
   aspect-ratio: 1.12;
 }
 
-@media (max-width: 991px) {
-  .top-bar {
-    padding: 0 20px;
-  }
+span,
+button {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
-  .search-container {
-    max-width: 100%;
-  }
+@media (max-width: 1000px) {
+    .top-bar {
+        padding: 0 20px;
+    }
 
-  .search-input {
-    padding: 0 20px;
-  }
+    .search-container {
+        max-width: 100%;
+    }
 
-  .section-title {
-    padding: 0 20px;
-  }
+    .search-input {
+        padding: 0 20px;
+    }
 
-  .bill-container {
-    padding: 26px 20px;
-  }
+    .section-title {
+        padding: 0 20px;
+    }
 
-  .bill-filters {
-    flex-wrap: wrap;
-  }
+    .bill-container {
+        padding: 26px 20px;
+    }
 
-  .filter-dropdown {
-    padding: 0 20px;
-  }
+    .bill-filters {
+        flex-wrap: wrap;
+    }
 
-  .bill-table-header,
-  .bill-table-row {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+    .filter-dropdown {
+        padding: 0 20px;
+    }
 
-  .settings-icon {
-    max-width: 100%;
-  }
+    .bill-table-header,
+    .bill-table-row {
+        flex-wrap: wrap;
+        gap: 10px;
+        grid-template-columns: 50px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .settings-icon {
+        max-width: 100%;
+    }
+}

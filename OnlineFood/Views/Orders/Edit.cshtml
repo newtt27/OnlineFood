@@ -11,13 +11,13 @@
 <hr />
 <section class="product-list" asp-action="Edit">
     <header class="product-list__header">
-        <h1 class="product-list__title">PRODUCTS LIST</h1>
+        <h1 class="product-list__title"></h1>
     </header>
     <div class="product-list__content">
         <div class="product-list__summary">
             <div class="product-list__summary-header">
                 <span class="product-list__summary-indicator"></span>
-                <h2 class="product-list__summary-title">PRODUCT LIST (3)</h2>
+                <h2 class="product-list__summary-title">PRODUCT LIST</h2>
             </div>
             <div class="product-list__actions">
                 <h3 class="product-list__subtitle">Products list</h3>
@@ -32,7 +32,7 @@
                     </button>
                     <button class="action-button">
                         <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/a74fb9c094be25c0b858037018d50c42f2e61ac2baee541e8b05f54e4f1004de?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Add icon" class="action-button__icon" />
-                        <span class="action-button__text">Add</span>
+                        <span class="action-button__text" onclick="openAddFoodModal()">Add</span>
                     </button>
                     <button class="action-button">
                         <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/98ac3e6c61dd17fece531cbfa589fc787c262521cc464e142550e7600b9265bc?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="Edit icon" class="action-button__icon" />
@@ -85,6 +85,91 @@
             <button class="action-buttons__create">Update</button>
             <button class="action-buttons__cancel">Cancel</button>
         </div>
+        <!-- Add Food Modal -->
+        <div id="addFoodModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <form asp-action="AddFood" method="post">
+                    <div class="form-group">
+                        <label for="foodName">Food Name</label>
+                        @{
+                            var availableFoods = ViewData["AvailableFoods"] as List<OnlineFood.Models.Food>;
+                        }
+                        <div class="checkbox-group">
+                            @foreach (var food in availableFoods)
+                            {
+                                <label>
+                                    <input type="checkbox" name="selectedFoods" value="@food.Id"
+                                           data-name="@food.TenMonAn"
+                                           data-price="@food.GiaTien"
+                                           data-size="@food.Size"
+                                           onchange="updateFoodDetails(this)" />
+                                    @food.TenMonAn
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" min="1" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="size">Size</label>
+                        <input type="text" id="size" name="size" required readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" name="price" min="0.01" step="0.01" required readonly />
+                    </div>
+
+                    <button type="submit" class="submit-button">Add Food</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function openAddFoodModal() {
+                document.getElementById("addFoodModal").style.display = "block";
+            }
+
+            function closeModal() {
+                document.getElementById("addFoodModal").style.display = "none";
+            }
+
+            // Function to update the price and size when a food item is selected
+            function updateFoodDetails(checkbox) {
+                var selectedFoodPrice = checkbox.getAttribute("data-price");
+                var selectedFoodSize = checkbox.getAttribute("data-size");
+
+                // Update the Price and Size input fields
+                document.getElementById("price").value = selectedFoodPrice;
+                document.getElementById("size").value = selectedFoodSize;
+            }
+        </script>
+
+
+        <script>
+            // Open the modal
+            function openAddFoodModal() {
+                document.getElementById("addFoodModal").style.display = "block";
+            }
+
+            // Close the modal
+            function closeModal() {
+                document.getElementById("addFoodModal").style.display = "none";
+            }
+
+            // Close modal when clicking outside the modal content
+            window.onclick = function (event) {
+                var modal = document.getElementById("addFoodModal");
+                if (event.target == modal) {
+                    closeModal();
+                }
+            }
+        </script>
     </div>
 </section>
 

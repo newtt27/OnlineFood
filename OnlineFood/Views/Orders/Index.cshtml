@@ -41,13 +41,20 @@
     <section class="orders-table">
         <div class="table-header">
             <div class="header-column">
-                <h2 class="column-title">ORDERS <span class="order-count">(100)</span></h2>
+                <h2 class="column-title">ORDERS <span class="order-count"></span></h2>
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="selectAll" class="select-all-checkbox">
                     <label for="selectAll" class="visually-hidden">Select all orders</label>
                     <span class="column-label">@Html.DisplayNameFor(model => model.Id)</span>
+                  
                 </div>
-                <span class="column-label customer-info">Customer Info</span>
+            </div>
+            <div class="header-column">
+                <div class="dropdown">
+                </div>
+                <div class="sub-labels">
+                    <span class="column-label">Customer Info</span>
+                </div>
             </div>
             <div class="header-column">
                 <div class="dropdown">
@@ -57,6 +64,7 @@
                     </button>
                 </div>
                 <div class="sub-labels">
+                    <span class="column-label">Customer Info</span>
                     <span class="column-label">@Html.DisplayNameFor(model => model.Date)</span>
                 </div>
             </div>
@@ -100,8 +108,12 @@
                     </div> 
                 </div>
                 <div class="row-item">
-                        <span class="date">@item.Date</span>
-                        <span class="sum">@item.TongSoLuong</span>
+                    <span class="date">@item.Date</span>
+                </div>
+                <div class="row-item">
+                     <span class="sum">@item.TongSoLuong</span>
+                </div>
+                <div class="row-item">
                         <span class="status confirmed">@item.TrangThai)</span>
                     <button class="view-button" onclick="location.href='@Url.Action("Details", new { id = item.Id })'">
                         <img src="https://cdn.builder.io/api/v1/image/assets/58f5b45f3a0f41e6ba206857f4cfcd97/8f2ad35408d1e0c9167a076565a1966b00d4ca3f4bfa368454d8ae0d618d7956?apiKey=58f5b45f3a0f41e6ba206857f4cfcd97&" alt="View icon" class="button-icon">

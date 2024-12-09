@@ -140,6 +140,7 @@
     display: flex;
     align-items: center;
     gap: 27px;
+    margin-top: 64px;
 }
 
 .select-all-checkbox {
