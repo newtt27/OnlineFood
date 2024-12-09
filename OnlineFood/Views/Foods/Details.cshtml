@@ -4,6 +4,93 @@
     ViewData["Title"] = "Details";
 }
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="~/css/FoodsDetail.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PRODUCT DETAIL</h1>
+
+        <div class="product-container">
+            <div class="product-image">
+                <img src="/placeholder.svg?height=400&width=400" alt="Bun Dau">
+            </div>
+
+            <div class="product-info">
+                <h2>TOUR INFO</h2>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="label">@Html.DisplayNameFor(model => model.Id)</span>
+                        <span class="value highlight">@Html.DisplayFor(model => model.Id)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">@Html.DisplayNameFor(model => model.TenMonAn)</span>
+                        <span class="value">@Html.DisplayFor(model => model.TenMonAn)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">@Html.DisplayNameFor(model => model.Size)</span>
+                        <span class="value">@Html.DisplayFor(model => model.Size)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">@Html.DisplayNameFor(model => model.Soluong)</span>
+                        <span class="value">@Html.DisplayFor(model => model.Soluong)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">@Html.DisplayNameFor(model => model.GiaTien)</span>
+                        <span class="value"> @Html.DisplayFor(model => model.GiaTien)</span>
+                    </div>
+                </div>
+           
+                            
+                <div class="ingredients">
+                    <h3>Ingredients</h3>
+                    <table>
+                        <thead>                           
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.TenMonAn)</th>
+                                @foreach (var infoFood in Model.InfoFoods)
+                                {
+                                    <td>@Html.DisplayNameFor(model => infoFood.Songuyenlieucan)</td>
+                                }
+                                <th>DonVi</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@Html.DisplayFor(model => model.TenMonAn)</td>
+                                @foreach (var infoFood in Model.InfoFoods)
+                                {
+                                <td>@infoFood.Songuyenlieucan</td>
+                                
+                                <td>@infoFood.IdNguyenLieuNavigation?.DonVi</td>
+                                }
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="status">
+                    <span class="label">Status</span>
+                    <span class="status-badge available">Available</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+@*
 <h1>Details</h1>
 
 <div>
@@ -64,3 +151,4 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+*@

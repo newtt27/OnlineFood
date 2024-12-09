@@ -4,6 +4,53 @@
     ViewData["Title"] = "Create";
 }
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Category</title>
+    <link rel="stylesheet" href="~/css/FoodCategoriesCreate.css">
+</head>
+<body>
+    <div class="container">
+        <form class="card">
+            <h1>Create Category</h1>
+
+            <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" id="id" class="form-control" placeholder="Enter category ID" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Enter category name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" class="form-control description" placeholder="Enter category description" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" class="form-control" required>
+                    <option value="" disabled selected>Select status</option>
+                    <option value="available">Available</option>
+                    <option value="unavailable">Unavailable</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Create Category</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+@*
 <h1>Create</h1>
 
 <h4>FoodCategory</h4>
@@ -42,7 +89,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+*@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

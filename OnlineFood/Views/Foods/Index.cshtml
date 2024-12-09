@@ -5,6 +5,203 @@
     ViewData["Title"] = "Index";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+    <link rel="stylesheet" href="~/css/Foods.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>PRODUCT MANAGEMENT</h1>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i data-lucide="import"></i>IMPORT</button>
+                    <button class="btn btn-outline"><i data-lucide="file-output"></i>EXPORT</button>
+                    <a href="/Foods/Create" class="btn btn-green"><i data-lucide="plus"></i>ADD</a>
+                    
+
+                       
+                  
+                    <a href="/Foods/Delete" class="btn btn-red"><i data-lucide="trash-2"></i>DELETE</a>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-left">
+                    <span class="product-count">PRODUCTS <span class="count">(100)</span></span>
+                    <select class="select">
+                        <option value="all">All</option>
+                        <option value="available">Available</option>
+                        <option value="pending">Pending</option>
+                        <option value="sold">Sold out</option>
+                    </select>
+                </div>
+                <div class="filter-right">
+                    <select class="select">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                    <select class="select">
+                        <option value="columns">Columns</option>
+                        <option value="compact">Compact</option>
+                        <option value="expanded">Expanded</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Product Info</th>
+                            <th>Category ID</th>
+                            <th>Size</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+
+                                <td><input type="checkbox"></td>
+                                <td>
+
+                                    <div class="product-info">
+                                        <img src="@(string.IsNullOrEmpty(item.Hinhanh) ? "/assets/image" : item.Hinhanh)" />
+                                        <div>
+                                            <div class="product-id">@Html.DisplayFor(modelItem => item.Id)</div>
+                                            <div class="product-name">@Html.DisplayFor(modelItem => item.TenMonAn)</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="category-id">@Html.DisplayFor(modelItem => item.IdDanhMuc)</div>
+                                    <div class="category-name">@Html.DisplayFor(modelItem => item.IdDanhMucNavigation.TenDanhMuc)</div>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Size)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Soluong)</td>
+                                <td>@Html.DisplayFor(modelItem => item.GiaTien)</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td><button onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-ghost">View</button></td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                        @*
+                        <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                        <div class="product-info">
+                        <img src="/placeholder.svg" alt="Bún Đậu" width="40" height="40">
+                        <div>
+                        <div class="product-id">P-1</div>
+                        <div class="product-name">Bún Đậu</div>
+                        </div>
+                        </div>
+                        </td>
+                        <td>
+                        <div class="category-id">C-1</div>
+                        <div class="category-name">ABC</div>
+                        </td>
+                        <td>M</td>
+                        <td>100</td>
+                        <td>$400</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td><button class="btn btn-ghost">View</button></td>
+                        </tr>
+                        <tr>
+                        <td><input type="checkbox"></td>
+                        <td>
+                        <div class="product-info">
+                        <img src="/placeholder.svg" alt="Bún Đậu" width="40" height="40">
+                        <div>
+                        <div class="product-id">P-1</div>
+                        <div class="product-name">Bún Đậu</div>
+                        </div>
+                        </div>
+                        </td>
+                        <td>
+                        <div class="category-id">C-1</div>
+                        <div class="category-name">ABC</div>
+                        </td>
+                        <td>M</td>
+                        <td>100</td>
+                        <td>$400</td>
+                        <td><span class="status status-sold-out">Sold out</span></td>
+                        <td><button class="btn btn-ghost">View</button></td>
+                        </tr>
+                        *@
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination">
+                <div class="selected-rows">0 of 13 row(s) selected</div>
+                <div class="pagination-buttons">
+                    <button class="btn btn-outline btn-icon">&lt;&lt;</button>
+                    <button class="btn btn-outline btn-icon">&lt;</button>
+                    <button class="btn btn-outline btn-icon">1</button>
+                    <button class="btn btn-outline btn-icon">2</button>
+                    <button class="btn btn-outline btn-icon">3</button>
+                    <button class="btn btn-outline btn-icon">&gt;</button>
+                    <button class="btn btn-outline btn-icon">&gt;&gt;</button>
+                </div>
+            </div>
+            @*
+            <div class="pagination">
+                <div class="selected-rows">
+                    Page @ViewData["CurrentPage"] of @ViewData["TotalPages"]
+                </div>
+                <div class="pagination-buttons">
+                    <!-- Nút quay về trang đầu -->
+                    <a class="btn btn-outline btn-icon" href="@Url.Action("Index", new { pageNumber = 1 })">&lt;&lt;</a>
+
+                    <!-- Nút quay về trang trước -->
+                    <a class="btn btn-outline btn-icon" href="@Url.Action("Index", new { pageNumber = (int)ViewData["CurrentPage"] - 1 })"
+                    @(ViewData["CurrentPage"].ToString() == "1" ? "disabled" : "")>&lt;</a>
+
+                    <!-- Nút các trang -->
+                    @for (int i = 1; i <= (int)ViewData["TotalPages"]; i++)
+                    {
+                        <a class="btn btn-outline btn-icon @(i == (int)ViewData["CurrentPage"] ? "active" : "")"
+                           href="@Url.Action("Index", new { pageNumber = i })">
+                            @i
+                        </a>
+                    }
+
+                    <!-- Nút tới trang kế tiếp -->
+                    <a class="btn btn-outline btn-icon" href="@Url.Action("Index", new { pageNumber = (int)ViewData["CurrentPage"] + 1 })"
+                    @(ViewData["CurrentPage"].ToString() == ViewData["TotalPages"].ToString() ? "disabled" : "")>&gt;</a>
+
+                    <!-- Nút tới trang cuối -->
+                    <a class="btn btn-outline btn-icon" href="@Url.Action("Index", new { pageNumber = ViewData["TotalPages"] })">&gt;&gt;</a>
+                </div>
+            </div>
+            *@
+        </div>
+    </div>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+<script src="~/js/Foods.js"></script>
+@*
 <h1>Index</h1>
 
 <p>
@@ -76,3 +273,4 @@
 }
     </tbody>
 </table>
+*@

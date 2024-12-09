@@ -1,9 +1,114 @@
 ﻿@model IEnumerable<OnlineFood.Models.FoodCategory>
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Index";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="~/css/FoodCategories.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>CATEGORY MANAGEMENT</h1>
+                <div class="action-buttons">
+                    <button class="btn btn-outline"><i data-lucide="import"></i>IMPORT</button>
+                    <button class="btn btn-outline"><i data-lucide="file-output"></i>EXPORT</button>
+                    <a href="/FoodCategories/Create" class="btn btn-green"><i data-lucide="plus"></i>ADD</a>
+                    <a href="/FoodCategories/Edit" class="btn btn-yellow"><i data-lucide="pencil"></i>EDIT</a>
+                    <a href="/FoodCategories/Delete" class="btn btn-red"><i data-lucide="trash-2"></i>DELETE</a>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-left">
+                    <span class="category-count">CATEGORY <span class="count">(100)</span></span>
+                </div>
+                <div class="filter-right">
+                    <select class="select">
+                        <option value="all">All</option>
+                        <option value="available">Available</option>
+                        <option value="locked">Locked</option>
+                    </select>
+                    <select class="select">
+                        <option value="columns">Columns</option>
+                        <option value="compact">Compact</option>
+                        <option value="expanded">Expanded</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Category ID</th>
+                            <th>Category Name</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TenDanhMuc)</td>
+                                <td><span class="status status-available">Available</span></td>
+                                <td><button onclick="location.href='@Url.Action("Details", new { id = item.Id })'" class="btn btn-ghost">View</button></td>
+                            </tr>
+                        }
+                        @*
+                        <tr>
+                        <td><input type="checkbox"></td>
+                        <td>C-2</td>
+                        <td>Drinks</td>
+                        <td><span class="status status-locked">Locked</span></td>
+                        <td><button class="btn btn-ghost">View</button></td>
+                        </tr>
+                        <tr>
+                        <td><input type="checkbox"></td>
+                        <td>C-3</td>
+                        <td>Desserts</td>
+                        <td><span class="status status-available">Available</span></td>
+                        <td><button class="btn btn-ghost">View</button></td>
+                        </tr>
+                        *@
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <div class="selected-rows">0 of 13 row(s) selected</div>
+                <div class="pagination-buttons">
+                    <button class="btn btn-outline btn-icon">&lt;&lt;</button>
+                    <button class="btn btn-outline btn-icon">&lt;</button>
+                    <button class="btn btn-outline btn-icon">1</button>
+                    <button class="btn btn-outline btn-icon">2</button>
+                    <button class="btn btn-outline btn-icon">3</button>
+                    <button class="btn btn-outline btn-icon">&gt;</button>
+                    <button class="btn btn-outline btn-icon">&gt;&gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
+<script src="~/js/Foods.js"></script>
+@*
 <h1>Index</h1>
 
 <p>
@@ -45,3 +150,4 @@
 }
     </tbody>
 </table>
+*@
