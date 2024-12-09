@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -177,6 +178,7 @@ namespace OnlineFood.Controllers
         {
             // Tìm người dùng trong cơ sở dữ liệu
             var user = await _context.Accounts
+                .Include(a => a.IdroleNavigation)
                 .FirstOrDefaultAsync(a => a.UserName == username && a.MatKhau == password);
 
             if (user != null)
@@ -185,20 +187,75 @@ namespace OnlineFood.Controllers
                 HttpContext.Session.SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserName", user.UserName);
                 HttpContext.Session.SetString("DisplayName", user.TenHienThi);
+                HttpContext.Session.SetString("Role", user.IdroleNavigation?.TenRole ?? "User");
 
-                return RedirectToAction("Index", "Home"); // Chuyển hướng đến trang chính
+                // Điều hướng dựa trên quyền
+                if (user.IdroleNavigation?.TenRole == "Admin")
+                {
+                    return RedirectToAction("Index", "Admin"); // Trang quản trị
+                }
+                return RedirectToAction("Index", "Home"); // Trang người dùng
             }
 
             // Thông báo lỗi nếu đăng nhập thất bại
             ViewBag.Error = "Tên đăng nhập hoặc mật khẩu không đúng!";
             return View();
         }
+
         // GET: Accounts/Logout
         public IActionResult Logout()
         {
             HttpContext.Session.Clear(); // Xóa toàn bộ thông tin trong Session
-            return RedirectToAction("Index", "Home"); // Chuyển hướng về trang đăng nhập
+            return RedirectToAction("Index", "Home");
+        }
+
+        // Phương thức xử lý thay đổi mật khẩu
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword, string confirmPassword)
+        {
+            if (currentPassword != newPassword && newPassword == confirmPassword)
+            {
+                // Lấy người dùng từ cơ sở dữ liệu
+                var userId = HttpContext.Session.GetInt32("UserId");
+                var user = await _context.Accounts.FindAsync(userId);
+
+                if (user != null && user.MatKhau == currentPassword)
+                {
+                    // Cập nhật mật khẩu mới
+                    user.MatKhau = newPassword;
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    // Đăng xuất để người dùng đăng nhập lại
+                    HttpContext.Session.Clear();
+
+                    // Chuyển hướng người dùng về trang login
+                    return RedirectToAction("Login");
+                }
+                ModelState.AddModelError("", "Current password is incorrect or passwords do not match.");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
+            }
+
+            return View();
+        }
+
+
+        // GET: Accounts/Register
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
         }
 
     }
+    
 }

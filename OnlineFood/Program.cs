@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineFood.Data;
+using OnlineFood.Middlewares;
 using OnlineFood.Models.Repositories;
 using OnlineFood.Models.Services;
 
@@ -53,6 +54,7 @@ if (!app.Environment.IsDevelopment())
 
 // Sử dụng Session
 app.UseSession();
+app.UseMiddleware<RoleMiddleware>();
 
 app.UseHttpsRedirection();
 

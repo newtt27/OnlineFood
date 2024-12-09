@@ -47,14 +47,26 @@
                         </button>
                         <h3 class="text-center mb-4">Đăng nhập</h3>
 
-                        <!-- Thông báo lỗi nếu có -->
+                        <!-- Thêm thông báo lỗi -->
                         @if (ViewBag.Error != null)
                         {
-                            <div class="alert alert-danger">
-                                @ViewBag.Error
+                            <div class="alert alert-danger text-center">
+                                <strong>@ViewBag.Error</strong>
+                            </div>
+                        }
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success">
+                                @TempData["SuccessMessage"]
                             </div>
                         }
 
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">
+                                @TempData["ErrorMessage"]
+                            </div>
+                        }
                         <form method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Tên đăng nhập</label>
@@ -71,7 +83,7 @@
                         </form>
                         <hr />
                         <div class="text-center">
-                            <p>Bạn chưa có tài khoản? <a href="/Accounts/Create" class="text-decoration-none">Đăng ký ngay</a></p>
+                            <p>Bạn chưa có tài khoản? <a href="/Accounts/Register" class="text-decoration-none">Đăng ký ngay</a></p>
                         </div>
                     </div>
                 </div>

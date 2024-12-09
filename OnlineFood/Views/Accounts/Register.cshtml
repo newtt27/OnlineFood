@@ -1,0 +1,92 @@
+@model OnlineFood.Models.Account
+
+@{
+    ViewData["Title"] = "Tạo Tài Khoản Khách Hàng";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OnlineFood</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .form-control {
+            border-radius: 30px; /* Bo tròn tất cả các góc của input */
+        }
+        .btn-primary {
+            border-radius: 30px; /* Bo tròn nút đăng nhập */
+        }
+        .btn-back {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 16px;
+            background-color: transparent;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .btn-back:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-lg p-4">
+                    <div class="card-body">
+                        <h3 class="text-center mb-4">Tạo Tài Khoản Khách Hàng</h3>
+
+                        <!-- Thêm thông báo lỗi -->
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger text-center">
+                                <strong>@ViewBag.Error</strong>
+                            </div>
+                        }
+
+                        <form method="post">
+                            <div class="mb-3">
+                                <label for="UserName" class="form-label">Tên đăng nhập</label>
+                                <input type="text" class="form-control" id="UserName" name="UserName" required placeholder="Nhập tên đăng nhập" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="MatKhau" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="MatKhau" name="MatKhau" required placeholder="Nhập mật khẩu" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="TenKhachHang" class="form-label">Tên khách hàng</label>
+                                <input type="text" class="form-control" id="TenKhachHang" name="tenKhachHang" required placeholder="Nhập tên khách hàng" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="Email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="Email" name="Email" required placeholder="Nhập email" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="SoDienThoai" class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control" id="SoDienThoai" name="SoDienThoai" required placeholder="Nhập số điện thoại" />
+                            </div>
+                            <div class="mb-3">
+                                <label for="DiaChi" class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-control" id="DiaChi" name="DiaChi" required placeholder="Nhập địa chỉ" />
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Tạo tài khoản</button>
+                        </form>
+                        <hr />
+                        <div class="text-center">
+                            <p>Bạn đã có tài khoản? <a href="/Accounts/Login" class="text-decoration-none">Đăng nhập ngay</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
