@@ -250,11 +250,57 @@ namespace OnlineFood.Controllers
             return View();
         }
 
+
         [HttpGet]
-        public IActionResult ChangePassword()
+        public IActionResult AdminChangePassword()
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminChangePassword(string currentPassword, string newPassword, string confirmPassword)
+        {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!string.IsNullOrEmpty(newPassword) && newPassword == confirmPassword)
+            {
+                var userId = HttpContext.Session.GetInt32("UserId");
+                var user = await _context.Accounts.FindAsync(userId);
+
+                if (user != null && user.MatKhau == currentPassword)
+                {
+                    user.MatKhau = newPassword;
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    HttpContext.Session.Clear(); // Xóa session sau khi đổi mật khẩu
+                    return RedirectToAction("Login");
+                }
+                ModelState.AddModelError("", "Current password is incorrect.");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
+            }
+
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
     
