@@ -73,6 +73,48 @@
             position: relative;
             z-index: 10;
         }
+        /* Căn chỉnh dropdown-menu xuống dưới button */
+        #userProfileDropdown {
+            position: absolute;
+            top: 100%;  /* Đảm bảo menu xuất hiện dưới button */
+            left: 85%;
+            right: 20px;
+            z-index: 1050; /* Đảm bảo dropdown sẽ hiển thị phía trên các phần tử khác */
+            display: none; /* Mặc định ẩn dropdown */
+        }
+
+        /* Khi dropdown có class 'show', dropdown sẽ hiển thị */
+        #userProfileDropdown.show {
+            display: block;
+        }
+
+        /* Thêm hiệu ứng shadow, border và rounded corner cho dropdown */
+        .dropdown-menu {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style cho mỗi item trong menu */
+        .dropdown-item {
+            font-size: 1rem;
+            padding: 10px 20px;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Thay đổi màu nền khi hover item */
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Border dưới cùng của dropdown-item */
+        .dropdown-item + .dropdown-item {
+            border-top: 1px solid #eee;
+        }
+
+
     </style>
 </head>
 <body>
@@ -115,18 +157,71 @@
                         </div>
                     </div>
                     <div class="d-inline-block">
-                        <button class="btn d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false" id="userProfileDropdownToggle">
-                            <img src="@Url.Content("~/images/user-avatar.jpg")" alt="User avatar" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
-                            <div class="d-none d-sm-block text-start">
-                                <div class="fw-bold">John Doe</div>
-                                <small class="text-muted">johndoe@example.com</small>
+                        <!-- Hiển thị thông tin người dùng nếu đã đăng nhập -->
+                        @if (Context.Session.GetString("UserName") != null)
+                        {
+                            <!-- Dropdown button người dùng -->
+                            <button class="btn d-flex align-items-center" id="userProfileDropdownToggle" aria-expanded="false">
+                                <img src="@Url.Content("~/images/user-avatar.jpg")" alt="User avatar" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                <div class="d-none d-sm-block text-start">
+                                    <div class="fw-bold">
+                                        @Context.Session.GetString("DisplayName")
+                                    </div>
+                                    <small class="text-muted">@Context.Session.GetString("UserName")</small>
+                                </div>
+                            </button>
+
+                            <!-- Dropdown menu -->
+                            <ul class="dropdown-menu dropdown-menu-end shadow" id="userProfileDropdown">
+                                <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changePasswordModal" onclick="closeUserProfileDropdown()">Change Password</button></li>
+                                <li>
+                                    <form method="post" action="@Url.Action("Logout", "Accounts")">
+                                        <button class="dropdown-item" type="submit">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+
+
+                        }
+                        else
+                        {
+                            <p>User is not logged in</p> <!-- Nếu chưa đăng nhập -->
+                        }
+                        <!-- Modal for Changing Password -->
+                        <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="changePasswordModalLabel">Đổi Mật Khẩu</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="@Url.Action("ChangePassword", "Accounts")" method="post">
+                                            <div class="mb-3">
+                                                <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                                                <input type="password" class="form-control" id="currentPassword" name="currentPassword" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                                                <input type="password" class="form-control" id="newPassword" name="newPassword" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required />
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" id="userProfileDropdown">
-                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#changePasswordModal" onclick="closeUserProfileDropdown()">Change Password</button></li>
-                            <li><button class="dropdown-item" onclick="logout()">Logout</button></li>
-                        </ul>
+                        </div>
+
+
                     </div>
+
+
+
+
                 </div>
             </div>
         </nav>
@@ -204,12 +299,24 @@
     @RenderSection("Scripts", false)
 
     <script>
+
+        // Chắc chắn dropdown mở khi nhấn nút người dùng
+        document.getElementById("userProfileDropdownToggle").addEventListener("click", function(event) {
+            event.preventDefault();  // Ngừng sự kiện mặc định
+            var dropdown = document.getElementById("userProfileDropdown");
+            // Toggle class 'show' để mở/đóng dropdown
+            dropdown.classList.toggle("show");
+        });
+
+        // Đóng dropdown khi chọn mục
         function closeUserProfileDropdown() {
             var dropdown = document.getElementById("userProfileDropdown");
-            var toggleButton = document.getElementById("userProfileDropdownToggle");
-            toggleButton.setAttribute('aria-expanded', 'false');
-            dropdown.classList.remove('show');
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
         }
+
+
 
         function logout() {
             console.log("User logged out");
