@@ -1,9 +1,45 @@
 ﻿@model OnlineFood.Models.FoodCategory
 
 @{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Details";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Detail</title>
+    <link rel="stylesheet" href="~/css/FoodCategoriesDetail.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Category Detail</h1>
+            <div class="form-group">
+                <label> @Html.DisplayNameFor(model => model.Id)</label>
+                <div class="form-control highlight">@Html.DisplayFor(model => model.Id)</div>
+            </div>
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.TenDanhMuc)</label>
+                <div class="form-control">@Html.DisplayFor(model => model.TenDanhMuc)</div>
+            </div>
+            <div class="form-group">
+                <label>@Html.DisplayNameFor(model => model.Mota)</label>
+                <div class="form-control description">
+                    @Html.DisplayFor(model => model.Mota)
+                </div>
+            </div>
+            <div class="form-group">
+                <label>@Html.DisplayFor(model => model)</label>
+                <div class="status-badge available"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@*
 <h1>Details</h1>
 
 <div>
@@ -30,6 +66,7 @@
         </dd>
     </dl>
 </div>
+*@
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

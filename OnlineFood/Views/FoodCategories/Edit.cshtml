@@ -4,6 +4,51 @@
     ViewData["Title"] = "Edit";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Category</title>
+    <link rel="stylesheet" href="~/css/FoodCategoriesEdit.css">
+</head>
+<body>
+    <div class="container">
+        <form class="card">
+            <h1>Update Category</h1>
+
+            <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" id="id" class="form-control highlight" value="C-1" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control" value="Meal" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" class="form-control description" required>ascpnkcpnapcnakpcascsc</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" class="form-control">
+                    <option value="available" selected>Available</option>
+                    <option value="unavailable">Unavailable</option>
+                </select>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update Category</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+@*
 <h1>Edit</h1>
 
 <h4>FoodCategory</h4>
@@ -34,7 +79,7 @@
         </form>
     </div>
 </div>
-
+*@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>

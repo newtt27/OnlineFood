@@ -1,4 +1,7 @@
-﻿USE OnlineFood;
+﻿CREATE DATABASE OnlineFood
+GO
+
+USE OnlineFood;
 GO
 
 -- Create Function table first (since Role references it)
