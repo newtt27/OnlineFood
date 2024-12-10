@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<OnlineFood.Models.Payment>
+
 @{
+    ViewData["Title"] = "Thanh toan Momo";
+    string qrImageUrl = "/assets/image/momoqrcode.png"; // Đường dẫn đến hình ảnh QR
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/momo.css" asp-append-version="true"/>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <div class="payment-page-background">
+        <div class="payment-container">
+            <div class="qr-container">
+                <img src="@qrImageUrl" alt="QR Code">
+                <div class="amount" id="totalAmount"></div>
+            </div>
+            <div id="timer-container">
+                <p id="timer">60</p> <!-- Bộ đếm thời gian sẽ hiển thị ở đây -->
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="~/js/momo.js" asp-append-version="true"></script>
+    }
+</body>
+</html>

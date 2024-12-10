@@ -14,5 +14,8 @@
     }
 
     // Xử lý logic thanh toán tại đây
-    alert("Thông tin thẻ đã được gửi.");
+    alert("Cảm ơn bạn đã đặt hàng!\nVui lòng kiểm tra email để nhận thông tin đơn.");
+    localStorage.setItem("cart", "");
+
+    window.location.href = "/";
 });

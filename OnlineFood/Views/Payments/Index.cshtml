@@ -54,32 +54,27 @@
 
             <!-- Right Section: Summary -->
             <div class="summary">
-                <h3>Total Products (1)</h3>
-                <div class="product-item">
-                    <img src="hamburger.png" alt="Product Image" class="product-image">
-                    <div class="product-info">
-                        <p>Hamburger Bò</p>
-                        <p>Size: S</p>
-                        <p>280.000 VNĐ</p>
-                    </div>
-                </div>
+                <h3>Total Products (<span id="productCount">0</span>)</h3>
+                <!-- Product items will be added dynamically here -->
                 <div class="promotions">
                     <h4>Promotions List</h4>
                     <p>Code: DMVCL</p>
                 </div>
                 <div class="totals">
-                    <p>Subtotal: <span>320.000 VNĐ</span></p>
-                    <p>Discount: <span>-30.000 VNĐ</span></p>
-                    <p>Delivery Price: <span>0 VNĐ</span></p>
-                    <h4>Total: <span>290.000 VNĐ</span></h4>
+                    <p id="subtotal"><span></span></p>
+                    <p id="discount"><span></span></p>
+                    <p id="delivery-price"><span></span></p>
+                    <h4 id="total">Total: <span></span></h4>
                 </div>
                 <button type="button" class="checkout-btn">Thanh Toán</button>
+            </div>
+
             </div>
         </div>
     </div>
 
     @section Scripts {
-        <script src="~/js/payment.js?v=1" asp-append-version="true" defer></script>
+        <script src="~/js/payment.js" asp-append-version="true" defer></script>
     }
 
 </body>
