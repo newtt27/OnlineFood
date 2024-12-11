@@ -45,9 +45,12 @@ namespace OnlineFood.Models.Services
             var random = new Random();
             var randomPromotion = activePromotions.ElementAt(random.Next(activePromotions.Count()));
 
+            int maxCartId = await _cartRepo.GetMaxCartIdAsync();
+            var newCartId = maxCartId + 1;
             // Tạo mới Cart
             var newCart = new Cart
             {
+                Id = newCartId,
                 IdKm = randomPromotion.Id // Gán Promotion ngẫu nhiên
             };
 
@@ -121,5 +124,6 @@ namespace OnlineFood.Models.Services
 
                 await _cartRepo.RemoveCartItemAsync(account.IdCart.Value, foodId);
         }
+
     }
 }
