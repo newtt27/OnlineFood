@@ -7,8 +7,8 @@ namespace Dashboard.Models
     public class IncomeData
     {
         public DateTime Date { get; set; }
-        public decimal Revenue { get; set; }
-        public decimal Expenses { get; set; }
+        public double Revenue { get; set; }
+        public double Expenses { get; set; }
     }
 
     public class Product
@@ -28,6 +28,7 @@ namespace Dashboard.Models
         public string Email { get; set; }
         public string AvatarUrl { get; set; }
         public decimal TotalSpent { get; set; }
+        public decimal OrderCount { get; set; }
     }
 
     public class Order
@@ -45,7 +46,7 @@ namespace Dashboard.Models
         public OrderStatus Status { get; set; }
     }
 
- 
+
     public class OrderItem
     {
         public int Id { get; set; }
@@ -91,6 +92,7 @@ namespace Dashboard.Models
         public DateTime? SingleDate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
 
         public PaymentListViewModel PaymentList { get; set; }
 

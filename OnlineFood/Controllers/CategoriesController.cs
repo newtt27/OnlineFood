@@ -24,17 +24,29 @@ namespace OnlineFood.Controllers
         [HttpGet]
         public async Task<IActionResult> GetChartData()
         {
-            // Sample data to match the visualization
-            var chartData = new List<object>
-            {
-                new { label = "Asian Cuisine", value = 14, color = "#3498db" }, // Blue
-                new { label = "Italian Food", value = 16, color = "#e74c3c" },  // Red
-                new { label = "Mexican Food", value = 12, color = "#2ecc71" },  // Green
-                new { label = "Fast Food", value = 8, color = "#f1c40f" },      // Yellow
-                new { label = "Others", value = 2, color = "#95a5a6" }          // Grey
-            };
+            var categories = await _context.FoodCategories.ToListAsync();
 
-            return Json(chartData);
+            var categoryData = categories
+                .Select((fc, index) => new
+                {
+                    label = fc.TenDanhMuc,
+                    value = _context.Foods.Count(f => f.IdDanhMuc == fc.Id),
+                    color = _colors[index % _colors.Count]
+                })
+                .ToList();
+
+            return Json(categoryData);
         }
+
+        private readonly List<string> _colors = new List<string>
+        {
+            "#FF5733",
+            "#33FF57",
+            "#3357FF",
+            "#FF33A8",
+            "#FFC300",
+            "#8D33FF",
+            "#33FFF5"
+        };
     }
 }

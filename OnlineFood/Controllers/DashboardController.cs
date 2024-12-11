@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Dashboard.Models;
 using System.Drawing.Printing;
+using Microsoft.EntityFrameworkCore;
+using OnlineFood.Data;
 
 namespace Dashboard.Controllers
 {
@@ -13,9 +15,12 @@ namespace Dashboard.Controllers
         private readonly List<Order> _orders;
         private const int PageSize = 10;
 
-        public DashboardController()
+        private readonly OnlineFoodContext _context;
+
+        public DashboardController(OnlineFoodContext context)
         {
             // Sample data
+            _context = context;
             _orders = new List<Order>
             {
                new Order
@@ -128,209 +133,271 @@ namespace Dashboard.Controllers
             }
             };
         }
-        public IActionResult Index()
+        private async Task<List<IncomeData>> GetIncomeData(DateTime startDate, DateTime? endDate = null)
         {
+            var query = from b in _context.Bills
+                        join bs in _context.BillSupplies on b.NgayCheckOut.Date equals bs.Date.Date into billSuppliesGroup
+                        from bs in billSuppliesGroup.DefaultIfEmpty()
+                        where b.NgayCheckOut >= startDate && (endDate == null || b.NgayCheckOut <= endDate)
+                        group new { b, bs } by b.NgayCheckOut.Date into g
+                        select new IncomeData
+                        {
+                            Date = g.Key,
+                            Revenue = g.Sum(x => x.b.TongTienSau),
+                            Expenses = g.Sum(x => (double?)x.bs.TongTien) ?? 0
+                        };
+
+            return await query.ToListAsync();
+        }
+        public async Task<IActionResult> Index(int page = 1)
+        {
+            var totalTopCustomers = await _context.Bills
+                .GroupBy(b => b.IdKhachHang)
+                .CountAsync();
+
+            var totalPages = (int)Math.Ceiling(totalTopCustomers / (double)CustomersPerPage);
+
             var viewModel = new DashboardViewModel
             {
                 DateMode = "single",
                 SingleDate = DateTime.Today,
-                IncomeData = GetIncomeData(DateTime.Today),
-                TopProducts = GetTopProducts(),
-                TopCustomers = GetTopCustomers(1),
-                CurrentPage = 1,
-                TotalPages = (int)Math.Ceiling(GetTopCustomers().Count / 5.0),
-                PaymentList = GetPaymentListViewModel()
-
+                IncomeData = await GetIncomeData(DateTime.Today),
+                TopProducts = await GetTopProducts(),
+                TopCustomers = await GetTopCustomers(page),
+                CurrentPage = page,
+                TotalPages = totalPages,
+                PaymentList = await GetPaymentListViewModel(page)
             };
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult LoadData(string dateMode, DateTime? singleDate, DateTime? startDate, DateTime? endDate, int page = 1)
+        public async Task<IActionResult> LoadData(string dateMode, DateTime? singleDate, DateTime? startDate, DateTime? endDate, int page = 1)
         {
+            var totalTopCustomers = await _context.Bills
+                .GroupBy(b => b.IdKhachHang)
+                .CountAsync();
+
+            var totalPages = (int)Math.Ceiling(totalTopCustomers / (double)CustomersPerPage);
+
             var viewModel = new DashboardViewModel
             {
                 DateMode = dateMode,
                 SingleDate = singleDate,
                 StartDate = startDate,
                 EndDate = endDate,
-                IncomeData = GetIncomeData(singleDate ?? startDate ?? DateTime.Today, endDate),
-                TopProducts = GetTopProducts(),
-                TopCustomers = GetTopCustomers(page),
+                IncomeData = await GetIncomeData(singleDate ?? startDate ?? DateTime.Today, endDate),
+                TopProducts = await GetTopProducts(),
+                TopCustomers = await GetTopCustomers(page),
                 CurrentPage = page,
-                TotalPages = (int)Math.Ceiling(GetTopCustomers().Count / 5.0),
-                PaymentList = GetPaymentListViewModel(page),
+                TotalPages = totalPages,
+                PaymentList = await GetPaymentListViewModel(page),
                 CurrentDate = DateTime.Now
-
             };
 
             return Json(viewModel);
         }
 
-        [HttpGet]
-        public IActionResult GetPaymentList(int page = 1, string orderId = null, string customerName = null, OrderStatus? status = null)
+        private async Task<List<Product>> GetTopProducts()
         {
-            var query = _orders.AsQueryable();
+            return await _context.Bills
+                .Include(b => b.IdOrderInfoNavigation)
+                .ThenInclude(oi => oi.IdMonAnNavigation)
+                .GroupBy(b => b.IdOrderInfoNavigation.IdMonAn)
+                .Select(g => new Product
+                {
+                    Id = g.Key.ToString(),
+                    Name = g.First().IdOrderInfoNavigation.IdMonAnNavigation.TenMonAn,
+                    ImageUrl = g.First().IdOrderInfoNavigation.IdMonAnNavigation.Hinhanh ?? "/images/placeholder.svg",
+                    OrderCount = g.Sum(b => b.IdOrderInfoNavigation.SoLuongHangMon),
+                    Price = g.First().IdOrderInfoNavigation.IdMonAnNavigation.GiaTien
+                })
+                .OrderByDescending(p => p.OrderCount)
+                .Take(6)
+                .ToListAsync();
+        }
+
+        private async Task<List<Customer>> GetTopCustomers(int page = 1)
+        {
+            var skip = (page - 1) * CustomersPerPage;
+
+            return await _context.Bills
+                .Include(b => b.IdKhachHangNavigation)
+                .GroupBy(b => b.IdKhachHang)
+                .Select(g => new Customer
+                {
+                    Id = g.Key.ToString(),
+                    Name = g.First().IdKhachHangNavigation.TenKhachHang,
+                    Contact = g.First().IdKhachHangNavigation.SoDienThoai,
+                    Email = g.First().IdKhachHangNavigation.Email,
+                    TotalSpent = g.Sum(b => (decimal)b.TongTienSau),
+                    OrderCount = g.Count()
+                })
+                .OrderByDescending(c => c.TotalSpent)
+                .Skip(skip)
+                .Take(CustomersPerPage)
+                .ToListAsync();
+        }
+
+
+        private async Task<PaymentListViewModel> GetPaymentListViewModel(int page = 1, string orderId = null, string customerName = null, OrderStatus? status = null)
+        {
+            var query = _context.Orders
+                .Include(o => o.IdKhachHangNavigation)
+                .Include(o => o.IdFoodNavigation)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(orderId))
             {
-                query = query.Where(o => o.OrderId.Contains(orderId));
+                query = query.Where(o => o.Id.ToString().Contains(orderId));
             }
 
             if (!string.IsNullOrEmpty(customerName))
             {
-                query = query.Where(o => o.Customer.Name.Contains(customerName));
+                query = query.Where(o => o.IdKhachHangNavigation.TenKhachHang.Contains(customerName));
             }
 
             if (status.HasValue)
             {
-                OrderStatus orderStatus = (OrderStatus)status.Value;
-                query = query.Where(o => o.Status == orderStatus);
+                string statusString = status.ToString();
+                query = query.Where(o => o.TrangThai == statusString);
             }
 
-            var totalItems = query.Count();
+            var totalItems = await query.CountAsync();
             var totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
 
-            var orders = query
+            var orders = await query
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
-                .ToList();
+                .Select(o => new
+                {
+                    o.Id,
+                    o.IdKhachHang,
+                    CustomerName = o.IdKhachHangNavigation.TenKhachHang,
+                    CustomerContact = o.IdKhachHangNavigation.SoDienThoai,
+                    CustomerEmail = o.IdKhachHangNavigation.Email,
+                    o.Date,
+                    o.IdFood,
+                    FoodName = o.IdFoodNavigation.TenMonAn,
+                    FoodImage = o.IdFoodNavigation.Hinhanh,
+                    o.IdFoodNavigation.GiaTien,
+                    o.TongSoLuong,
+                    o.TrangThai
+                })
+                .ToListAsync();
 
-            var viewModel = new PaymentListViewModel
+            var mappedOrders = orders.Select(o => new Order
             {
-                Orders = orders,
+                OrderId = o.Id.ToString(),
+                CustomerId = o.IdKhachHang.ToString(),
+                Customer = new Customer
+                {
+                    Id = o.IdKhachHang.ToString(),
+                    Name = o.CustomerName,
+                    Contact = o.CustomerContact,
+                    Email = o.CustomerEmail
+                },
+                OrderDate = o.Date,
+                Items = new List<OrderItem>
+        {
+            new OrderItem
+            {
+                Id = o.IdFood,
+                ProductId = o.IdFood.ToString(),
+                Product = new Product
+                {
+                    Id = o.IdFood.ToString(),
+                    Name = o.FoodName,
+                    ImageUrl = o.FoodImage ?? "/images/placeholder.svg",
+                    Price = o.GiaTien
+                },
+                Quantity = o.TongSoLuong,
+                UnitPrice = o.GiaTien
+            }
+        },
+                SubTotal = o.TongSoLuong * o.GiaTien,
+                TotalPrice = o.TongSoLuong * o.GiaTien,
+                Status = Enum.TryParse<OrderStatus>(o.TrangThai, out var parsedStatus) ? parsedStatus : OrderStatus.Pending
+            }).ToList();
+
+            return new PaymentListViewModel
+            {
+                Orders = mappedOrders,
                 CurrentPage = page,
                 TotalPages = totalPages,
                 SearchOrderId = orderId,
                 SearchCustomerName = customerName,
                 FilterStatus = status
             };
+        }
 
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetPaymentList(int page = 1, string orderId = null, string customerName = null, OrderStatus? status = null)
+        {
+            var viewModel = await GetPaymentListViewModel(page, orderId, customerName, status);
             return Json(viewModel);
         }
 
         [HttpGet]
-        public IActionResult GetPaymentDetails(string orderId)
+        public async Task<IActionResult> GetPaymentDetails(int orderId)
         {
-           
-            var order = _orders.FirstOrDefault(o => o.OrderId.Equals(orderId, StringComparison.OrdinalIgnoreCase));
+            var order = await _context.Orders
+                .Include(o => o.IdKhachHangNavigation)
+                .Include(o => o.IdFoodNavigation)
+                .Include(o => o.IdCartNavigation)
+                    .ThenInclude(c => c.IdKmNavigation)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null)
             {
-               
                 return NotFound(new { message = "Order not found" });
             }
 
-            // Trả về thông tin đơn hàng dưới dạng JSON
             var orderDetails = new
             {
-                OrderId = order.OrderId,
+                OrderId = order.Id.ToString(),
                 Customer = new
                 {
-                    order.Customer.Id,
-                    order.Customer.Name,
-                    order.Customer.Contact,
-                    order.Customer.Email
+                    Id = order.IdKhachHang.ToString(),
+                    Name = order.IdKhachHangNavigation.TenKhachHang,
+                    Contact = order.IdKhachHangNavigation.SoDienThoai,
+                    Email = order.IdKhachHangNavigation.Email
                 },
-                OrderDate = order.OrderDate,
-                Items = order.Items.Select(item => new
+                OrderDate = order.Date,
+                Items = new List<object>
                 {
-                    item.Id,
-                    item.ProductId,
-                    ProductName = item.Product.Name,
-                    item.Product.ImageUrl,
-                    item.Quantity,
-                    item.UnitPrice,
-                    TotalPrice = item.Quantity * item.UnitPrice
-                }),
-                Promotions = order.Promotions.Select(promo => new
-                { 
-                    promo.Id,
-                    promo.Code,
-                    promo.DiscountAmount
-                }),
-                SubTotal = order.SubTotal,
-                DiscountPercent = order.DiscountPercent,
-                TotalPrice = order.TotalPrice,
-                PaymentMethod = order.PaymentMethod,
-                Status = order.Status.ToString()
+                    new
+                    {
+                        Id = order.IdFood,
+                        ProductId = order.IdFood.ToString(),
+                        ProductName = order.IdFoodNavigation.TenMonAn,
+                        ImageUrl = order.IdFoodNavigation.Hinhanh ?? "/images/placeholder.svg",
+                        Quantity = order.TongSoLuong,
+                        UnitPrice = order.IdFoodNavigation.GiaTien,
+                        TotalPrice = order.TongSoLuong * order.IdFoodNavigation.GiaTien
+                    }
+                },
+                Promotions = order.IdCartNavigation.IdKmNavigation != null
+                    ? new List<object>
+                    {
+                        new
+                        {
+                            Id = order.IdCartNavigation.IdKmNavigation.Id,
+                            Code = order.IdCartNavigation.IdKmNavigation.Code,
+                            DiscountAmount = order.IdCartNavigation.IdKmNavigation.PhanTram
+                        }
+                    }
+                    : new List<object>(),
+                SubTotal = order.TongSoLuong * order.IdFoodNavigation.GiaTien,
+                DiscountPercent = order.IdCartNavigation.IdKmNavigation?.PhanTram ?? 0,
+                TotalPrice = order.TongSoLuong * order.IdFoodNavigation.GiaTien * (100 - (order.IdCartNavigation.IdKmNavigation?.PhanTram ?? 0)) / 100,
+                Status = order.TrangThai
             };
 
             return Json(orderDetails);
-        }
-
-
-        private List<IncomeData> GetIncomeData(DateTime startDate, DateTime? endDate = null)
-        {
-            // Replace with actual data retrieval logic
-            var random = new Random();
-            var data = new List<IncomeData>();
-            var currentDate = startDate;
-            var endDateTime = endDate ?? startDate.AddDays(6);
-
-            while (currentDate <= endDateTime)
-            {
-                data.Add(new IncomeData
-                {
-                    Date = currentDate,
-                    Revenue = random.Next(5000, 10000),
-                    Expenses = random.Next(3000, 7000)
-                });
-                currentDate = currentDate.AddDays(1);
-            }
-
-            return data;
-        }
-
-        private List<Product> GetTopProducts()
-        {
-            // Replace with actual data retrieval logic
-            return new List<Product>
-            {
-                new Product { Name = "Product A", OrderCount = 150, ImageUrl = "/images/placeholder.svg" },
-                new Product { Name = "Product B", OrderCount = 120, ImageUrl = "/images/placeholder.svg" },
-                new Product { Name = "Product C", OrderCount = 100, ImageUrl = "/images/placeholder.svg" },
-                new Product { Name = "Product D", OrderCount = 90, ImageUrl = "/images/placeholder.svg" },
-                new Product { Name = "Product E", OrderCount = 80, ImageUrl = "/images/placeholder.svg" },
-                new Product { Name = "Product F", OrderCount = 70, ImageUrl = "/images/placeholder.svg" },
-                new Product { Name = "Product G", OrderCount = 60, ImageUrl = "/images/placeholder.svg" }
-            };
-        }
-
-
-        private List<Customer> GetTopCustomers(int page = 1)
-        {
-            // Replace with actual data retrieval logic
-            var allCustomers = new List<Customer>
-            {
-                new Customer { Id = "CUST-001", Name = "Neil Sims", Email = "neil.sims@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 3320 },
-                new Customer { Id = "CUST-002", Name = "Bonnie Green", Email = "bonnie.green@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 2467 },
-                new Customer { Id = "CUST-003", Name = "Michael Gough", Email = "michael.gough@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 2235 },
-                new Customer { Id = "CUST-004", Name = "Thomas Lean", Email = "thomas.lean@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 1842 },
-                new Customer { Id = "CUST-005", Name = "Lana Byrd", Email = "lana.byrd@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 1044 },
-                new Customer { Id = "CUST-006", Name = "Karen Nelson", Email = "karen.nelson@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 980 },
-                new Customer { Id = "CUST-007", Name = "Robert Smith", Email = "robert.smith@example.com", AvatarUrl = "/images/placeholder.svg", TotalSpent = 890 }
-            };
-
-            return allCustomers.Skip((page - 1) * CustomersPerPage).Take(CustomersPerPage).ToList();
-        }
-
-        private PaymentListViewModel GetPaymentListViewModel(int page = 1)
-        {
-            var totalItems = _orders.Count;
-            var totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
-            var orders = _orders
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
-
-            return new PaymentListViewModel
-            {
-                Orders = orders,
-                CurrentPage = page,
-                TotalPages = totalPages
-            };
         }
 
 

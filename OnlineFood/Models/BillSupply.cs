@@ -15,6 +15,8 @@ public partial class BillSupply
 
     public int IdNhaCungCap { get; set; }
 
+    public float TongTien { get; set; }
+
     public virtual Supplier IdNhaCungCapNavigation { get; set; } = null!;
 
     public virtual OrderSupply IdordersuppliesNavigation { get; set; } = null!;
