@@ -10,5 +10,6 @@ namespace OnlineFood.Models.Services
         Task<Food> GetFoodById(int id);
         Task<List<Food>> SearchFoods(string keyword);
         Task<IEnumerable<Food>> GetAllFoodActive();
+        Task AddFoodAsync(Food food);
     }
 }

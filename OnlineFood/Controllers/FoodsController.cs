@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineFood.Data;
 using OnlineFood.Models;
+using OnlineFood.Models.Services;
 
 namespace OnlineFood.Controllers
 {
     public class FoodsController : Controller
     {
         private readonly OnlineFoodContext _context;
+        private readonly IFoodService _foodService;
+        private readonly ILogger<FoodsController> _logger;
 
-        public FoodsController(OnlineFoodContext context)
+        public FoodsController(OnlineFoodContext context,IFoodService foodService, ILogger<FoodsController> logger)
         {
+            _logger = logger;
             _context = context;
+            _foodService = foodService;
         }
 
         // GET: Foods
@@ -71,7 +76,12 @@ namespace OnlineFood.Controllers
         // GET: Foods/Create
         public IActionResult Create()
         {
-            ViewData["IdDanhMuc"] = new SelectList(_context.FoodCategories, "Id", "Id");
+            var danhMucList = _context.FoodCategories.Select(dm => new SelectListItem
+            {
+                Value = dm.Id.ToString(),
+                Text = dm.TenDanhMuc
+            }).ToList();
+            ViewBag.IdDanhMuc = danhMucList;
             return View();
         }
 
@@ -88,32 +98,71 @@ namespace OnlineFood.Controllers
                 // Xử lý file upload
                 if (HinhanhFile != null && HinhanhFile.Length > 0)
                 {
-                    // Tạo tên file duy nhất để tránh trùng lặp
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(HinhanhFile.FileName);
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var extension = Path.GetExtension(HinhanhFile.FileName).ToLower();
 
-                    // Đường dẫn để lưu file vào thư mục "wwwroot/images"
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/image", fileName);
-
-                    // Lưu file vào đường dẫn
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    if (!allowedExtensions.Contains(extension))
                     {
-                        await HinhanhFile.CopyToAsync(stream);
+                        ModelState.AddModelError("HinhanhFile", "Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
                     }
+                    else if (HinhanhFile.Length > 5 * 1024 * 1024)
+                    {
+                        ModelState.AddModelError("HinhanhFile", "File size must not exceed 5 MB.");
+                    }
+                    else
+                    {
+                        // Generate a unique file name
+                        var fileName = Guid.NewGuid().ToString() + extension;
 
-                    // Gán đường dẫn hình ảnh vào thuộc tính `Hinhanh` của model
-                    food.Hinhanh = "/assets/image/" + fileName;
+                        // Save file to wwwroot/assets/image
+                        var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "image");
+                        var filePath = Path.Combine(uploadFolder, fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await HinhanhFile.CopyToAsync(stream);
+                        }
+
+                        // Save file path to the model
+                        food.Hinhanh = "/assets/image/" + fileName;
+                    }
+                    var foodCategory = await _context.FoodCategories.FindAsync(food.IdDanhMuc);
+                    if (foodCategory == null)
+                    {
+                        ModelState.AddModelError("IdDanhMuc", "Invalid category selected.");
+                    }
+                    else
+                    {
+                        food.IdDanhMucNavigation = foodCategory;
+                        _context.Foods.Add(food);
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessage"] = "Food item created successfully!";
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
-                _context.Add(food);
-                await _context.SaveChangesAsync();
-
-                Console.WriteLine("Data saved successfully!"); // Log kiểm tra
-                return RedirectToAction(nameof(Index));
+                var danhMucList = _context.FoodCategories.Select(dm => new SelectListItem
+                {
+                    Value = dm.Id.ToString(),
+                    Text = dm.TenDanhMuc
+                }).ToList();
+                ViewBag.IdDanhMuc = danhMucList;  
+                
             }
             else
             {
                 Console.WriteLine("ModelState is invalid"); // Debug log
+                foreach (var entry in ModelState)
+                {
+                    var key = entry.Key;
+                    var errors = entry.Value.Errors;
+
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
+                    }
+                }
             }
-            ViewData["IdDanhMuc"] = new SelectList(_context.FoodCategories, "Id", "Id", food.IdDanhMuc);
+            //ViewData["IdDanhMuc"] = new SelectList(_context.FoodCategories, "Id", "Id", food.IdDanhMuc);
             return View(food);
         }
 
