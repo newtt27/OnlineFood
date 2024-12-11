@@ -249,12 +249,132 @@ namespace OnlineFood.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // kiểm tra id trong account
+        private int GenerateNewAccountId()
+        {
+            // Lấy giá trị Id lớn nhất hiện tại trong bảng Account
+            var maxId = _context.Accounts.Max(a => (int?)a.Id) ?? 0;
 
+            // Tăng Id lên 1
+            return maxId + 1;
+        }
+        //kiểm tra id trong customer
+        private int GenerateNewCustomerId()
+        {
+            // Lấy giá trị Id lớn nhất hiện tại trong bảng Customer
+            var maxId = _context.Customers.Max(c => (int?)c.Id) ?? 0;
+
+            // Tăng Id lên 1
+            return maxId + 1;
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Kiểm tra xem username đã tồn tại chưa
+                if (_context.Accounts.Any(a => a.UserName == model.Username))
+                {
+                    ModelState.AddModelError("Username", "Tên đăng nhập đã tồn tại");
+                    return View(model);
+                }
+
+                // Tạo tài khoản mới với Id được sinh ra từ GenerateNewAccountId
+                var account = new Account
+                {
+                    Id = GenerateNewAccountId(), // Tạo Id mới cho Account
+                    UserName = model.Username,
+                    MatKhau = model.Password, // Lưu ý: Nên mã hóa mật khẩu trong thực tế
+                    TenHienThi = "Customer",
+                    Idrole = 3 // Giả sử role mặc định là Customer
+                };
+
+                _context.Accounts.Add(account);
+                _context.SaveChanges();
+
+                // Tạo thông tin khách hàng mới với Id được sinh ra từ GenerateNewCustomerId
+                var customer = new Customer
+                {
+                    Id = GenerateNewCustomerId(), // Tạo Id mới cho Customer
+                    TenKhachHang = model.TenKhachHang,
+                    DiaChi = model.DiaChi,
+                    Email = model.Email,
+                    SoDienThoai = model.SoDienThoai,
+                    SoTienTieu = "0", // Giả sử số tiền tiêu ban đầu là 0
+                    IdAccount = account.Id
+                };
+
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
+
+                // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
+                return RedirectToAction("Login", "Accounts");
+            }
+
+            // Nếu ModelState không hợp lệ, trả về view với model
+            return View(model);
+        }
+
+
+
+
+
+        // AdminChangePassword
         [HttpGet]
-        public IActionResult ChangePassword()
+        public IActionResult AdminChangePassword()
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminChangePassword(string currentPassword, string newPassword, string confirmPassword)
+        {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (!string.IsNullOrEmpty(newPassword) && newPassword == confirmPassword)
+            {
+                var userId = HttpContext.Session.GetInt32("UserId");
+                var user = await _context.Accounts.FindAsync(userId);
+
+                if (user != null && user.MatKhau == currentPassword)
+                {
+                    user.MatKhau = newPassword;
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    HttpContext.Session.Clear(); // Xóa session sau khi đổi mật khẩu
+                    return RedirectToAction("Login");
+                }
+                ModelState.AddModelError("", "Current password is incorrect.");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
+            }
+
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
     

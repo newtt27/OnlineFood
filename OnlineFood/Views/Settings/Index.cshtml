@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Settings</h1>
+
+<ul>
+    @if (User.IsInRole("Admin"))
+    {
+        <li><a asp-action="ManageRoles">Manage Roles</a></li>
+        <li><a asp-action="ManageFunctions">Manage Functions</a></li>
+    }
+</ul>
