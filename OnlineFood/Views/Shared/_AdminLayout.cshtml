@@ -1,6 +1,11 @@
 ﻿@{
     Layout = null;
+    
 }
+@{
+    var userRole = Context.Session.GetString("Role");
+}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -250,9 +255,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Settings" asp-action="Index">
-                        <i class="fas fa-cogs"></i> Settings
-                    </a>
+                    @if (userRole == "Admin") 
+                    {
+                        <a class="nav-link" asp-controller="Settings" asp-action="Index">
+                            <i class="fas fa-cogs"></i> Settings
+                        </a>
+                    }
                 </li>
             </ul>
         </div>

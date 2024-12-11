@@ -190,7 +190,7 @@ namespace OnlineFood.Controllers
                 HttpContext.Session.SetString("Role", user.IdroleNavigation?.TenRole ?? "User");
 
                 // Điều hướng dựa trên quyền
-                if (user.IdroleNavigation?.TenRole == "Admin")
+                if (user.IdroleNavigation?.TenRole == "Admin"||user.IdroleNavigation?.TenRole=="Nhân viên")
                 {
                     return RedirectToAction("Index", "Admin"); // Trang quản trị
                 }
