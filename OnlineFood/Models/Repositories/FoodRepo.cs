@@ -47,6 +47,11 @@ namespace OnlineFood.Models.Repositories
                                  .Where(f => f.TenMonAn.Contains(keyword) && f.TrangThai == 1)
                                  .ToListAsync(); // sử dụng ToListAsync() thay vì ToList()
         }
+        public async Task AddFoodAsync(Food food)
+        {
+            _context.Foods.Add(food);
+            await _context.SaveChangesAsync();
+        }
 
     }
 }

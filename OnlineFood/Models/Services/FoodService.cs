@@ -38,5 +38,9 @@ namespace OnlineFood.Models.Services
         {
             return await _foodRepo.SearchFoodsAsync(keyword);
         }
+        public async Task AddFoodAsync(Food food)
+        {
+            await _foodRepo.AddFoodAsync(food);
+        }
     }
 }
