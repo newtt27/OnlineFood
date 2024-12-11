@@ -4,38 +4,48 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="text-center my-4">Edit Function</h1>
 
-<h4>Function</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Ten" class="control-label"></label>
-                <input asp-for="Ten" class="form-control" />
-                <span asp-validation-for="Ten" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Mota" class="control-label"></label>
-                <input asp-for="Mota" class="form-control" />
-                <span asp-validation-for="Mota" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a href="@Url.Action("Index", "Settings")" class="btn btn-outline-warning">Back to List</a
-            </div>
-        </form>
+<div class="card shadow-lg p-4">
+    <h4 class="card-title mb-4">Edit Function Details</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Ten" class="form-label">Tên chức năng</label>
+                    <input asp-for="Ten" class="form-control rounded" placeholder="Nhập tên chức năng" />
+                    <span asp-validation-for="Ten" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Mota" class="form-label">Mô tả chức năng</label>
+                    <textarea asp-for="Mota" class="form-control rounded" placeholder="Nhập mô tả chức năng" rows="3"></textarea>
+                    <span asp-validation-for="Mota" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="TrangThai" class="form-label">Trạng thái</label>
+                    <select asp-for="TrangThai" class="form-select rounded">
+                        <option value="">Chọn trạng thái</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a href="@Url.Action("Index", "Settings")" class="btn btn-outline-danger px-4">Back to List</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
