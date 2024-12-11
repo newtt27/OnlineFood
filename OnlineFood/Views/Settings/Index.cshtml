@@ -1,14 +1,64 @@
+@model OnlineFood.Models.SettingsViewModel
+
 @{
-    ViewData["Title"] = "Settings";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Settings</h1>
+<h2>Roles and Functions</h2>
 
-<ul>
-    @if (User.IsInRole("Admin"))
-    {
-        <li><a asp-action="ManageRoles">Manage Roles</a></li>
-        <li><a asp-action="ManageFunctions">Manage Functions</a></li>
-    }
-</ul>
+<h3>Roles</h3>
+<a href="@Url.Action("Create", "Roles")" class="btn btn-primary">Create New Role</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model.Roles)
+        {
+            <tr>
+                <td>@role.Id</td>
+                <td>@role.TenRole</td>
+                <td>@role.Mota</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Roles", new { id = role.Id })" class="btn btn-outline-primary">Edit</a>
+                    <a href="@Url.Action("Details", "Roles", new { id = role.Id })" class="btn btn-outline-info">Detail</a>
+                    <a href="@Url.Action("Delete", "Roles", new { id = role.Id })" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Functions</h3>
+<a href="@Url.Action("Create", "Functions")" class="btn btn-primary">Create New Function</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var function in Model.Functions)
+        {
+            <tr>
+                <td>@function.Id</td>
+                <td>@function.Ten</td>
+                <td>@function.Mota</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Functions", new { id = function.Id })" class="btn btn-outline-primary">Edit</a>
+                    <a href="@Url.Action("Details", "Functions", new { id = function.Id })" class="btn btn-outline-info">Detail</a>
+                    <a href="@Url.Action("Delete", "Functions", new { id = function.Id })" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

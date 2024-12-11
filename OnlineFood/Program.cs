@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using OnlineFood.Data;
 using OnlineFood.Middlewares;
 using OnlineFood.Models.Repositories;
@@ -33,6 +34,7 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddDbContext<OnlineFoodContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("OnlineFoodDatabase")));
 
+
 // Thêm dịch vụ Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -41,6 +43,20 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; // Bảo mật hơn khi chỉ cho phép truy cập Session từ phía server
     options.Cookie.IsEssential = true; // Đảm bảo cookie hoạt động ngay cả khi người dùng không đồng ý cookie
 });
+
+// Thêm dịch vụ xác thực và phân quyền
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Accounts/Login";
+        options.AccessDeniedPath = "/Accounts/AccessDenied";
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+});
+
 
 var app = builder.Build();
 
@@ -56,23 +72,17 @@ if (!app.Environment.IsDevelopment())
 
 // Sử dụng Session
 app.UseSession();
-app.UseMiddleware<RoleMiddleware>();
+
 
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<RoleMiddleware>();
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Foods}/{action=Index}/{id?}");
-//app.MapControllerRoute(
-//    name: "admin",
-//    pattern: "admin",
-//    defaults: new { controller = "Admin", action = "Index" });
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

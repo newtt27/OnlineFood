@@ -48,22 +48,36 @@ namespace OnlineFood.Controllers
         {
             return View();
         }
+        private int GenerateNewRoleId()
+        {
+            // Lấy giá trị Id lớn nhất hiện tại trong bảng Role
+            var maxId = _context.Roles.Max(r => (int?)r.Id) ?? 0;
+
+            // Tăng Id lên 1
+            return maxId + 1;
+        }
+
 
         // POST: Roles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TenRole,TrangThai,Mota")] Role role)
+        public async Task<IActionResult> Create([Bind("TenRole,TrangThai,Mota")] Role role)
         {
             if (ModelState.IsValid)
             {
+                // Gán ID mới cho role
+                role.Id = GenerateNewRoleId();
+
                 _context.Add(role);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Settings");
             }
             return View(role);
         }
+
 
         // GET: Roles/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -111,7 +125,8 @@ namespace OnlineFood.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Settings");
+
             }
             return View(role);
         }
@@ -146,7 +161,8 @@ namespace OnlineFood.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Settings");
+
         }
 
         private bool RoleExists(int id)
