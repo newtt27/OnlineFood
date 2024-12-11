@@ -1,11 +1,13 @@
-﻿body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
+﻿body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     height: 100%;
-    font-family: Arial, sans-serif;
+    width: 100%;
+    margin: 0;
     color: #333;
-    background-color: #f8f9fa; /* Nền xám nhạt bao quanh toàn bộ */
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
 }
 
 /* Đảm bảo phần nền bao quanh toàn bộ chiều ngang */
@@ -15,4 +17,44 @@
     display: flex;
     justify-content: center;
     padding: 40px 0; /* Tăng padding trên và dưới để có thêm không gian */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100vh; /* Đảm bảo chiều cao toàn bộ màn hình */
+}
+
+/* Căn giữa nội dung trong qr-container */
+.qr-container {
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    /* Định dạng hình ảnh QR */
+    .qr-container img {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 15px;
+    }
+
+/* Định dạng hiển thị số tiền */
+.amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Căn giữa bộ đếm thời gian */
+#timer-container {
+    margin-top: 20px; /* Thêm khoảng cách giữa QR Code và bộ đếm */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #ff5733; /* Màu sắc cho bộ đếm, bạn có thể thay đổi */
+    padding: 10px 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

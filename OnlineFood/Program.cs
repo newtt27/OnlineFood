@@ -19,6 +19,7 @@ builder.Services.AddScoped<IFoodRepo, FoodRepo>();
 builder.Services.AddScoped<ICartRepo, CartRepo>();
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();
 builder.Services.AddScoped<IPromotionRepo, PromotionRepo>();
+builder.Services.AddScoped<IPaymentRepo, PaymentRepo>();
 
 //Đăng ký Service
 builder.Services.AddScoped<IFoodCategoryService, FoodCategoryService>();
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPromotionService, PromotionService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 //Kết nối database
 builder.Services.AddDbContext<OnlineFoodContext>(options =>
@@ -64,9 +66,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Foods}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "admin",
+//    pattern: "admin",
+//    defaults: new { controller = "Admin", action = "Index" });
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Foods}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "admin",
     pattern: "admin",
