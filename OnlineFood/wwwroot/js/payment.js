@@ -40,7 +40,7 @@ function validateContactForm() {
     const name = document.getElementById('name').value.trim();
     const nameError = document.getElementById('nameError');
     if (name.length < 3 || name.length > 50) {
-        nameError.textContent = 'Name must be between 3 and 50 characters.';
+        nameError.textContent = 'Tên của bạn phải gồm 3 ký tự trở lên';
         isValid = false;
     } else {
         nameError.textContent = '';
@@ -51,7 +51,7 @@ function validateContactForm() {
     const phoneError = document.getElementById('phoneError');
     const phoneRegex = /^\d{10,11}$/;
     if (!phoneRegex.test(phone)) {
-        phoneError.textContent = 'Phone number must be 10-11 digits.';
+        phoneError.textContent = 'Số điện thoại gồm 10-11 chữ số.';
         isValid = false;
     } else {
         phoneError.textContent = '';
@@ -62,7 +62,7 @@ function validateContactForm() {
     const emailError = document.getElementById('emailError');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        emailError.textContent = 'Invalid email format.';
+        emailError.textContent = 'Vui lòng nhập đúng định dạng email';
         isValid = false;
     } else {
         emailError.textContent = '';
@@ -78,7 +78,7 @@ function validateDeliveryForm() {
     const address = document.getElementById('address').value.trim();
     const addressError = document.getElementById('addressError');
     if (address.length < 5 || address.length > 50) {
-        addressError.textContent = 'Address must be between 5 and 50 characters.';
+        addressError.textContent = 'Địa chỉ chứa ít nhất 5 ký tự';
         isValid = false;
     } else {
         addressError.textContent = '';
@@ -105,16 +105,81 @@ function validateAndSubmit() {
             address: deliveryForm.address.value,
             currentPaymentMethod: currentPaymentMethod
         };
+        console.log("Form data:", formData); // Kiểm tra form data
+
         // Lưu formData vào localStorage
         localStorage.setItem("formData", JSON.stringify(formData));
+        // Nội dung email
+        const emailContent = `
+            <h1>Đặt hàng thành công!</h1>
+            <p>Xin chào ${formData.name},</p>
+            <p>Bạn đã đặt hàng thành công. Vui lòng hoàn tất việc thanh toán để đơn hàng được giao!</p>
+            <p>Thông tin chi tiết:</p>
+            <ul>
+                <li>Phương thức thanh toán: ${formData.currentPaymentMethod}</li>
+                <li>Địa chỉ giao hàng: ${formData.address}</li>
+            </ul>
+            <h2>Thông tin đơn hàng:</h2>
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Tổng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${PaymentCart.map(item => `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                            <td>${(item.quantity * item.price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+            <p>Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!</p>
+        `;
+
+        // Gửi email qua API
+        fetch('/Payments/SendEmail', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: formData.email,
+                content: emailContent
+            })
+        })
+            .then(function (response) {
+                console.log("Response status:", response.status); // Log mã trạng thái
+                if (response.ok) {
+                    alert("Email xác nhận đã được gửi!");
+                    submitPayment(formData, subtotal, total, userId);
+
+                } else {
+                    return response.text();  // Lấy chi tiết lỗi từ phản hồi
+                }
+            })
+            .then(function (errorMessage) {
+                if (errorMessage) {
+                    console.error("Error response from server:", errorMessage);
+                }
+            })
+            .catch(function (error) {
+                console.error("Error sending email:", error);
+                alert("Có lỗi xảy ra khi gửi email xác nhận.");
+            });
+
+
         // Gửi dữ liệu thanh toán đến server và tạo Bill
-        submitPayment(formData, subtotal, total, userId);
         // Chuyển đến trang khác
         
     } else {
         // Nếu không hợp lệ, hiển thị lỗi
         alert("Vui lòng điền đầy đủ thông tin và kiểm tra lại các trường.");
-        contactForm.reportValidity(); // Hiển thị lỗi cho form liên hệ
+        contactForm.reportValidity(); // Hiển thị lỗi cho form liên hệ  
         deliveryForm.reportValidity(); // Hiển thị lỗi cho form giao hàng
     }
 }
@@ -166,12 +231,15 @@ function submitPayment(formData, subtotal, total, userId) {
 //CART
 async function fetchCartItems() {
     try {
+
         const sessionResponse = await fetch('/Carts/CheckSession');
         const sessionData = await sessionResponse.json();
 
         if (!sessionData.loggedIn) { //Nếu chưa đăng nhập
             loadCartFromLocalStorage();
             PaymentCart = cart;
+            console.log(PaymentCart);
+            if (PaymentCart.length === 0) window.location.href = "/";
             updateCartSummary();
         }
 
@@ -181,6 +249,7 @@ async function fetchCartItems() {
         if (cartData.success) {
             PaymentCart = cartData.items; // Gán dữ liệu giỏ hàng
             console.log("Cart items:", PaymentCart);
+            if (PaymentCart.length === 0) window.location.href = "/";
             updateCartSummary(); // Gọi hàm để cập nhật giao diện giỏ hàng
         } else {
             alert(cartData.message || "Không thể lấy dữ liệu giỏ hàng.");

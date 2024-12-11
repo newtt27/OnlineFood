@@ -1,4 +1,6 @@
 ﻿using OnlineFood.Models.Repositories;
+using System.Net.Mail;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace OnlineFood.Models.Services
@@ -45,14 +47,36 @@ namespace OnlineFood.Models.Services
                 await _paymentRepo.SaveChangesAsync();
             }
         }
-        public async Task SendEmail(string email)
+        public async Task SendEmail(string email, string content)
         {
-            // Đây là một phần khác, bạn cần tích hợp dịch vụ gửi email tại đây
-            // Ví dụ minh họa:
-            await Task.Run(() =>
+            using (var smtpClient = new SmtpClient("smtp.gmail.com"))
             {
-                Console.WriteLine($"Email sent to {email}");
-            });
+                smtpClient.Port = 587;  // Cổng 587 sử dụng TLS
+                smtpClient.Credentials = new NetworkCredential("lebuutri89@gmail.com", "trqd zzor qqdq nbhn"); // Mật khẩu ứng dụng
+                smtpClient.EnableSsl = true;  // Đảm bảo kết nối được mã hóa
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("lebuutri89@gmail.com"),
+                    Subject = "Đặt hàng thành công",
+                    Body = content,
+                    IsBodyHtml = true
+                };
+                mailMessage.To.Add(email);
+                //mailMessage.To.Add("lebuutri89@gmail.com"); // Gửi đến chính bạn
+
+                try
+                {
+                    await smtpClient.SendMailAsync(mailMessage);
+                    Console.WriteLine("Email sent to yourself successfully.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to send email: {ex.Message}");
+                }
+            }
         }
+
+
     }
 }

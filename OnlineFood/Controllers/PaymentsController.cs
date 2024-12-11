@@ -134,7 +134,7 @@ namespace OnlineFood.Controllers
                     }
                 }
 
-                return Json(new { success = true, message = "Payment created successfully." });
+                return Json(new { success = false, message = "Không thể tạo bill." });
             }
             catch (Exception ex)
             {
@@ -179,30 +179,33 @@ namespace OnlineFood.Controllers
         }
         public async Task SaveChangesAsync()
         {
-            foreach (var entry in _context.ChangeTracker.Entries())
+                await _context.SaveChangesAsync();
+        }
+        [HttpPost]
+        public async Task<IActionResult> SendEmail([FromBody] EmailRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Content))
             {
-                _logger.LogInformation($"Entity: {entry.Entity.GetType().Name}, State: {entry.State}");
+                return BadRequest("Email và nội dung là bắt buộc.");
             }
 
+            // Log dữ liệu nhận được để kiểm tra
+            Console.WriteLine($"Received email: {request.Email}");
+            Console.WriteLine($"Received content: {request.Content}");
+
+            // Tiến hành gửi email
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                _logger.LogError($"Database update error: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    _logger.LogError($"Inner exception: {ex.InnerException.Message}");
-                }
-                throw; // Hoặc xử lý lỗi tùy trường hợp
+                // Giả sử bạn đã cấu hình và sử dụng phương thức gửi email ở đây
+                await _paymentService.SendEmail(request.Email, request.Content);
+                return Ok("Email đã được gửi thành công.");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unexpected error: {ex.Message}");
-                throw;
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         // GET: Payments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

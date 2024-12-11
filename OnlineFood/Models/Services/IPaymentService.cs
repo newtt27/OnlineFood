@@ -8,6 +8,6 @@
         Task RemovePaymentByIdAsync(int paymentId);
         Task<IEnumerable<Payment>> GetAllPaymentsAsync();
         Task UpdatePaymentByIdAsync(int paymentId, Payment updatedPayment); // Thêm phương thức này
-        Task SendEmail(string email);
+        Task SendEmail(string email, string content);
     }
 }
