@@ -115,6 +115,7 @@ CREATE TABLE BillSupplies (
     date DATETIME NOT NULL,
     mota NVARCHAR(50) NOT NULL,
     idNhaCungCap INT NOT NULL,
+	tongtien FLOAT NOT NULL,
     FOREIGN KEY (idNhaCungCap) REFERENCES Supplier(id),
     FOREIGN KEY (idordersupplies) REFERENCES OrderSupplies(id)
 );
@@ -414,8 +415,8 @@ VALUES
 INSERT INTO OrderSupplies (id, soLuongNguyenLieu, mota, idNhanVien, idNhaCungCap, datetime, trangThai, tenNguyenLieu, donvi)
 VALUES (1, '10', N'Đặt hàng gạo', 1, 1, '2023-06-01 10:00:00', N'Đã đặt hàng', N'Gạo', N'kg');
 
-INSERT INTO BillSupplies (id, idordersupplies, date, mota, idNhaCungCap)
-VALUES (1, 1, '2023-06-02 10:00:00', N'Hóa đơn nhập gạo', 1);
+INSERT INTO BillSupplies (id, idordersupplies, date, mota, idNhaCungCap, tongtien)
+VALUES (1, 1, '2023-06-02 10:00:00', N'Hóa đơn nhập gạo', 1, 50000);
 
 INSERT INTO Supplies (id, tenNguyenLieu, SoLuong, DonVi, idBill)
 VALUES (1, N'Gạo', 10, N'kg', 1), -- Gạo cho Cơm tấm
