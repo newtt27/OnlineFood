@@ -22,7 +22,10 @@ namespace OnlineFood.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var onlineFoodContext = _context.Employees.Include(e => e.IdShiftNavigation).Include(e => e.IdaccountNavigation);
+            var onlineFoodContext = _context.Employees
+                .Include(e => e.IdShiftNavigation)
+                .Include(e => e.IdaccountNavigation)
+                .ThenInclude(o => o.IdroleNavigation);
             return View(await onlineFoodContext.ToListAsync());
         }
 
@@ -37,6 +40,7 @@ namespace OnlineFood.Controllers
             var employee = await _context.Employees
                 .Include(e => e.IdShiftNavigation)
                 .Include(e => e.IdaccountNavigation)
+                .ThenInclude(o =>o.IdroleNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employee == null)
             {
