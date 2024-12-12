@@ -652,3 +652,11 @@ h-600px {
     border-radius: 30px; /* Bo tròn viền */
     width: 80px;
 }
+
+.custom-header {
+    border-bottom: none; /* Loại bỏ đường gạch ngang phía dưới header */
+}
+
+.custom-body {
+    border-top: none; /* Loại bỏ đường gạch ngang phía trên body */
+}

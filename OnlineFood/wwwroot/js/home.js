@@ -98,5 +98,23 @@ $(document).ready(function () {
 });
 
 
+function showFoodDetails(foodId) {
+    const modal = new bootstrap.Modal(document.getElementById('foodDetailsModal')); // Lấy modal Bootstrap
+    modal.show(); // Hiển thị modal
 
+
+    $.ajax({
+        url: `/Home/GetFoodDetails`, // Đường dẫn API
+        type: 'GET',
+        data: { id: foodId }, // Gửi id món ăn
+        success: function (response) {
+            // Thay thế nội dung modal bằng thông tin chi tiết món ăn
+            $('#foodDetailsContent').html(response);
+        },
+        error: function () {
+            // Hiển thị lỗi nếu xảy ra vấn đề
+            $('#foodDetailsContent').html('<div class="text-center text-danger"><p>Không thể tải thông tin món ăn. Vui lòng thử lại sau.</p></div>');
+        }
+    });
+}
 
