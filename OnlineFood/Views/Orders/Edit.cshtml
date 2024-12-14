@@ -4,11 +4,63 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Edit";
 }
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/order_detail.css">
+</head>
+<body>
 <h1>Edit</h1>
-<link rel="stylesheet" href="~/css/order_edit.css">
 <h4>Order</h4>
 <hr />
+<section class="order-detail-container">
+    <form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <header class="order-detail-header">
+        <h1 class="order-detail-title">ORDER DETAIL</h1>
+    </header>
+    <main class="order-detail-main">
+        <div class="order-info-header">
+            <div class="order-info-indicator"></div>
+            <h2 class="order-info-title">ORDER INFO</h2>
+        </div>
+        <hr class="order-info-divider" />
+        <div class="order-info-content">
+            <div class="order-info-labels">
+                <p>@Html.DisplayNameFor(model => model.Id)</p>
+                <p>@Html.DisplayNameFor(model => model.IdKhachHang)</p>
+                <p>@Html.DisplayNameFor(model => model.Date)</p>
+                <p>@Html.DisplayNameFor(model => model.TongSoLuong)</p>
+                @*<p>@Html.DisplayNameFor(model => model.TrangThai)</p>*@
+            </div>
+            <div class="order-info-values">
+                <p>@Html.DisplayFor(model => model.Id)</p>
+                <p>@Html.DisplayFor(model => model.IdKhachHang)</p>
+                <p>
+                    @Html.DisplayFor(model => model.Date)
+                </p>
+                <p>@Html.DisplayFor(model => model.TongSoLuong)</p>
+                    @*<p class="order-status-available">@Html.DisplayFor(model => model.TrangThai)</p>*@
+                   
+            </div>
+                <div class="form-group">
+                    <label asp-for="TrangThai" class="control-label"></label>
+                    <select asp-for="TrangThai" class="form-control">
+                        <option value="Dadathang" selected>Đã đặt hàng</option>
+                        <option value="Dathanhtoan">Đã thanh toán</option>
+                    </select>
+                    @*<span asp-validation-for="TrangThai" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+        </div>
+    </main>
+    </form>
+</section>
+@*
 <section class="product-list" asp-action="Edit">
     <header class="product-list__header">
         <h1 class="product-list__title"></h1>
@@ -172,7 +224,7 @@
         </script>
     </div>
 </section>
-
+*@
 @*
 <div class="row">
     <div class="col-md-4">
@@ -229,3 +281,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+</body>
