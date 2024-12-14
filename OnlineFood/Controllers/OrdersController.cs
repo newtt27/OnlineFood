@@ -140,6 +140,20 @@ namespace OnlineFood.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                Console.WriteLine("ModelState is invalid"); // Debug log
+                foreach (var entry in ModelState)
+                {
+                    var key = entry.Key;
+                    var errors = entry.Value.Errors;
+
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
+                    }
+                }
+            }
             ViewData["IdCart"] = new SelectList(_context.Carts, "Id", "Id", order.IdCart);
             ViewData["IdDelivery"] = new SelectList(_context.DeliveryMethods, "Id", "Id", order.IdDelivery);
             ViewData["IdFood"] = new SelectList(_context.Foods, "Id", "Id", order.IdFood);

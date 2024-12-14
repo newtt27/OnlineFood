@@ -16,12 +16,14 @@ namespace OnlineFood.Controllers
         private readonly OnlineFoodContext _context;
         private readonly IFoodService _foodService;
         private readonly ILogger<FoodsController> _logger;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public FoodsController(OnlineFoodContext context,IFoodService foodService, ILogger<FoodsController> logger)
+        public FoodsController(OnlineFoodContext context,IFoodService foodService, ILogger<FoodsController> logger, IWebHostEnvironment hostingEnvironment)
         {
             _logger = logger;
             _context = context;
             _foodService = foodService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Foods
@@ -112,12 +114,14 @@ namespace OnlineFood.Controllers
                     else
                     {
                         // Generate a unique file name
-                        var fileName = Guid.NewGuid().ToString() + extension;
-
+                        //var fileName = Guid.NewGuid().ToString() + extension;
+                        var webrootPath = _hostingEnvironment.WebRootPath;
+                        var fileName = DateTime.UtcNow.ToString("yymmssfff") + Path.GetFileNameWithoutExtension(HinhanhFile.FileName) + Path.GetExtension(HinhanhFile.FileName);
                         // Save file to wwwroot/assets/image
                         var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "assets", "image");
-                        var filePath = Path.Combine(uploadFolder, fileName);
-
+                        var uploadDir = @"assets/image";
+                        var filePath = Path.Combine(webrootPath, uploadDir, fileName);
+                        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await HinhanhFile.CopyToAsync(stream);
