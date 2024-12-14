@@ -129,6 +129,7 @@ namespace OnlineFood.Controllers
 
                         // Save file path to the model
                         food.Hinhanh = "/assets/image/" + fileName;
+                        food.Id=GenerateNewFoodId();
                     }
                     var foodCategory = await _context.FoodCategories.FindAsync(food.IdDanhMuc);
                     if (foodCategory == null)
@@ -260,6 +261,16 @@ namespace OnlineFood.Controllers
         private bool FoodExists(int id)
         {
             return _context.Foods.Any(e => e.Id == id);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // kiểm tra id trong account
+        private int GenerateNewFoodId()
+        {
+            var maxId = _context.Foods.Max(a => (int?)a.Id) ?? 0;
+
+            // Tăng Id lên 1
+            return maxId + 1;
         }
         //chức năng phân trang
         //public async Task<IActionResult> Index(int? pageNumber)
