@@ -17,11 +17,11 @@
                 <div class="contact-section">
                     <h2>Contact Information</h2>
                     <form id="contactForm" novalidate>
-                        <input type="text" placeholder="Name" name="name" id="name" value="Tên mặc định"
+                        <input type="text" placeholder="Họ tên" name="name" id="name"
                                required minlength="3" maxlength="50">
                         <span class="error-message" id="nameError"></span>
 
-                        <input type="tel" placeholder="Phone" name="phone" id="phone" value="0123456789"
+                        <input type="tel" placeholder="Số điện thoại (10-11 số)" name="phone" id="phone"
                                required pattern="^\d{10,11}$">
                         <span class="error-message" id="phoneError"></span>
 
@@ -45,7 +45,7 @@
                     <button type="button" class="delivery-btn" onclick="selectDeliveryMethod('normal')">Normal</button>
 
                     <form id="deliveryForm" novalidate>
-                        <input type="text" placeholder="Enter delivery address" value="abcdef" name="address"
+                        <input type="text" placeholder="Địa chỉ nhận hàng" name="address"
                                id="address" required minlength="5" maxlength="50">
                         <span class="error-message" id="addressError"></span>
                     </form>

@@ -2,16 +2,137 @@
 let PaymentCart = [];
 let subtotal = 0;
 let total = 0;
-let userId = 2; // !
-
+let userId = 0; // !
+// >>>> ĐÃ LẤY ĐƯỢC THÔNG TIN ITEM TỪ CART DỰA TRÊN ĐĂNG NHẬP HOẶC KHÔNG
+// >>>> LẤY THÔNG TIN NGƯỜI DÙNG ĐIỀN VÀO FORM !!! 
+// >>>> XÓA THÔNG TIN GIỎ HÀNG : CÁC ID SẢN PHẨM SAU KHI THANH TOÁN
+// >>>> CHỈ CHO ẤN NÚT THANH TOÁN 1 LẦN RỒI ĐỢI
+//
 document.addEventListener('DOMContentLoaded', () => {
+
+
     const button = document.querySelector('.checkout-btn');
     if (button) {
-        button.addEventListener('click', validateAndSubmit);
+        button.addEventListener('click', async () => {
+            // Disable the button
+            button.disabled = true;
+
+            try {
+                // Call your async function (e.g., validateAndSubmit)
+                await validateAndSubmit();
+                await completePayment();
+
+            } catch (error) {
+                console.error('Error during validation:', error);
+            } finally {
+                // Re-enable the button after the function completes
+                button.disabled = false;
+            }
+        });
     }
 });
-window.onload = fetchCartItems;
-// >>>> ĐÃ LẤY ĐƯỢC THÔNG TIN ITEM TỪ CART DỰA TRÊN ĐĂNG NHẬP HOẶC KHÔNG 
+window.onload = function() {
+    fetchCartItems(); // Gọi hàm để lấy danh sách sản phẩm trong giỏ hàng
+    if (userId == 0) fetchUserDisplayName();
+};
+async function completePayment() {  
+    try {
+        console.log("userId complete: " + userId);
+        console.log("User ID from session storage:", sessionStorage.getItem('UserId'));
+        if (!userId) {
+            alert("User ID không hợp lệ.");
+            return;
+        }
+
+        const response = await fetch('/Payments/CompletePayment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+
+        if (response.ok) {
+            // Nếu yêu cầu thành công, thực hiện các hành động tiếp theo (ví dụ: thông báo người dùng, cập nhật giao diện, v.v.)
+            const result = await response.json(); // Giả sử server trả về JSON
+            alert("Thanh toán thành công!");
+            console.log(result); // In ra kết quả trả về từ server (nếu có)
+            // Bạn có thể gọi các hàm khác như xóa giỏ hàng, cập nhật giao diện người dùng v.v.
+        } else {
+            // Nếu yêu cầu không thành công, hiển thị thông báo lỗi
+            const errorMessage = await response.text();
+            alert(`Có lỗi xảy ra: ${errorMessage}`);
+            console.error("Error:", errorMessage);
+        }
+
+        // Sau khi thanh toán thành công
+        localStorage.removeItem('cart');  // Hoặc xóa dữ liệu giỏ hàng ở nơi bạn lưu trữ
+    } catch (error) {
+        // Nếu có lỗi trong quá trình gửi yêu cầu (ví dụ: lỗi mạng)
+        //alert("Có lỗi xảy ra khi thực hiện thanh toán. Vui lòng thử lại.");               //CÓ LỖI GÌ ĐÓ NHƯNG VẪN LƯU DB ĐƯỢC
+        console.error("Error:", error);
+    }
+}
+async function fetchUserId() {
+    try {
+        const response = await fetch('/Payments/GetUserId');
+        if (!response.ok) {
+            // Parse lỗi trả về dạng JSON
+            const errorData = await response.json();
+            console.error('Error from server:', errorData.error || 'Unknown error');
+            throw new Error(errorData.error || 'Failed to fetch user ID');
+        }
+
+        const data = await response.json();
+        if (data.userId) {
+            userId = data.userId;
+            sessionStorage.setItem('UserId', userId);
+            console.log('User ID:', userId);
+        } else {
+            console.error("User ID not found in response JSON:", data);
+            throw new Error("UserId not found in response");
+        }
+    } catch (error) {
+        console.error('Error fetching user ID:', error);
+    }
+}
+
+
+async function fetchUserDisplayName() {
+    try {
+        // Đợi fetchUserId hoàn thành
+        await fetchUserId();
+
+        console.log("dis" + userId);
+
+        if (!userId || isNaN(userId)) {
+            console.error("UserId không tồn tại hoặc không hợp lệ trong session.");
+            return;
+        }
+
+        const response = await fetch(`/Payments/GetDisplayName?userId=${parseInt(userId)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Không thể lấy thông tin tài khoản.");
+        }
+
+        const data = await response.json();
+        console.log(data.account);
+        var name = data.account.tenHienThi;
+        if (name) {
+            document.getElementById('name').value = name; // Hiển thị tên lên giao diện
+        } else {
+            console.error("Không tìm thấy 'tenHienThi' trong dữ liệu.");
+        }
+    } catch (error) {
+        console.error("Lỗi khi lấy tên hiển thị:", error);
+    }
+}
+
+
 function selectPaymentMethod(method) {
     currentPaymentMethod = method;
     // Lấy tất cả các nút và bỏ chọn
@@ -86,7 +207,8 @@ function validateDeliveryForm() {
 
     return isValid;
 }
-function validateAndSubmit() {
+async function validateAndSubmit() {
+    const button = document.querySelector('.checkout-btn');
     console.log("Running validateAndSubmit");
     // Lấy tham chiếu tới các form
     const contactForm = document.getElementById("contactForm");
@@ -144,33 +266,33 @@ function validateAndSubmit() {
         `;
 
         // Gửi email qua API
-        fetch('/Payments/SendEmail', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: formData.email,
-                content: emailContent
-            })
-        })
-            .then(function (response) {
-                console.log("Response status:", response.status); // Log mã trạng thái
-                if (response.ok) {
-                    alert("Email xác nhận đã được gửi!");
-                    submitPayment(formData, subtotal, total, userId);
-
-                } else {
-                    return response.text();  // Lấy chi tiết lỗi từ phản hồi
-                }
-            })
-            .then(function (errorMessage) {
-                if (errorMessage) {
-                    console.error("Error response from server:", errorMessage);
-                }
-            })
-            .catch(function (error) {
-                console.error("Error sending email:", error);
-                alert("Có lỗi xảy ra khi gửi email xác nhận.");
+        try {
+            const response = await fetch('/Payments/SendEmail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: formData.email,
+                    content: emailContent
+                })
             });
+
+            console.log("Response status:", response.status);
+
+            if (response.ok) {
+                alert("Email xác nhận đã được gửi!");
+                // Gửi dữ liệu thanh toán đến server và tạo Bill
+                await submitPayment(formData, subtotal, total, userId);
+
+            } else {
+                const errorMessage = await response.text(); // Lấy chi tiết lỗi từ phản hồi
+                console.error("Error response from server:", errorMessage);
+                //alert("Có lỗi xảy ra khi gửi email xác nhận.");
+            }
+
+        } catch (error) {
+            console.error("Error sending email:", error);
+            alert("Có lỗi xảy ra khi gửi email xác nhận.");
+        }
 
 
         // Gửi dữ liệu thanh toán đến server và tạo Bill
@@ -253,6 +375,7 @@ async function fetchCartItems() {
             updateCartSummary(); // Gọi hàm để cập nhật giao diện giỏ hàng
         } else {
             alert(cartData.message || "Không thể lấy dữ liệu giỏ hàng.");
+            if (PaymentCart.length === 0) window.location.href = "/";
         }
     } catch (error) {
         console.error("Error fetching cart items:", error);

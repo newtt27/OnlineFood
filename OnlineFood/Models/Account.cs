@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineFood.Models;
 
@@ -8,7 +9,7 @@ public partial class Account
     public int Id { get; set; }
 
     public string UserName { get; set; } = null!;
-
+    [Column("tenHienThi")]
     public string TenHienThi { get; set; } = null!;
 
     public string MatKhau { get; set; } = null!;

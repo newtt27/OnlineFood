@@ -18,12 +18,15 @@ namespace OnlineFood.Controllers
         private readonly OnlineFoodContext _context;
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;
-
-        public PaymentsController(OnlineFoodContext context, IPaymentService paymentService, ILogger<PaymentsController> logger)
+        private readonly IAccountService _accountService;
+        private readonly ICartService _cartService;
+        public PaymentsController(OnlineFoodContext context, IPaymentService paymentService, ILogger<PaymentsController> logger, IAccountService accountService, ICartService cartService)
         {
             _logger = logger;
             _paymentService = paymentService;
             _context = context;
+            _accountService = accountService;
+            _cartService = cartService;
         }
         public IActionResult Card()
         {
@@ -52,6 +55,7 @@ namespace OnlineFood.Controllers
         {
             return Task.FromResult<IActionResult>(View());
         }
+
 
         // GET: Payments/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -177,6 +181,53 @@ namespace OnlineFood.Controllers
                 return Json(new { success = false, message = "Lỗi khi tạo hóa đơn." });
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> CompletePayment()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if ( !userId.HasValue || userId.Value <= 0 )
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            Console.WriteLine($"Received userId: {userId}");
+            var user = await _context.Accounts
+                .Include(u => u.IdCartNavigation) // Bao gồm Cart của người dùng
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            Console.WriteLine($"User found: {user.TenHienThi}, CartId: {user.IdCart}");
+            // Kiểm tra nếu người dùng có Cart
+            var cart = user.IdCartNavigation;
+            if (cart != null)
+            {
+                // Xóa tất cả CartItems liên quan đến Cart này
+                var cartItems = await _context.CartItems
+                    .Where(ci => ci.IdCart == cart.Id)
+                    .ToListAsync();
+
+                if (cartItems.Any())
+                {
+                    _context.CartItems.RemoveRange(cartItems); // Xóa các CartItems
+                }
+
+                // Xóa Cart của người dùng
+                _context.Carts.Remove(cart); // Xóa Cart
+
+                // Cập nhật IdCart của người dùng thành null
+                user.IdCart = null;
+            }
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            await _context.SaveChangesAsync();
+
+            // Thực hiện các hành động khác như gửi email, tạo hóa đơn, v.v.
+            return Ok("Payment completed and cart cleared.");
+        }
+
         public async Task SaveChangesAsync()
         {
                 await _context.SaveChangesAsync();
@@ -205,6 +256,37 @@ namespace OnlineFood.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> GetDisplayName(int userId)
+        {
+            if (userId <= 0)
+            {
+                return BadRequest("UserId is required.");
+            }
+
+            // Truy vấn cơ sở dữ liệu hoặc dịch vụ để lấy thông tin tài khoản
+            var account = await _accountService.GetAccountByIdAsync(userId);
+            if (account == null)
+            {
+                return NotFound("Account not found.");
+            }
+
+            // Trả về tên hiển thị
+            return Ok(new { account });
+            //return Ok(new { tenHienThi = account.TenHienThi });
+        }
+        [HttpGet]
+        public IActionResult GetUserId()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId.HasValue)
+            {
+                return Ok(new { userId });
+            }
+            userId = 3;
+            return Ok(new { userId });
+        }
+
 
         // GET: Payments/Edit/5
         public async Task<IActionResult> Edit(int? id)
