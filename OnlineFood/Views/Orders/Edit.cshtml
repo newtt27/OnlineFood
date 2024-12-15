@@ -9,12 +9,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/order_detail.css">
+    <link rel="stylesheet" href="~/css/CreatePromotions.css">
 </head>
 <body>
 <h1>Edit</h1>
 <h4>Order</h4>
 <hr />
+@*
 <section class="order-detail-container">
     <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -33,7 +34,6 @@
                 <p>@Html.DisplayNameFor(model => model.IdKhachHang)</p>
                 <p>@Html.DisplayNameFor(model => model.Date)</p>
                 <p>@Html.DisplayNameFor(model => model.TongSoLuong)</p>
-                @*<p>@Html.DisplayNameFor(model => model.TrangThai)</p>*@
             </div>
             <div class="order-info-values">
                 <p>@Html.DisplayFor(model => model.Id)</p>
@@ -42,7 +42,6 @@
                     @Html.DisplayFor(model => model.Date)
                 </p>
                 <p>@Html.DisplayFor(model => model.TongSoLuong)</p>
-                    @*<p class="order-status-available">@Html.DisplayFor(model => model.TrangThai)</p>*@
                    
             </div>
                 <div class="form-group">
@@ -51,7 +50,7 @@
                         <option value="Dadathang" selected>Đã đặt hàng</option>
                         <option value="Dathanhtoan">Đã thanh toán</option>
                     </select>
-                    @*<span asp-validation-for="TrangThai" class="text-danger"></span>*@
+                    <span asp-validation-for="TrangThai" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
@@ -60,6 +59,7 @@
     </main>
     </form>
 </section>
+*@
 @*
 <section class="product-list" asp-action="Edit">
     <header class="product-list__header">
@@ -224,8 +224,9 @@
         </script>
     </div>
 </section>
+
 *@
-@*
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -276,7 +277,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-*@
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
