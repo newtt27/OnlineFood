@@ -141,7 +141,7 @@ namespace OnlineFood.Controllers
                         food.IdDanhMucNavigation = foodCategory;
                         _context.Foods.Add(food);
                         await _context.SaveChangesAsync();
-                        TempData["SuccessMessage"] = "Food item created successfully!";
+                        
                         return RedirectToAction(nameof(Index));
                     }
                 }
