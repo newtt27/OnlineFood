@@ -81,7 +81,7 @@
                                 <td>
 
                                     <div class="product-info">
-                                        <img src="@(string.IsNullOrEmpty(item.Hinhanh) ? "/assets/image" : item.Hinhanh)" />
+                                        <img src="@(string.IsNullOrEmpty(item.Hinhanh) ? "/assets/image" : item.Hinhanh)" class="round-image" />
                                         <div>
                                             <div class="product-id">@Html.DisplayFor(modelItem => item.Id)</div>
                                             <div class="product-name">@Html.DisplayFor(modelItem => item.TenMonAn)</div>
