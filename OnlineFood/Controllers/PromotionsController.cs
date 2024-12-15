@@ -59,6 +59,7 @@ namespace OnlineFood.Controllers
         {
             if (ModelState.IsValid)
             {
+                promotion.Id = GenerateNewPromotionId();
                 _context.Add(promotion);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -153,6 +154,16 @@ namespace OnlineFood.Controllers
         private bool PromotionExists(int id)
         {
             return _context.Promotions.Any(e => e.Id == id);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // kiểm tra id trong account
+        private int GenerateNewPromotionId()
+        {
+            var maxId = _context.Promotions.Max(a => (int?)a.Id) ?? 0;
+
+            // Tăng Id lên 1
+            return maxId + 1;
         }
     }
 }
